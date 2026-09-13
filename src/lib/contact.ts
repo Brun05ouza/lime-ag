@@ -14,5 +14,5 @@ export type Contact = z.infer<typeof contactSchema>;
 export function buildContactEmail(contact: Contact) {
   const subject = `Projeto Lime: ${contact.name.replace(/[\r\n]/g, ' ')}`;
   const body = `Nome: ${contact.name}\nEmpresa: ${contact.company}\nE-mail: ${contact.email}\nWhatsApp: ${contact.phone}\nServiço: ${contact.service}\n\n${contact.message}`;
-  return `mailto:julia@limeagencia.com.br?cc=carol%40limeagencia.com.br&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return `mailto:carol@limeagencia.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
