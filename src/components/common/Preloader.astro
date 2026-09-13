@@ -1,0 +1,20 @@
+---
+import LimeLogo from './LimeLogo.astro';
+---
+
+<div class="preloader" data-preloader hidden aria-hidden="true">
+  <LimeLogo />
+  <span class="preloader-line"></span>
+</div>
+<script is:inline>
+  (() => {
+    const loader = document.querySelector('[data-preloader]');
+    if (!loader || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    loader.hidden = false;
+    const dismiss = () => {
+      loader.hidden = true;
+    };
+    loader.addEventListener('animationend', dismiss, { once: true });
+    window.setTimeout(dismiss, 650);
+  })();
+</script>

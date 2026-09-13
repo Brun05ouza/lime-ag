@@ -1,0 +1,58 @@
+---
+interface Props {
+  variant?: 'hero' | 'loop';
+  id: string;
+}
+const { variant = 'hero', id } = Astro.props;
+const paths =
+  variant === 'hero'
+    ? {
+        desktop: 'M1040 80C790 10 604 110 626 298C650 493 959 419 865 275C788 157 557 325 554 474C550 645 828 776 1070 647',
+        tablet: 'M1020 90C810 30 660 140 678 300C700 470 910 410 850 285C790 175 630 330 640 490C655 640 860 710 1040 610',
+        mobile:
+          'M980 70C760 20 520 115 545 250C570 390 850 360 785 230C720 105 600 245 590 410C600 540 780 585 1010 500',
+      }
+    : {
+        desktop: 'M-70 500C178 517 226 253 451 286C732 327 544 644 395 536C245 427 677 19 1040 146',
+        tablet: 'M-40 480C160 500 250 280 460 310C680 345 560 580 430 500C300 420 620 80 1020 170',
+        mobile: 'M-30 430C150 450 280 260 520 310C720 350 680 500 980 210',
+      };
+---
+
+<svg
+  class:list={['lime-line', `lime-line--${variant}`]}
+  viewBox="0 0 1000 700"
+  fill="none"
+  aria-hidden="true"
+>
+  <defs>
+    <linearGradient id={id} x1="550" y1="700" x2="850" y2="100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FD3068" />
+      <stop offset="1" stop-color="#F27E3B" />
+    </linearGradient>
+  </defs>
+  <path
+    class="lime-line-path lime-line-path--desktop"
+    data-lime-path
+    d={paths.desktop}
+    stroke={`url(#${id})`}
+    stroke-width="17"
+    stroke-linecap="round"
+  />
+  <path
+    class="lime-line-path lime-line-path--tablet"
+    data-lime-path
+    d={paths.tablet}
+    stroke={`url(#${id})`}
+    stroke-width="15"
+    stroke-linecap="round"
+  />
+  <path
+    class="lime-line-path lime-line-path--mobile"
+    data-lime-path
+    d={paths.mobile}
+    stroke={`url(#${id})`}
+    stroke-width="14"
+    stroke-linecap="round"
+  />
+</svg>

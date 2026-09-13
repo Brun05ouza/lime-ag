@@ -1,0 +1,66 @@
+---
+import { services } from '../../data/services';
+import SectionLabel from '../ui/SectionLabel.astro';
+---
+
+<section
+  id="escopo"
+  class="scope section-pad"
+  aria-labelledby="scope-title"
+>
+  <div class="wrap">
+    <SectionLabel number="04" text="O QUE FAZEMOS" />
+    <div class="section-heading">
+      <h2 id="scope-title" class="display" data-reveal="lines" data-mobile-motion>
+        Nosso
+        <br />
+        escopo<span class="pink" data-scope-dot>.</span>
+      </h2>
+      <p>
+        O olhar é amplo.
+        <br />A estratégia é sua.
+      </p>
+    </div>
+    <div class="service-explorer" data-services>
+      <div class="scope-progress" aria-hidden="true"><i></i></div>
+      {services.map((service, i) => (
+        <article class:list={['service', { 'is-active': i === 0 }]}>
+          <h3>
+            <button
+              id={`service-${service.id}`}
+              data-service-button
+              aria-expanded="true"
+              aria-controls={`panel-${service.id}`}
+            >
+              <span class="service-number">0{i + 1}</span>
+              <span class="service-title">{service.title}</span>
+              <span class="service-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </button>
+          </h3>
+          <div
+            class="service-panel"
+            id={`panel-${service.id}`}
+            role="region"
+            aria-labelledby={`service-${service.id}`}
+          >
+            <span class="scope-chapter" aria-hidden="true">0{i + 1}</span>
+            <span class="service-glyph" aria-hidden="true">
+              ↳
+            </span>
+            <p>{service.introduction}</p>
+            <ul>
+              {service.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            <a class="text-link" href="/contato/">
+              Vamos pensar sua estratégia <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

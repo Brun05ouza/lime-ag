@@ -1,0 +1,39 @@
+---
+import { metrics } from '../../data/metrics';
+import MetricCounter from '../ui/MetricCounter.astro';
+import SectionLabel from '../ui/SectionLabel.astro';
+---
+
+<section class="results section-pad wrap" aria-labelledby="results-title">
+  <SectionLabel number="03" text="BAGAGEM QUE FAZ A DIFERENÇA" />
+  <div class="section-heading">
+    <h2 id="results-title" class="display" data-reveal="lines">
+      Experiência
+      <br />& resultados<span class="pink">.</span>
+    </h2>
+    <p>
+      Histórias diferentes.
+      <br />A mesma intenção:
+      <br />
+      construir valor de verdade.
+    </p>
+  </div>
+  <div class="metrics-track">
+    {metrics.slice(0, 5).map((metric) => (
+      <MetricCounter metric={metric} />
+    ))}
+  </div>
+  <div class="metrics-impact">
+    <MetricCounter metric={metrics[5]} large />
+    <p class="impact-caption">
+      Presença que alcança.
+      <br />
+      Comunicação que conecta.
+    </p>
+  </div>
+  <div class="metrics-digital">
+    {metrics.slice(6).map((metric) => (
+      <MetricCounter metric={metric} />
+    ))}
+  </div>
+</section>

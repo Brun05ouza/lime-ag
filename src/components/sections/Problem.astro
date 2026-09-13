@@ -1,0 +1,46 @@
+---
+import SectionLabel from '../ui/SectionLabel.astro';
+import LimeLine from '../common/LimeLine.astro';
+---
+
+<section
+  data-section-motion="problem"
+  id="intencao"
+  class="problem section-pad"
+  aria-labelledby="problem-title"
+>
+  <div class="wrap">
+    <SectionLabel number="01" text="UM PONTO DE PARTIDA" />
+    <div class="problem-question">
+      <h2 id="problem-title" data-reveal="lines">
+        É só a gente
+        <br />
+        ou as marcas estão
+        <br />
+        falando cada vez mais…
+      </h2>
+      <p class="problem-answer" data-reveal="lines">
+        e sendo ouvidas
+        <br />
+        <em>cada vez menos?</em>
+      </p>
+    </div>
+    <div class="problem-note">
+      <span class="asterisk" aria-hidden="true">
+        ✳
+      </span>
+      <p>
+        Nunca se produziu tanto conteúdo.
+        <br />
+        Nunca foi tão fácil aparecer.
+        <br />
+        E, ainda assim,
+      </p>
+    </div>
+    <p class="connection-label">NUNCA FOI TÃO DIFÍCIL</p>
+    <p class="connection" data-reveal="lines">
+      criar conexão.
+    </p>
+  </div>
+  <LimeLine id="problem-gradient" variant="loop" />
+</section>

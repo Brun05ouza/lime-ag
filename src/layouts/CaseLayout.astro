@@ -1,0 +1,90 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+interface Props {
+  entry: CollectionEntry<'cases'>;
+  next?: CollectionEntry<'cases'>;
+}
+const { entry, next } = Astro.props;
+const { data } = entry;
+---
+
+<BaseLayout
+  title={`${data.title} — ${data.client} | Lime Ag`}
+  description={data.excerpt}
+  image={data.ogImage}
+>
+  <article data-case-view={data.slug}>
+    <header class="page-hero">
+      <div class="wrap">
+        <a class="eyebrow" href="/trabalhos/">
+          ← TODOS OS TRABALHOS
+        </a>
+        <h1>{data.title}</h1>
+        <p>
+          {data.client} / {data.year} / {data.services.join(' · ')}
+        </p>
+      </div>
+    </header>
+    <div class="wrap case-content section-pad">
+      <Picture
+        src={data.cover}
+        formats={['avif', 'webp']}
+        widths={[640, 1000, 1500]}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 70vw"
+        alt={data.title}
+        loading="eager"
+        fetchpriority="high"
+      />
+      {[
+        { title: 'Visão geral', text: data.overview },
+        { title: 'O desafio', text: data.challenge },
+        { title: 'A estratégia', text: data.strategy },
+        { title: 'A execução', text: data.execution },
+      ].map((section) => (
+        <section>
+          <h2>{section.title}</h2>
+          <p>{section.text}</p>
+        </section>
+      ))}
+      {data.metrics.length > 0 && (
+        <section>
+          <h2>Resultados</h2>
+          <ul class="case-metrics">
+            {data.metrics.map((metric) => (
+              <li>
+                <strong>{metric.value}</strong>
+                <span>{metric.label}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      <div class="case-body">
+        <slot />
+      </div>
+      <div class="case-gallery">
+        {data.gallery.map((item) => (
+          <Picture
+            src={item.image}
+            formats={['avif', 'webp']}
+            widths={[480, 900, 1400]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 70vw"
+            alt={item.alt}
+            loading="lazy"
+          />
+        ))}
+      </div>
+      {next ? (
+        <a class="button" href={`/trabalhos/${next.data.slug}/`}>
+          Próximo projeto: {next.data.title} ↗
+        </a>
+      ) : (
+        <a class="button" href="/contato/">
+          Vamos construir o próximo projeto ↗
+        </a>
+      )}
+    </div>
+  </article>
+</BaseLayout>

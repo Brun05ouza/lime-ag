@@ -1,0 +1,27 @@
+---
+import { Picture } from 'astro:assets';
+import teamTogether from '../../assets/team/equipe-lime-preto-e-branco.png';
+---
+
+<section class="human-moment" aria-labelledby="human-title" data-human-story>
+  <div class="human-moment-copy wrap">
+    <h2 id="human-title">
+      <span class="human-line" data-human-line>Ideias ganham</span>
+      <span class="human-line human-line--force" data-human-line>força</span>
+      <span class="human-line" data-human-line>quando são</span>
+      <span class="human-line human-line--together" data-human-line>construídas juntas.</span>
+    </h2>
+  </div>
+  <span class="human-moment-label">POR TRÁS DA ESTRATÉGIA / LIME AG</span>
+  <div class="human-moment-media" data-human-media>
+    <Picture
+      src={teamTogether}
+      formats={['avif', 'webp']}
+      fallbackFormat="webp"
+      widths={[480, 760, 1100, 1365]}
+      sizes="(max-width: 639px) 100vw, (max-width: 1024px) 70vw, 52vw"
+      alt="Julia Lima e Carol Melo trabalhando juntas diante de um notebook"
+      loading="lazy"
+    />
+  </div>
+</section>

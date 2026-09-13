@@ -1,0 +1,27 @@
+---
+import { Picture } from 'astro:assets';
+import brandHands from '../../assets/editorial/brand-hands.png';
+---
+
+<section class="visual-interlude" aria-labelledby="visual-interlude-title" data-visual-hands>
+  <div class="visual-interlude-media" data-hands-media>
+    <Picture
+      src={brandHands}
+      formats={['avif', 'webp']}
+      fallbackFormat="webp"
+      widths={[640, 1024, 1440, 1920]}
+      sizes="100vw"
+      alt="Duas mãos unidas diante de um campo em gradiente rosa e laranja"
+      loading="lazy"
+    />
+  </div>
+  <h2 id="visual-interlude-title" class="visual-interlude-title">
+    <span data-hands-word>Conexões</span>
+    <span data-hands-word>constroem</span>
+    <span data-hands-word>valor.</span>
+  </h2>
+  <span class="visual-interlude-index">LIME AG / CONEXÕES QUE CONSTROEM VALOR</span>
+  <svg class="visual-interlude-thread" viewBox="0 0 1000 220" aria-hidden="true">
+    <path data-hands-thread d="M30 190 C240 70 435 55 610 125 S850 205 970 48" />
+  </svg>
+</section>

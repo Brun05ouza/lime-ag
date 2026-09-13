@@ -1,0 +1,15 @@
+@use 'tokens';
+@use 'reset';
+@use 'typography';
+@use 'utilities';
+@use 'navigation';
+@use 'hero';
+@use 'sections';
+@use 'pages';
+@use 'motion';
+@use 'mobile';
+@use 'scope';
+body {
+  background: var(--lime-light);
+  color: var(--lime-purple);
+}

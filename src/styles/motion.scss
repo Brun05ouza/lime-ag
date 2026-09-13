@@ -1,0 +1,400 @@
+.cursor {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--lime-orange);
+  border-radius: 50%;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+}
+.cursor.is-visible {
+  display: block;
+}
+.cursor.is-link {
+  width: 20px;
+  height: 20px;
+}
+.cursor.is-view {
+  width: 60px;
+  height: 60px;
+  background: var(--lime-purple);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor {
+    display: none !important;
+  }
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/*
+ * The bootstrap class is applied in <head>, before body paint. Motion init
+ * installs the matching GSAP pre-states before switching to `ready`.
+ */
+.js:not([data-motion-status='ready']):not([data-motion-status='reduced']):not(
+    [data-motion-status='failed']
+  )
+  :is(
+    [data-section-motion],
+    [data-visual-hands],
+    [data-human-story],
+    .results,
+    .team,
+    [data-reveal],
+    [data-reveal-media],
+    [data-hands-media],
+    [data-hands-word],
+    [data-human-media],
+    [data-human-line],
+    [data-story-collage],
+    [data-story-line],
+    [data-hero-line],
+    .hero-intro,
+    .hero-bottom,
+    .hero .lime-line
+  ) {
+  visibility: hidden;
+}
+
+:is([data-reveal-media], [data-hands-media], [data-human-media], [data-story-collage]) {
+  will-change: auto;
+}
+
+:is([data-reveal-media], [data-hands-media], [data-human-media], [data-story-collage])
+  :is(picture, img) {
+  will-change: auto;
+}
+
+.motion-ready
+  :is(
+    [data-reveal-media],
+    [data-hands-media],
+    [data-human-media],
+    [data-story-collage]
+  ).is-reveal-prepared {
+  will-change: clip-path, opacity;
+}
+
+.motion-ready
+  :is(
+    [data-reveal-media],
+    [data-hands-media],
+    [data-human-media],
+    [data-story-collage]
+  ).is-revealing
+  :is(picture, img) {
+  will-change: transform;
+}
+
+.work-collage-layer {
+  will-change: auto;
+}
+
+:is([data-hands-word], [data-human-line], [data-story-line]) {
+  will-change: auto;
+}
+
+:is([data-visual-hands], [data-human-story], [data-work-story]).is-ambient-active
+  :is([data-hands-media], [data-human-media] img, .work-collage-layer) {
+  will-change: transform;
+}
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--lime-purple);
+  color: var(--lime-light);
+  display: grid;
+  place-content: center;
+  gap: 25px;
+  pointer-events: none;
+  animation: loader-reveal 0.55s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+.preloader-line {
+  display: block;
+  height: 3px;
+  width: 130px;
+  background: var(--gradient);
+  transform-origin: left;
+  animation: loader-line 0.35s ease-out both;
+}
+@keyframes loader-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes loader-reveal {
+  0%,
+  35% {
+    clip-path: inset(0);
+  }
+  100% {
+    clip-path: inset(0 0 100%);
+    visibility: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .cursor {
+    display: none !important;
+  }
+  .mobile-menu[open] {
+    clip-path: inset(0);
+    opacity: 1;
+  }
+}
+
+/* Motion-only treatments preserve the existing geometry and final visual state. */
+.cursor.is-cta {
+  width: 4px;
+  height: 4px;
+}
+[data-button-label],
+[data-arrow-glyph] {
+  display: inline-block;
+}
+.button-arrow {
+  overflow: hidden;
+  vertical-align: middle;
+}
+.motion-ready .button:hover .button-arrow {
+  transform: none;
+}
+.service-arrow {
+  transition: transform 0.35s ease;
+}
+.service button:focus-visible .service-arrow {
+  transform: translateX(5px) rotate(5deg);
+}
+.service.is-active button {
+  border-top-color: var(--lime-pink);
+}
+.profile-heading h3 {
+  position: relative;
+}
+.profile-heading h3::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -8px;
+  height: 1px;
+  background: var(--lime-pink);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s;
+}
+.team-profile.is-hovered .profile-heading h3::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.metrics-track,
+.metrics-impact,
+.word-shift,
+.footer-bottom,
+.cta-large {
+  position: relative;
+  --rule-scale: 1;
+}
+.motion-ready :is(.metrics-track, .metrics-impact, .word-shift, .footer-bottom, .cta-large) {
+  border-top-color: transparent;
+}
+.motion-ready :is(.metrics-track, .metrics-impact, .word-shift, .footer-bottom, .cta-large)::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.25;
+  transform: scaleX(var(--rule-scale));
+  transform-origin: left;
+  pointer-events: none;
+}
+[data-section-wipe] {
+  position: relative;
+  --wipe-scale: 0;
+}
+[data-section-wipe]::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 90px;
+  transform: scaleY(var(--wipe-scale));
+  transform-origin: top;
+  background: var(--lime-light);
+  pointer-events: none;
+  z-index: 0;
+}
+[data-section-wipe='black']::before {
+  background: var(--lime-black);
+}
+[data-section-wipe] > .wrap {
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 1024px) and (min-height: 760px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .method-track.is-enhanced .method-progress {
+    position: absolute;
+    right: -30px;
+    top: 15px;
+    height: calc(100% - 65px);
+    width: 2px;
+    margin: 0;
+  }
+  .method-track.is-enhanced .method-progress i {
+    transform-origin: top;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .method-index {
+    position: static;
+  }
+}
+@media (max-width: 1023px), (max-height: 759px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .method-track {
+    grid-template-columns: 1fr;
+  }
+  .method-index {
+    display: none;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .service button:hover .service-arrow {
+    transform: translateX(5px) rotate(5deg);
+  }
+  .cta-large:hover {
+    padding-inline: 15px;
+  }
+}
+
+/* Kinetic composition; all base content stays readable without JS. */
+:root {
+  --glyph-safe-inline: clamp(16px, 2vw, 36px);
+  --glyph-safe-top: 0.1em;
+  --glyph-safe-bottom: 0.15em;
+}
+
+/*
+ * SplitText keeps the mask as the clipping layer. These offsets enlarge the
+ * line's paint box for accents, cedillas, overshoot and descenders without
+ * changing the line rhythm.
+ */
+.reveal-line-mask {
+  box-sizing: content-box;
+  padding-block: var(--glyph-safe-top) var(--glyph-safe-bottom);
+  margin-block: calc(var(--glyph-safe-top) * -1) calc(var(--glyph-safe-bottom) * -1);
+}
+
+/*
+ * Kinetic glyphs need breathing room inside their own clipping box. Negative
+ * margins preserve the authored alignment and dimensions.
+ */
+[data-hero-line],
+[data-kinetic-word],
+[data-result-word],
+.final-statement,
+.problem :is(h2, .problem-answer, .connection) {
+  padding: var(--glyph-safe-top) var(--glyph-safe-inline) var(--glyph-safe-bottom);
+  margin: calc(var(--glyph-safe-top) * -1) calc(var(--glyph-safe-inline) * -1)
+    calc(var(--glyph-safe-bottom) * -1);
+}
+
+.hero {
+  isolation: isolate;
+}
+.hero [data-hero-line] {
+  transform-origin: left center;
+}
+.hero h1 {
+  position: relative;
+  z-index: 2;
+}
+.hero .lime-line {
+  z-index: 1;
+}
+.problem {
+  z-index: 3;
+}
+.manifesto {
+  overflow: hidden;
+}
+.manifesto-result {
+  position: relative;
+}
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .manifesto-result.is-scroll-story {
+    display: block;
+    min-height: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .manifesto-result.is-scroll-story .manifesto-result-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--gap-lg);
+    min-height: 0;
+    padding-block: 48px;
+    align-content: center;
+    align-items: end;
+    overflow: clip;
+    border-top: 1px solid #ffffff26;
+  }
+}
+.result-bridge {
+  position: absolute;
+  pointer-events: none;
+  inset: auto var(--glyph-safe-inline) clamp(70px, 10svh, 112px);
+  text-align: center;
+  font-family: var(--font-display);
+  color: var(--lime-pink);
+  font-size: clamp(32px, 8vw, 120px);
+  line-height: 1;
+  padding-block: var(--glyph-safe-top) var(--glyph-safe-bottom);
+  letter-spacing: -0.06em;
+  z-index: 2;
+}
+[data-text-swap] {
+  overflow: hidden;
+}
+[data-swap-item] {
+  transform-origin: left;
+}
+.motion-ready .cta-large::after {
+  background: var(--lime-pink);
+  height: 2px;
+}
+.service button[aria-expanded='true'] .service-title {
+  transform: scale(1.025);
+  transform-origin: left center;
+}
+.service-panel {
+  overflow: hidden;
+}
+/* Contain temporary horizontal compositions without creating scroll containers. */
+.results,
+.final-manifesto {
+  overflow: clip;
+}
+.service-title {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}

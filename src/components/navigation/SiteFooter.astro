@@ -1,0 +1,31 @@
+---
+import LimeLogo from '../common/LimeLogo.astro';
+import { navigation } from '../../data/navigation';
+---
+
+<footer class="site-footer">
+  <div class="footer-inner wrap">
+    <div class="footer-top">
+      <a href="/" aria-label="Lime Ag, início">
+        <LimeLogo large />
+      </a>
+      <p>
+        Comunicação com estratégia.
+        <br />
+        Conexões com propósito.
+      </p>
+      <a href="#top" class="back-top">
+        De volta ao topo <span aria-hidden="true">↑</span>
+      </a>
+    </div>
+    <div class="footer-bottom">
+      <small>© {new Date().getFullYear()} Lime Ag. Todos os direitos reservados.</small>
+      <nav aria-label="Rodapé">
+        {navigation.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+      <span>Feito com intenção.</span>
+    </div>
+  </div>
+</footer>

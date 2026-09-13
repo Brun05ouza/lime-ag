@@ -1,0 +1,37 @@
+[
+  {
+    "file": "julia-lima.png",
+    "source": "ppt/media/image22.png",
+    "width": 1365,
+    "height": 2048,
+    "bytes": 1985836
+  },
+  {
+    "file": "carol-melo.png",
+    "source": "ppt/media/image24.png",
+    "width": 1789,
+    "height": 2048,
+    "bytes": 3407989
+  },
+  {
+    "file": "equipe-lime-preto-e-branco.png",
+    "source": "ppt/media/image38.png",
+    "width": 1365,
+    "height": 2048,
+    "bytes": 3344251
+  },
+  {
+    "file": "equipe-lime.png",
+    "source": "ppt/media/image46.png",
+    "width": 1664,
+    "height": 2048,
+    "bytes": 4855503
+  },
+  {
+    "file": "equipe-lime-avatares.png",
+    "source": "ppt/media/image40.png",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 923196
+  }
+]

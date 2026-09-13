@@ -1,0 +1,34 @@
+.scope .service-explorer { position: relative; --scope-progress: .25; }
+.scope-progress { height: 2px; background: #ffffff16; margin-bottom: 12px; }
+.scope-progress i { display: block; height: 100%; background: var(--lime-pink); transform: scaleX(var(--scope-progress)); transform-origin: left; transition: transform .65s cubic-bezier(.22,1,.36,1); }
+.scope .service button { transition: color .3s; }
+.scope .service-number { font-size: 12px; transition: color .3s; }
+.scope .service.is-active .service-number { color: var(--lime-pink); }
+.scope .service.is-active .service-title { transform: translateX(4px) scale(1.025); }
+.scope .service-panel { isolation: isolate; }
+.scope-chapter { position: absolute; z-index: -1; right: 0; top: 0; font: 500 clamp(130px,18vw,250px)/.85 var(--font-display); letter-spacing: -.08em; color: #ffffff08; pointer-events: none; }
+.scope .service-panel > p { position: relative; font-size: clamp(18px,1.6vw,24px); line-height: 1.45; letter-spacing: -.025em; max-width: 32ch; margin-bottom: 30px; }
+.scope .service-panel li { padding-block: 11px; color: #c9c2ca; border-color: #ffffff13; }
+.scope .service-panel .text-link { display: inline-flex; align-items: center; gap: 20px; position: relative; font-size: 13px; margin-top: 30px; padding-block: 10px; }
+.scope .service-panel .text-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--lime-pink); transform: scaleX(.3); transform-origin: left; transition: transform .4s; }
+.scope .service-panel .text-link:hover::after, .scope .service-panel .text-link:focus-visible::after { transform: scaleX(1); }
+.scope .service-panel .text-link span { transition: transform .3s; }
+.scope .service-panel .text-link:hover span { transform: translate(3px,-3px); }
+.scope-outgoing { pointer-events: none; }
+@media (min-width: 900px) {
+  .scope .service-explorer.is-enhanced { min-height: 520px; padding-right: 50%; }
+  .scope .is-enhanced .service-panel { left: 60%; width: 40%; padding-top: 12px; }
+  .scope .service button { padding-block: 29px; }
+  .scope .service-title { max-width: 20ch; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope .service button:hover .service-title { transform: translateX(4px); }
+  .scope .service button:hover .service-number { color: var(--lime-light); }
+  .scope .service button:hover .service-arrow { transform: translate(4px,-4px); }
+}
+@media (max-width: 899px) {
+  .scope .service-panel { position: relative; }
+  .scope-chapter { font-size: 150px; }
+  .scope .service-panel > p { font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .scope-progress i { transition: none; } }

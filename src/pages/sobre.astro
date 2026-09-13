@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Team from '../components/sections/Team.astro';
+import Manifesto from '../components/sections/Manifesto.astro';
+import FinalCTA from '../components/sections/FinalCTA.astro';
+---
+
+<BaseLayout
+  title="Sobre a Lime — Comunicação é intenção | Lime Ag"
+  description="Conheça Carol Melo, Julia Lima e a visão que move a Lime Ag: toda boa comunicação começa na estratégia."
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">LIME AG / NOSSA ESSÊNCIA</p>
+      <h1>
+        Toda conexão
+        <br />
+        começa com
+        <br />
+        uma intenção<span class="pink">.</span>
+      </h1>
+    </div>
+  </header>
+  <Manifesto />
+  <Team />
+  <FinalCTA />
+</BaseLayout>

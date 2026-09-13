@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
+interface Props {
+  entry: CollectionEntry<'cases'>;
+}
+const { entry } = Astro.props;
+---
+
+<article class="case-card">
+  <a href={`/trabalhos/${entry.data.slug}/`} data-cursor="view">
+    <Picture
+      src={entry.data.cover}
+      formats={['avif', 'webp']}
+      widths={[480, 900, 1400]}
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 70vw"
+      alt={entry.data.title}
+      loading="lazy"
+    />
+    <div class="case-heading">
+      <h3>{entry.data.title}</h3>
+      <span>Ver case ↗</span>
+    </div>
+    <p>
+      {entry.data.client} / {entry.data.services.join(' · ')} / {entry.data.year}
+    </p>
+    <p>{entry.data.excerpt}</p>
+  </a>
+</article>

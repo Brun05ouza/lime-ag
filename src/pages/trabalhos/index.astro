@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import CaseCard from '../../components/ui/CaseCard.astro';
+import FinalCTA from '../../components/sections/FinalCTA.astro';
+const entries = await getCollection('cases');
+---
+
+<BaseLayout
+  title="Trabalhos — Estratégia em movimento | Lime Ag"
+  description="Conheça o trabalho da Lime Ag. Estratégia, comunicação e criatividade para construir marcas com propósito."
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">LIME AG / TRABALHOS</p>
+      <h1>
+        Estratégia
+        <br />
+        em movimento<span class="pink">.</span>
+      </h1>
+      <p>Boas histórias merecem ser contadas por inteiro.</p>
+    </div>
+  </header>
+  <section class="wrap section-pad" aria-label="Portfólio">
+    {entries.length ? (
+      entries.map((entry) => <CaseCard entry={entry} />)
+    ) : (
+      <div class="portfolio-pending">
+        <span class="eyebrow">PORTFÓLIO EM PREPARAÇÃO</span>
+        <h2>
+          Estamos selecionando
+          <br />
+          nossas próximas histórias.
+        </h2>
+        <p>Quer conhecer nossa experiência e conversar sobre os desafios da sua marca?</p>
+        <a class="button" href="/contato/">
+          Vamos conversar ↗
+        </a>
+      </div>
+    )}
+  </section>
+  <FinalCTA />
+</BaseLayout>

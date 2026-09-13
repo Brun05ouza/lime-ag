@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string;
+  secondary?: boolean;
+  class?: string;
+}
+const { href, secondary = false, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={['button', { 'button--secondary': secondary }, className]}
+  data-magnetic
+  data-analytics="cta_click"
+>
+  <span data-button-label>
+    <slot />
+  </span>
+  <span class="button-arrow" aria-hidden="true">
+    <span data-arrow-glyph>↗</span>
+  </span>
+</a>

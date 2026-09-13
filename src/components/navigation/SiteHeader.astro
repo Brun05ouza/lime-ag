@@ -1,0 +1,76 @@
+---
+import LimeLogo from '../common/LimeLogo.astro';
+import { navigation } from '../../data/navigation';
+---
+
+<header class="site-header" data-header data-header-state="hero">
+  <div class="header-shell" data-header-shell>
+    <a class="brand" href="/" aria-label="Lime Ag, início" data-header-logo>
+      <LimeLogo />
+    </a>
+    <nav class="desktop-nav" aria-label="Navegação principal" data-header-nav>
+      {navigation.map((item) => (
+        <a href={item.href} data-nav-link>
+          <span class="nav-accent" aria-hidden="true"></span>
+          <span class="nav-roll">
+            <span>{item.label}</span>
+            <span aria-hidden="true">{item.label}</span>
+          </span>
+        </a>
+      ))}
+    </nav>
+    <a class="header-cta" href="/contato/" data-magnetic data-header-cta>
+      <span class="header-cta-label" data-button-label>Vamos conversar</span>
+      <span class="button-arrow" aria-hidden="true"><span data-arrow-glyph>↗</span></span>
+    </a>
+    <button
+      class="menu-toggle"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Abrir menu"
+      data-menu-toggle
+      hidden
+    >
+      <span class="menu-label">Menu</span><span class="menu-plus" aria-hidden="true">+</span>
+    </button>
+  </div>
+  <dialog id="mobile-menu" class="mobile-menu" aria-label="Navegação">
+    <div class="mobile-menu-top">
+      <LimeLogo />
+      <button class="menu-close" data-menu-close aria-label="Fechar menu">
+        <span>Fechar</span><span aria-hidden="true">+</span>
+      </button>
+    </div>
+    <nav aria-label="Navegação mobile">
+      {navigation.map((item, i) => (
+        <a href={item.href}>
+          <span>0{i + 1}</span>
+          {item.label}
+          <span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </nav>
+    <a class="menu-email" href="mailto:julia@limeagencia.com.br">
+      julia@limeagencia.com.br
+    </a>
+    <a class="menu-cta" href="/contato/">
+      Vamos conversar <span aria-hidden="true">↗</span>
+    </a>
+    <svg class="mobile-menu-line" viewBox="0 0 390 180" aria-hidden="true">
+      <path
+        data-menu-line
+        d="M-24 148 C66 26 162 18 232 92 C286 150 340 142 424 34"
+        fill="none"
+        stroke="url(#menu-line-gradient)"
+        stroke-width="10"
+        stroke-linecap="round"
+      />
+      <defs>
+        <linearGradient id="menu-line-gradient" x1="0" x2="1">
+          <stop stop-color="#ff2d70" />
+          <stop offset="1" stop-color="#ff8128" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </dialog>
+</header>

@@ -1,0 +1,81 @@
+---
+import SiteHeader from '../components/navigation/SiteHeader.astro';
+import SiteFooter from '../components/navigation/SiteFooter.astro';
+import '../styles/global.scss';
+import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import displayFont from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url';
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+}
+const { title, description, image = '/og/default.jpg', noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Lime Ag',
+  url: Astro.site?.href,
+  email: ['julia@limeagencia.com.br', 'carol@limeagencia.com.br'],
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      window.setTimeout(() => {
+        if (!document.documentElement.dataset.motionStatus) {
+          document.documentElement.dataset.motionStatus = 'failed';
+        }
+      }, 4000);
+    </script>
+    <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin="anonymous" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+    <meta name="theme-color" content="#331335" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Lime Ag" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(schema).replace(/</g, '\\u003c')}
+    ></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">
+      Pular para o conteúdo
+    </a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+    <div class="cursor" aria-hidden="true" data-cursor></div>
+    <script>
+      import { initUI } from '../scripts/ui';
+      import { bootMotion } from '../motion/reducedMotion';
+      initUI();
+      const disposeMotion = bootMotion();
+      if (import.meta.hot) import.meta.hot.dispose(disposeMotion);
+    </script>
+  </body>
+</html>

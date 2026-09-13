@@ -1,0 +1,26 @@
+---
+import type { Metric } from '../../data/metrics';
+interface Props {
+  metric: Metric;
+  large?: boolean;
+}
+const { metric, large = false } = Astro.props;
+---
+
+<div class:list={['metric', { 'metric--large': large }]}>
+  <span class="sr-only">
+    {metric.display} {metric.label}
+  </span>
+  <strong
+    aria-hidden="true"
+    data-counter
+    data-value={metric.value}
+    data-suffix={metric.suffix}
+    data-final={metric.display}
+  >
+    {metric.display}
+  </strong>
+  <span aria-hidden="true" class="metric-label">
+    {metric.label}
+  </span>
+</div>

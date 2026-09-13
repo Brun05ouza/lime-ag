@@ -1,0 +1,61 @@
+---
+import { Picture } from 'astro:assets';
+import { team } from '../../data/team';
+import SectionLabel from '../ui/SectionLabel.astro';
+---
+
+<section id="equipe" class="team section-pad" aria-labelledby="team-title">
+  <div class="wrap">
+    <SectionLabel number="07" text="ESTRATÉGIA TEM ROSTO" />
+    <div class="section-heading">
+      <h2 id="team-title" class="display" data-reveal="lines">
+        Quem faz
+        <br />
+        acontecer<span class="pink">.</span>
+      </h2>
+      <p>
+        Proximidade para entender.
+        <br />
+        Experiência para transformar.
+      </p>
+    </div>
+    <div class="team-grid">
+      {team.map((person, i) => (
+        <article class="team-profile">
+          <div
+            class="team-photo"
+            data-reveal-media
+            style={`--object-x: ${person.objectX}; --object-y: ${person.objectY};`}
+          >
+            <span class="photo-index" aria-hidden="true">
+              0{i + 1}
+            </span>
+            <Picture
+              src={person.image}
+              formats={['avif', 'webp']}
+              fallbackFormat="webp"
+              width={960}
+              widths={[360, 640, 960]}
+              sizes="(max-width: 639px) 100vw, (max-width: 1199px) 70vw, 38vw"
+              alt={person.name}
+              loading="lazy"
+            />
+            <span class="photo-caption">LIME AG / {person.name.toUpperCase()}</span>
+          </div>
+          <div class="profile-heading">
+            <h3>{person.name}</h3>
+            <a
+              href={`mailto:${person.email}`}
+              aria-label={`Enviar e-mail para ${person.name}`}
+              data-analytics="contact_click"
+            >
+              ↗
+            </a>
+          </div>
+          <p>{person.biography}</p>
+          <p>{person.belief}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

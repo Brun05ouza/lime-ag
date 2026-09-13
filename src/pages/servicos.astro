@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceExplorer from '../components/sections/ServiceExplorer.astro';
+import ProcessTimeline from '../components/sections/ProcessTimeline.astro';
+import FinalCTA from '../components/sections/FinalCTA.astro';
+---
+
+<BaseLayout
+  title="Serviços — Estratégia, performance e conteúdo | Lime Ag"
+  description="Branding, comunicação, tráfego pago, conteúdo e inteligência de mercado. Conheça o escopo e o método de trabalho da Lime Ag."
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">LIME AG / SERVIÇOS</p>
+      <h1>
+        O olhar é amplo.
+        <br />A estratégia
+        <br />é sua<span class="pink">.</span>
+      </h1>
+    </div>
+  </header>
+  <ServiceExplorer />
+  <ProcessTimeline />
+  <FinalCTA />
+</BaseLayout>
