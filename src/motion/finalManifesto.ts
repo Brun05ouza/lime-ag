@@ -19,21 +19,21 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
       const leadLines = gsap.utils.toArray<HTMLElement>('.final-lead .final-line', impact);
       const impactBlocks = gsap.utils.toArray<HTMLElement>('[data-final-impact-block]', impact);
 
-      gsap.set(setupLines, { yPercent: 110, autoAlpha: 0 });
+      gsap.set(setup, { transformOrigin: 'left top' });
+      gsap.set(setupLines, { yPercent: 105, autoAlpha: 0 });
       gsap.set(impact, { autoAlpha: 0 });
-      gsap.set(leadLines, { yPercent: 108, autoAlpha: 0 });
+      gsap.set(leadLines, { yPercent: 100, autoAlpha: 0 });
       gsap.set(impactBlocks, {
         yPercent: 100,
         autoAlpha: 0,
-        clipPath: 'inset(0 0 100% 0)',
       });
 
       const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: stage,
-          start: 'top 72%',
+          start: 'top 78%',
           end: 'bottom bottom',
-          scrub: 0.45,
+          scrub: 0.4,
           invalidateOnRefresh: true,
         },
       });
@@ -42,18 +42,18 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
         .to(setupLines, {
           yPercent: 0,
           autoAlpha: 1,
-          duration: 0.36,
-          stagger: 0.045,
+          duration: 0.34,
+          stagger: 0.04,
           ease: 'power3.out',
         })
-        .to({}, { duration: 0.2 })
+        .to({}, { duration: 0.22 })
         .to(
           setup,
           {
-            y: () => -(setup.offsetHeight + 18),
-            opacity: 0.28,
+            yPercent: -8,
+            opacity: 0.3,
             scale: 0.98,
-            duration: 0.34,
+            duration: 0.3,
             ease: 'power2.inOut',
           },
           0.5,
@@ -64,8 +64,8 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
           {
             yPercent: 0,
             autoAlpha: 1,
-            duration: 0.4,
-            stagger: 0.04,
+            duration: 0.38,
+            stagger: 0.035,
             ease: 'power3.out',
           },
           0.52,
@@ -75,14 +75,13 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
           {
             yPercent: 0,
             autoAlpha: 1,
-            clipPath: 'inset(0 0 0% 0)',
-            duration: 0.42,
-            stagger: 0.05,
+            duration: 0.4,
+            stagger: 0.045,
             ease: 'power3.out',
           },
-          0.7,
+          0.68,
         )
-        .to({}, { duration: 0.4 });
+        .to({}, { duration: 0.36 });
 
       animations.push(timeline);
     }
@@ -104,7 +103,7 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
       );
     }
     if (purposeImpact && purposeWord) {
-      gsap.set(purposeImpact, { y: 24, clipPath: 'inset(0 0 100% 0)' });
+      gsap.set(purposeImpact, { y: 24, autoAlpha: 0 });
       gsap.set(purposeWord, { clipPath: 'inset(0 100% 0 0)' });
       animations.push(
         gsap
@@ -113,14 +112,19 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
           })
           .to(purposeImpact, {
             y: 0,
-            clipPath: 'inset(0 0 0% 0)',
-            duration: 0.82,
+            autoAlpha: 1,
+            duration: 0.75,
             ease: 'power3.out',
           })
           .to(
             purposeWord,
-            { clipPath: 'inset(0 0% 0 0)', duration: 0.65, ease: 'power3.inOut' },
-            0.16,
+            {
+              clipPath: 'inset(0 0% 0 0)',
+              duration: 0.6,
+              ease: 'power3.inOut',
+              clearProps: 'clipPath',
+            },
+            0.12,
           ),
       );
     }

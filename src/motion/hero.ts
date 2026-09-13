@@ -20,27 +20,22 @@ export function initHero(mobile: boolean) {
     const purpose = hero.querySelector<HTMLElement>('[data-hero-purpose]');
     if (narrow) {
       intro
-        .from(
-          '.hero-intro > *',
-          { y: -8, opacity: 0, duration: 0.45, stagger: 0.04, ease: 'power3.out' },
-          0.05,
-        )
         .fromTo(
           words[0],
           { xPercent: -6, scale: 1.05, clipPath: 'inset(0 100% 0 0)' },
           { xPercent: 0, scale: 1, clipPath: 'inset(0 0% 0 0)', duration: 0.72 },
-          0.18,
+          0.12,
         )
         .from(
           words[1],
           { x: 10, clipPath: 'inset(0 0 0 100%)', duration: 0.58, ease: 'power3.out' },
-          0.42,
+          0.36,
         )
         .fromTo(
           strategy,
           { backgroundPosition: '100% 50%' },
           { backgroundPosition: '0% 50%', duration: 0.58, ease: 'power3.inOut' },
-          0.5,
+          0.44,
         );
       if (path) {
         const total = path.getTotalLength();
@@ -48,7 +43,7 @@ export function initHero(mobile: boolean) {
           path,
           { strokeDasharray: total, strokeDashoffset: total },
           { strokeDashoffset: 0, duration: 0.75, ease: 'power2.inOut' },
-          0.68,
+          0.62,
         );
       }
       intro
@@ -56,28 +51,23 @@ export function initHero(mobile: boolean) {
           words[2],
           { xPercent: 6, scale: 1.04, clipPath: 'inset(100% 0 0 0)' },
           { xPercent: 0, scale: 1, clipPath: 'inset(0% 0 0 0)', duration: 0.72 },
-          0.65,
+          0.58,
         )
         .from(
           words[3],
           { x: -8, clipPath: 'inset(0 100% 0 0)', duration: 0.6, ease: 'power3.out' },
-          0.82,
+          0.75,
         )
         .fromTo(
           purpose,
           { backgroundPosition: '100% 50%' },
           { backgroundPosition: '0% 50%', duration: 0.6, ease: 'power3.inOut' },
-          0.88,
-        )
-        .from(
-          '.hero-bottom > p',
-          { y: 12, opacity: 0, duration: 0.5, ease: 'power3.out' },
-          0.98,
+          0.82,
         )
         .from(
           '.hero-bottom > a',
           { y: 8, opacity: 0, duration: 0.45, stagger: 0.06, ease: 'power3.out' },
-          1.08,
+          0.96,
         );
     } else {
       intro
@@ -116,7 +106,7 @@ export function initHero(mobile: boolean) {
           0.88,
         )
         .from(
-          '.hero-intro > *, .hero-bottom > *',
+          '.hero-bottom > a',
           { y: 8, opacity: 0, duration: 0.6, stagger: profile.textStagger },
           1.02,
         );

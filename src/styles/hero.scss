@@ -11,26 +11,6 @@
   background: var(--lime-purple);
   color: var(--lime-light);
 }
-.hero-intro {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  position: relative;
-  z-index: 2;
-  gap: var(--gap-md);
-}
-.hero-intro .eyebrow {
-  display: flex;
-  gap: clamp(12px, 2vw, 30px);
-}
-.hero-intro .eyebrow span {
-  color: var(--lime-gray);
-}
-.hero-edition {
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  padding-top: 2px;
-}
 .hero-type {
   margin-block: auto;
   padding-top: clamp(20px, 4vh, 56px);
@@ -98,20 +78,11 @@
 .hero-bottom {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: 1fr 1.3fr 1fr;
+  display: flex;
   align-items: end;
+  justify-content: space-between;
   gap: var(--gap-md);
   font-size: 11px;
-}
-.hero-bottom p {
-  max-width: min(355px, var(--measure-narrow));
-  color: #d4c7d4;
-  font-size: var(--fs-body);
-  line-height: var(--line-body-roomy);
-}
-.hero-bottom > :last-child {
-  justify-self: end;
 }
 .scroll-cue {
   display: inline-flex;
@@ -162,7 +133,6 @@
     opacity: 0.88;
   }
   .hero-bottom {
-    grid-template-columns: 1fr 1.4fr auto;
     gap: 20px;
   }
 }
@@ -171,14 +141,6 @@
   .hero {
     padding-top: calc(var(--header-hero-h) + var(--header-pad-top) + 18px);
     padding-bottom: max(20px, var(--safe-bottom));
-  }
-  .hero-intro .eyebrow {
-    flex-direction: column;
-    gap: 5px;
-    font-size: 8px;
-  }
-  .hero-edition {
-    display: none;
   }
   .hero-type {
     padding-top: clamp(28px, 6vh, 52px);
@@ -219,13 +181,7 @@
     opacity: 0.58;
   }
   .hero-bottom {
-    grid-template-columns: 1fr auto;
     gap: var(--gap-md);
-  }
-  .hero-bottom p {
-    grid-column: 1 / -1;
-    grid-row: 1;
-    max-width: none;
   }
   .hero-bottom > :last-child {
     font-size: 10px;
@@ -246,9 +202,6 @@
   .hero-small {
     margin-top: 4px;
   }
-  .hero-edition {
-    display: none;
-  }
 }
 
 @media (max-height: 680px) {
@@ -259,9 +212,6 @@
   }
   .hero-type {
     padding-block: 4px;
-  }
-  .hero-intro .eyebrow {
-    font-size: 8px;
   }
   .hero-line--second {
     margin-top: 8px;
@@ -277,9 +227,6 @@
   .hero-type {
     padding-block: 8px;
   }
-  .hero-edition {
-    display: none;
-  }
   .lime-line--hero {
     opacity: 0.4;
     height: 70%;
@@ -289,12 +236,5 @@
   .hero-small {
     width: fit-content;
     margin-left: 0;
-  }
-  .hero-bottom {
-    grid-template-columns: auto 1fr auto;
-  }
-  .hero-bottom p {
-    grid-column: auto;
-    grid-row: auto;
   }
 }

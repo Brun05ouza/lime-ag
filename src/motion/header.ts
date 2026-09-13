@@ -235,20 +235,26 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
     menuOpen = true;
     scroll.lenis.stop();
     context.add(() => {
-      gsap.killTweensOf([menu, ...menuLinks, menuLine]);
+      gsap.killTweensOf([menu, ...menuLinks, menuLine].filter(Boolean));
       const timeline = gsap
         .timeline()
-        .set(menu, { opacity: 1 })
-        .to(menu, { clipPath: 'inset(0 0% 0% 0)', duration: 0.48, ease: 'power4.out' })
+        .set(menu, { autoAlpha: 1, opacity: 1 })
+        .fromTo(
+          menu,
+          { clipPath: 'inset(0 0 100% 0)' },
+          { clipPath: 'inset(0 0% 0% 0)', duration: 0.48, ease: 'power4.out' },
+        )
         .fromTo(
           menuLinks,
-          { yPercent: 110, clipPath: 'inset(0 0 100% 0)' },
+          { yPercent: 110, autoAlpha: 0, clipPath: 'inset(0 0 100% 0)' },
           {
             yPercent: 0,
+            autoAlpha: 1,
             clipPath: 'inset(0 0 0% 0)',
             duration: 0.5,
             stagger: 0.045,
             ease: 'power3.out',
+            clearProps: 'clipPath',
           },
           0.14,
         );
@@ -256,8 +262,8 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
         const length = menuLine.getTotalLength();
         timeline.fromTo(
           menuLine,
-          { strokeDasharray: length, strokeDashoffset: length, opacity: 0.5 },
-          { strokeDashoffset: 0, opacity: 1, duration: 0.58, ease: 'power2.inOut' },
+          { strokeDasharray: length, strokeDashoffset: length, autoAlpha: 0.5 },
+          { strokeDashoffset: 0, autoAlpha: 1, duration: 0.58, ease: 'power2.inOut' },
           0.2,
         );
       }
@@ -268,16 +274,17 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
     const custom = event as CustomEvent<CloseMenuDetail>;
     if (!custom.detail?.complete) return;
     event.preventDefault();
+    const finish = () => {
+      menuOpen = false;
+      scroll.lenis.start();
+      gsap.set(menuLinks, { clearProps: 'transform,opacity,visibility,clipPath' });
+      gsap.set(menu, { clearProps: 'opacity,visibility' });
+      custom.detail.complete();
+    };
     context.add(() => {
-      gsap.killTweensOf([menu, ...menuLinks, menuLine]);
+      gsap.killTweensOf([menu, ...menuLinks, menuLine].filter(Boolean));
       gsap
-        .timeline({
-          onComplete: () => {
-            menuOpen = false;
-            scroll.lenis.start();
-            custom.detail.complete();
-          },
-        })
+        .timeline({ onComplete: finish })
         .to(menuLinks.slice().reverse(), {
           yPercent: -35,
           autoAlpha: 0,
@@ -290,7 +297,7 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
           menu,
           {
             clipPath: 'inset(0 0 100% 0)',
-            opacity: 0,
+            autoAlpha: 0,
             duration: 0.48,
             ease: 'power4.inOut',
           },
