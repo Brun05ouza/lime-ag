@@ -8,6 +8,7 @@ export const MQ = {
   largeDesktop: '(min-width: 1600px)',
   navDesktop: '(min-width: 1024px)',
   pin: '(min-width: 1024px) and (min-height: 760px)',
+  method: '(min-width: 1024px) and (min-height: 540px)',
   compactHeight: '(max-height: 800px) and (min-width: 900px)',
   shortHero: '(max-height: 680px)',
   landscapeShort: '(orientation: landscape) and (max-height: 540px)',

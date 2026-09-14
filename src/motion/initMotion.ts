@@ -85,7 +85,7 @@ export function initMotion(): Cleanup {
     };
   });
   media.add(
-    `${MQ.pin} and ${MQ.fine} and (prefers-reduced-motion: no-preference)`,
+    `${MQ.method} and ${MQ.fine} and (prefers-reduced-motion: no-preference)`,
     () => {
       const cleanups: Cleanup[] = [];
       const scope = gsap.context(() => {

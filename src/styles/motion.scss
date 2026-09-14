@@ -249,7 +249,7 @@
   position: relative;
   z-index: 1;
 }
-@media (min-width: 1024px) and (min-height: 760px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+@media (min-width: 1024px) and (min-height: 540px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .method-track.is-enhanced .method-progress {
     position: absolute;
     right: -30px;
@@ -267,7 +267,7 @@
     position: static;
   }
 }
-@media (max-width: 1023px), (max-height: 759px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+@media (max-width: 1023px), (max-height: 539px), (pointer: coarse), (prefers-reduced-motion: reduce) {
   .method-track {
     grid-template-columns: 1fr;
   }
