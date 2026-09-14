@@ -42,7 +42,7 @@ export function initHero(mobile: boolean) {
         intro.fromTo(
           path,
           { strokeDasharray: total, strokeDashoffset: total },
-          { strokeDashoffset: 0, duration: 0.75, ease: 'power2.inOut' },
+          { strokeDashoffset: 0, duration: 1.65, ease: 'power2.inOut' },
           0.62,
         );
       }
@@ -128,7 +128,7 @@ export function initHero(mobile: boolean) {
         intro.fromTo(
           path,
           { strokeDasharray: total, strokeDashoffset: total },
-          { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut' },
+          { strokeDashoffset: 0, duration: 1.9, ease: 'power2.inOut' },
           0.45,
         );
       }
@@ -142,7 +142,7 @@ export function initHero(mobile: boolean) {
       ease: 'none',
       scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.75 },
     });
-  const loop = hero.querySelector('.lime-line');
+  const loop = path?.closest('svg');
   if (loop)
     gsap.to(loop, {
       yPercent: mobile ? 2 : 18,
@@ -173,7 +173,7 @@ export function initHeroPointer() {
   if (!hero) return () => {};
   const profile = getProfile();
   if (!profile.pointer) return () => {};
-  const layers = [['.lime-line', profile.pointer]] as const;
+  const layers = [['.hero-thread', profile.pointer]] as const;
   const tweens = layers.flatMap(([selector, amplitude]) => {
     const el = hero.querySelector(selector);
     return el

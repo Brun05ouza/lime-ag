@@ -1,8 +1,4 @@
----
-import LimeLine from '../common/LimeLine.astro';
----
-
-<section class="hero" aria-labelledby="hero-title">
+<section class="hero hero--editorial" aria-labelledby="hero-title">
   <div class="hero-type wrap">
     <h1 id="hero-title">
       <span class="hero-line" data-hero-line>
@@ -15,11 +11,54 @@ import LimeLine from '../common/LimeLine.astro';
         Conexões
       </span>
       <span class="hero-small hero-small--second" data-hero-line>
-        <span data-hero-purpose>com propósito.</span>
+        com <span data-hero-purpose>propósito.</span>
       </span>
     </h1>
+    <svg class="lime-line hero-thread-mobile" viewBox="0 0 400 100" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient
+          id="hero-mobile-gradient"
+          x1="0"
+          y1="80"
+          x2="400"
+          y2="10"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#FD3068" />
+          <stop offset="1" stop-color="#F27E3B" />
+        </linearGradient>
+      </defs>
+      <path
+        data-lime-path
+        d="M-20 78C70 78 118 14 210 24C290 32 242 99 202 65C170 35 285 6 420 12"
+        stroke="url(#hero-mobile-gradient)"
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+    </svg>
   </div>
-  <LimeLine id="hero-gradient" />
+  <svg class="lime-line hero-thread" viewBox="0 0 1440 900" fill="none" aria-hidden="true">
+    <defs>
+      <linearGradient
+        id="hero-gradient"
+        x1="120"
+        y1="800"
+        x2="1320"
+        y2="120"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#FD3068" />
+        <stop offset="1" stop-color="#F27E3B" />
+      </linearGradient>
+    </defs>
+    <path
+      data-lime-path
+      d="M-120 730C130 930 395 758 535 580C704 367 856 319 1028 367C1251 429 1390 275 1230 196C1070 117 949 297 1110 366C1255 428 1380 257 1530 90"
+      stroke="url(#hero-gradient)"
+      stroke-width="10"
+      stroke-linecap="round"
+    />
+  </svg>
   <div class="hero-bottom wrap">
     <a class="scroll-cue" href="#intencao">
       <span aria-hidden="true">↓</span> Conheça a Lime
