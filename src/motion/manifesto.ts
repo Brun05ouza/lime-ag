@@ -46,9 +46,9 @@ export function initManifesto(mobile: boolean): Cleanup {
         const timeline = gsap.timeline({
           scrollTrigger: {
             trigger: result,
-            start: 'top 75%',
-            end: 'bottom 85%',
-            scrub: 0.5,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.9,
             invalidateOnRefresh: true,
           },
         });
@@ -91,16 +91,16 @@ export function initManifesto(mobile: boolean): Cleanup {
             { y: 0, autoAlpha: 1, duration: 0.34, ease: 'power3.out' },
             0.24,
           )
-          .to({}, { duration: 0.42 })
+          .to({}, { duration: 0.85 })
           .to(
             [...words, explanation],
-            { opacity: 0.16, scale: 0.97, duration: 0.32, ease: 'power2.inOut' },
-            1.02,
+            { autoAlpha: 0, scale: 0.97, duration: 0.4, ease: 'power2.inOut' },
+            1.6,
           )
           .to(
             bridge,
             { yPercent: 0, scale: 1, autoAlpha: 1, duration: 0.48, ease: 'power3.out' },
-            1.08,
+            2.05,
           )
           .to({}, { duration: 0.45 });
         animations.push(timeline);

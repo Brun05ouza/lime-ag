@@ -31,9 +31,9 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
       const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: stage,
-          start: 'top 78%',
+          start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.4,
+          scrub: 0.9,
           invalidateOnRefresh: true,
         },
       });
@@ -51,14 +51,14 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
           setup,
           {
             yPercent: -8,
-            opacity: 0.3,
+            autoAlpha: 0,
             scale: 0.98,
             duration: 0.3,
             ease: 'power2.inOut',
           },
-          0.5,
+          0.85,
         )
-        .set(impact, { autoAlpha: 1 }, 0.52)
+        .set(impact, { autoAlpha: 1 }, 1.2)
         .to(
           leadLines,
           {
@@ -68,7 +68,7 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
             stagger: 0.035,
             ease: 'power3.out',
           },
-          0.52,
+          1.2,
         )
         .to(
           impactBlocks,
@@ -79,7 +79,7 @@ export function initFinalManifesto(mobile: boolean): Cleanup {
             stagger: 0.045,
             ease: 'power3.out',
           },
-          0.68,
+          1.4,
         )
         .to({}, { duration: 0.36 });
 

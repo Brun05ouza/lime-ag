@@ -368,7 +368,7 @@
   .manifesto-result.is-mobile-story {
     position: relative;
     display: block;
-    min-height: 128svh;
+    min-height: 240svh;
     padding-top: 0;
     overflow: visible;
   }
@@ -390,15 +390,19 @@
     margin: 0;
   }
 
+  .manifesto-result h3 > br {
+    display: none;
+  }
+
   .manifesto-result.is-mobile-story .result-bridge {
     position: absolute;
     z-index: 2;
-    inset: auto 0 14%;
+    inset: 50% 0 auto;
     width: 100%;
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: clamp(54px, 16.4vw, 78px);
+    font-size: clamp(44px, 14.5vw, 72px);
     white-space: nowrap;
   }
 
@@ -1015,7 +1019,7 @@
 
   .final-manifesto.is-mobile-story .final-stage {
     position: relative;
-    min-height: 125svh !important;
+    min-height: 240svh !important;
     margin-top: 12px;
     overflow: visible !important;
   }
