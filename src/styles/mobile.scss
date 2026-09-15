@@ -76,7 +76,11 @@
   }
 
   .lime-logo {
-    font-size: 29px;
+    font-size: 26px;
+  }
+
+  .lime-logo--large {
+    font-size: clamp(2.6rem, 11vw, 3.5rem);
   }
 
   .menu-toggle {
