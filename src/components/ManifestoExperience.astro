@@ -1,0 +1,69 @@
+---
+import LimeLogo from './common/LimeLogo.astro';
+import LimeLine from './common/LimeLine.astro';
+import { MANIFESTO_SOURCES } from '../lib/manifesto';
+---
+
+<div
+  class="entry-manifesto"
+  data-entry-manifesto
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="entry-manifesto-title"
+>
+  <div class="entry-manifesto-stage">
+    <video
+      class="entry-manifesto-video"
+      data-entry-video
+      playsinline
+      disablepictureinpicture
+      controlslist="nodownload nofullscreen noremoteplayback"
+      preload="metadata"
+      poster={MANIFESTO_SOURCES.poster}
+    >
+      <source src={MANIFESTO_SOURCES.webm} type="video/webm" />
+      <source src={MANIFESTO_SOURCES.mp4} type="video/mp4" />
+    </video>
+    <div class="entry-manifesto-scrim" data-entry-scrim></div>
+    <div class="entry-manifesto-line" aria-hidden="true">
+      <LimeLine id="entry-manifesto-line" />
+    </div>
+    <div class="entry-manifesto-intro" data-entry-intro>
+      <div class="entry-manifesto-brand">
+        <LimeLogo />
+      </div>
+      <p class="entry-manifesto-copy" id="entry-manifesto-title">
+        Comunicação com <span class="pink">estratégia.</span>
+        <br />
+        Conexões com <span class="pink">propósito.</span>
+      </p>
+      <div class="entry-manifesto-actions">
+        <button class="button" type="button" data-entry-play>
+          <span>Assistir manifesto</span>
+          <span class="button-arrow" aria-hidden="true">↗</span>
+        </button>
+        <button class="entry-manifesto-skip text-link" type="button" data-entry-skip hidden>
+          Pular manifesto →
+        </button>
+      </div>
+    </div>
+    <div class="entry-manifesto-hud" data-entry-hud hidden>
+      <span class="entry-manifesto-hud-label">Manifesto</span>
+      <span class="entry-manifesto-track" aria-hidden="true">
+        <span class="entry-manifesto-bar" data-entry-progress></span>
+      </span>
+    </div>
+    <div class="entry-manifesto-error" data-entry-error hidden>
+      <p>Não foi possível carregar o manifesto.</p>
+      <button class="button" type="button" data-entry-fallback>
+        <span>Entrar no site</span>
+        <span class="button-arrow" aria-hidden="true">↗</span>
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+  import { initEntryManifesto } from '../motion/entryManifesto';
+  initEntryManifesto();
+</script>

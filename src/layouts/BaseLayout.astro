@@ -29,6 +29,12 @@ const schema = {
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <script is:inline>
       document.documentElement.classList.add('js');
+      (function () {
+        var path = location.pathname;
+        if (path !== '/' && path !== '/index.html') return;
+        document.documentElement.classList.add('manifesto-active');
+        document.documentElement.dataset.manifesto = 'intro';
+      })();
       window.setTimeout(() => {
         if (!document.documentElement.dataset.motionStatus) {
           document.documentElement.dataset.motionStatus = 'failed';
@@ -65,7 +71,8 @@ const schema = {
       Pular para o conteúdo
     </a>
     <SiteHeader />
-    <main id="main">
+    <slot name="entry" />
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <SiteFooter />

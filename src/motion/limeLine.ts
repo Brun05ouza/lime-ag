@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 import { visibleLimePath } from './viewport';
 export function initLimeLine(mobile: boolean) {
   document.querySelectorAll<SVGElement>('.lime-line').forEach((line) => {
-    if (line.closest('.hero')) return;
+    if (line.closest('.hero') || line.closest('[data-entry-manifesto]')) return;
     if (mobile && line.closest('.problem')) return;
     const path = visibleLimePath(line);
     if (!path) return;

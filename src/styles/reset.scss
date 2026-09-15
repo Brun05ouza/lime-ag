@@ -15,6 +15,9 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-float-h) + var(--header-pad-top) + 12px);
 }
+#main:focus {
+  outline: none;
+}
 body {
   min-width: 320px;
   padding-left: var(--safe-left);

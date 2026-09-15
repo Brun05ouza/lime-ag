@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { MANIFESTO_REVEAL_EVENT, isManifestoGating } from '../lib/manifesto';
 import { MOTION, entered } from './tokens';
 import { addHeaderIntro } from './header';
 import { getProfile, visibleLimePath } from './viewport';
@@ -11,13 +12,18 @@ export function initHero(mobile: boolean) {
   const path = visibleLimePath(hero);
   const title = hero.querySelector('h1');
   const profile = getProfile();
+  const strategy = hero.querySelector<HTMLElement>('[data-hero-strategy]');
+  const purpose = hero.querySelector<HTMLElement>('[data-hero-purpose]');
+  const links = gsap.utils.toArray<HTMLElement>('.hero-bottom > a');
   let intro: gsap.core.Timeline | undefined;
-  if (!entered.has(hero) && window.scrollY < 80 && words.length === 4) {
+  const startIntro = () => {
+    if (entered.has(hero) || window.scrollY >= 80 || words.length !== 4) return;
     entered.add(hero);
+    gsap.set(words, { autoAlpha: 1 });
+    gsap.set(links, { autoAlpha: 1 });
+    if (path) gsap.set(path, { autoAlpha: 1 });
     intro = gsap.timeline({ defaults: { ease: 'power4.out' } });
     addHeaderIntro(intro, mobile);
-    const strategy = hero.querySelector<HTMLElement>('[data-hero-strategy]');
-    const purpose = hero.querySelector<HTMLElement>('[data-hero-purpose]');
     if (narrow) {
       intro
         .fromTo(
@@ -133,6 +139,18 @@ export function initHero(mobile: boolean) {
         );
       }
     }
+    hero.dataset.ambientReady = 'false';
+    intro.eventCallback('onComplete', () => {
+      hero.dataset.ambientReady = 'true';
+    });
+  };
+  if (isManifestoGating() && !entered.has(hero) && words.length === 4) {
+    gsap.set(words, { autoAlpha: 0 });
+    gsap.set(links, { autoAlpha: 0 });
+    if (path) gsap.set(path, { autoAlpha: 0 });
+    document.addEventListener(MANIFESTO_REVEAL_EVENT, startIntro, { once: true });
+  } else {
+    startIntro();
   }
   if (title && !mobile)
     gsap.to(title, {
@@ -155,15 +173,9 @@ export function initHero(mobile: boolean) {
         scrub: narrow ? 0.5 : 0.8,
       },
     });
-  if (intro) {
-    hero.dataset.ambientReady = 'false';
-    intro.eventCallback('onComplete', () => {
-      hero.dataset.ambientReady = 'true';
-    });
-  } else {
-    hero.dataset.ambientReady = 'true';
-  }
+  if (!intro && !isManifestoGating()) hero.dataset.ambientReady = 'true';
   return () => {
+    document.removeEventListener(MANIFESTO_REVEAL_EVENT, startIntro);
     intro?.kill();
     delete hero.dataset.ambientReady;
   };
