@@ -3,6 +3,11 @@ html.manifesto-active body {
   overflow: hidden;
 }
 
+.entry-manifesto[hidden],
+.entry-manifesto [hidden] {
+  display: none !important;
+}
+
 html.manifesto-active:not(.manifesto-ready)::before {
   content: '';
   position: fixed;
@@ -117,6 +122,13 @@ html[data-manifesto='playing'] .cursor {
   flex-wrap: wrap;
   align-items: center;
   gap: 18px 28px;
+}
+.entry-manifesto-note {
+  margin-top: 1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e8e9e8aa;
 }
 
 .entry-manifesto-skip,

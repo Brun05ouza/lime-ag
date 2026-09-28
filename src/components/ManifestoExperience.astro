@@ -2,11 +2,17 @@
 import LimeLogo from './common/LimeLogo.astro';
 import LimeLine from './common/LimeLine.astro';
 import { MANIFESTO_SOURCES } from '../lib/manifesto';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+const videoAvailable =
+  existsSync(join(process.cwd(), 'public', 'videos', 'manifesto-lime.webm')) ||
+  existsSync(join(process.cwd(), 'public', 'videos', 'manifesto-lime.mp4'));
 ---
 
 <div
   class="entry-manifesto"
   data-entry-manifesto
+  data-video-available={String(videoAvailable)}
   hidden
   role="dialog"
   aria-modal="true"
@@ -40,13 +46,16 @@ import { MANIFESTO_SOURCES } from '../lib/manifesto';
       </p>
       <div class="entry-manifesto-actions">
         <button class="button" type="button" data-entry-play>
-          <span>Assistir manifesto</span>
-          <span class="button-arrow" aria-hidden="true">↗</span>
+          <span>{videoAvailable ? 'Assistir manifesto' : 'Entrar no site'}</span>
+          <span class="button-arrow" aria-hidden="true">
+            ↗
+          </span>
         </button>
         <button class="entry-manifesto-skip text-link" type="button" data-entry-skip hidden>
           Pular manifesto →
         </button>
       </div>
+      {!videoAvailable && <p class="entry-manifesto-note">Vídeo-manifesto em preparação.</p>}
     </div>
     <div class="entry-manifesto-hud" data-entry-hud hidden>
       <span class="entry-manifesto-hud-label">Manifesto</span>
@@ -58,7 +67,9 @@ import { MANIFESTO_SOURCES } from '../lib/manifesto';
       <p>Não foi possível carregar o manifesto.</p>
       <button class="button" type="button" data-entry-fallback>
         <span>Entrar no site</span>
-        <span class="button-arrow" aria-hidden="true">↗</span>
+        <span class="button-arrow" aria-hidden="true">
+          ↗
+        </span>
       </button>
     </div>
   </div>

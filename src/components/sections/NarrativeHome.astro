@@ -1,0 +1,369 @@
+---
+import { Picture } from 'astro:assets';
+import NarrativeLine from '../common/NarrativeLine.astro';
+import MetricCounter from '../ui/MetricCounter.astro';
+import { team } from '../../data/team';
+import { metrics } from '../../data/metrics';
+import { services } from '../../data/services';
+import { process } from '../../data/process';
+import teamTogether from '../../assets/team/equipe-lime-preto-e-branco.png';
+import teamCrossedArms from '../../assets/team/equipe-lime.png';
+import { MANIFESTO_SOURCES } from '../../lib/manifesto';
+const marquee = [
+  'Estratégia',
+  'Branding',
+  'Conteúdo',
+  'Campanhas',
+  'Performance',
+  'Influência',
+  'Inteligência',
+  'Crescimento',
+];
+---
+
+<div class="narrative" data-narrative-home>
+  <section id="home" class="narrative-chapter narrative-hero" aria-labelledby="hero-title">
+    <NarrativeLine chapter="home" />
+    <div class="narrative-wrap narrative-hero__grid">
+      <div class="narrative-hero__copy">
+        <p class="narrative-kicker" data-narrative-reveal>
+          Comunicação com estratégia. Conexões com propósito.
+        </p>
+        <h1 id="hero-title" data-narrative-reveal>
+          Sua marca nunca falou tanto.
+          <br />
+          <em>Mas ela está sendo ouvida?</em>
+        </h1>
+        <p class="narrative-lead" data-narrative-reveal>
+          Marcas inesquecíveis não são as que falam mais. São as que falam com propósito. A Lime
+          cria comunicação para fortalecer marcas, gerar conexão e construir valor.
+        </p>
+        <a class="narrative-link" href="#contato" data-narrative-reveal>
+          Fale com a gente <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="narrative-hero__portrait" data-narrative-reveal>
+        <Picture
+          src={teamTogether}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          width={950}
+          widths={[480, 760, 950]}
+          sizes="(max-width: 767px) 90vw, 42vw"
+          alt="Carol Melo e Julia Lima, sócias da Lime Ag"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <span>LIME AG / ESTRATÉGIA TEM ROSTO</span>
+      </div>
+    </div>
+    <a class="narrative-scroll" href="#manifesto">
+      Desça para conhecer a Lime <span aria-hidden="true">↓</span>
+    </a>
+  </section>
+
+  <div class="narrative-marquee" aria-label={marquee.join(' · ')}>
+    <span class="narrative-marquee__connector" data-narrative-connector aria-hidden="true"></span>
+    <div class="narrative-marquee__track" aria-hidden="true">
+      {[...marquee, ...marquee].map((item) => (
+        <span>
+          {item}
+          <b>·</b>
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <section
+    id="manifesto"
+    class="narrative-chapter narrative-manifesto"
+    aria-labelledby="manifesto-title"
+  >
+    <NarrativeLine chapter="manifesto" />
+    <div class="narrative-wrap narrative-content">
+      <p class="narrative-kicker" data-narrative-reveal>
+        01 / Manifesto
+      </p>
+      <h2 id="manifesto-title" data-narrative-reveal>
+        Comunicação não é volume.
+        <br />
+        <em>É intenção.</em>
+      </h2>
+      <div class="narrative-manifesto__grid">
+        <p data-narrative-reveal>
+          É saber quem você é antes de decidir o que dizer. É transformar estratégia em percepção de
+          valor e presença em conexão.
+        </p>
+        <button
+          class="narrative-video"
+          type="button"
+          data-manifesto-replay
+          aria-label="Assistir manifesto novamente em tela cheia"
+        >
+          <img src={MANIFESTO_SOURCES.poster} alt="" loading="lazy" />
+          <span>
+            Assistir manifesto novamente <b aria-hidden="true">↗</b>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="narrative-chapter narrative-statement" aria-labelledby="statement-title">
+    <NarrativeLine chapter="statement" />
+    <div class="narrative-wrap narrative-content">
+      <p class="narrative-kicker">02 / O que nos move</p>
+      <h2 id="statement-title" data-highlight-statement>
+        A história da sua marca merece ser contada do jeito certo<span>.</span>
+      </h2>
+    </div>
+  </section>
+
+  <section
+    id="equipe"
+    class="narrative-chapter narrative-founders"
+    aria-labelledby="founders-title"
+  >
+    <NarrativeLine chapter="founders" />
+    <div class="narrative-wrap narrative-content">
+      <p class="narrative-kicker" data-narrative-reveal>
+        03 / As sócias
+      </p>
+      <h2 id="founders-title" data-narrative-reveal>
+        Experiência de quem já fez grandes marcas <em>serem ouvidas.</em>
+      </h2>
+      <p class="narrative-intro" data-narrative-reveal>
+        Mais do que serviços: a bagagem de quem já construiu resultados para grandes marcas
+        nacionais e internacionais.
+      </p>
+      <div class="narrative-founders__grid">
+        {team.map((person, index) => (
+          <article class="narrative-founder" data-narrative-reveal>
+            <div class="narrative-founder__photo">
+              <Picture
+                src={person.image}
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                width={900}
+                widths={[440, 700, 900]}
+                sizes="(max-width: 767px) 90vw, 42vw"
+                alt={person.name}
+                loading="lazy"
+              />
+              <span>0{index + 1} / 02</span>
+            </div>
+            <div class="narrative-founder__body">
+              <h3>{person.name}</h3>
+              <p>{person.biography}</p>
+              <p>{person.belief}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="resultados"
+    class="narrative-chapter narrative-results"
+    aria-labelledby="results-title"
+  >
+    <NarrativeLine chapter="results" />
+    <div class="narrative-wrap narrative-content">
+      <p class="narrative-kicker" data-narrative-reveal>
+        04 / Experiência e resultados
+      </p>
+      <h2 id="results-title" data-narrative-reveal>
+        O impacto da comunicação feita <em>com intenção.</em>
+      </h2>
+      <p class="narrative-intro" data-narrative-reveal>
+        Campanhas, conteúdos e parcerias que se tornaram resultados concretos.
+      </p>
+      <div class="narrative-results__layout">
+        <div class="narrative-results__image" data-narrative-reveal>
+          <Picture
+            src={teamCrossedArms}
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            width={950}
+            widths={[480, 760, 950]}
+            sizes="(max-width: 767px) 90vw, 36vw"
+            alt="Carol Melo e Julia Lima de braços cruzados"
+            loading="lazy"
+          />
+        </div>
+        <div class="narrative-results__metrics">
+          {metrics.map((metric) => (
+            <MetricCounter metric={metric} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="escopo"
+    class="narrative-chapter narrative-expertise"
+    aria-labelledby="expertise-title"
+  >
+    <NarrativeLine chapter="expertise" />
+    <div class="narrative-wrap narrative-content">
+      <p class="narrative-kicker" data-narrative-reveal>
+        05 / O que fazemos
+      </p>
+      <h2 id="expertise-title" data-narrative-reveal>
+        Onde a estratégia vira <em>presença e resultado.</em>
+      </h2>
+      <p class="narrative-intro" data-narrative-reveal>
+        Pensar, criar, executar, analisar: tudo o que sua marca precisa para sair do ruído.
+      </p>
+      <div class="narrative-expertise__list">
+        {services.map((service, index) => (
+          <article class="narrative-expertise__item" data-narrative-reveal>
+            <span>0{index + 1}</span>
+            <div>
+              <h3>{service.title}</h3>
+              <p>{service.introduction}</p>
+              <ul>
+                {service.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="processo"
+    class="narrative-chapter narrative-process"
+    aria-labelledby="process-title"
+  >
+    <NarrativeLine chapter="process" />
+    <div class="narrative-wrap narrative-content">
+      <p class="narrative-kicker" data-narrative-reveal>
+        06 / Como trabalhamos
+      </p>
+      <h2 id="process-title" data-narrative-reveal>
+        Conexão não acontece por acaso. <em>Acontece assim:</em>
+      </h2>
+      <ol class="narrative-process__steps">
+        {process.map((step, index) => (
+          <li data-narrative-reveal>
+            <span>0{index + 1} / 04</span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="contato" class="narrative-chapter narrative-contact" aria-labelledby="contact-title">
+    <NarrativeLine chapter="contact" />
+    <div class="narrative-wrap narrative-content">
+      <p class="narrative-kicker" data-narrative-reveal>
+        07 / Vamos conversar
+      </p>
+      <h2 id="contact-title" data-narrative-reveal>
+        Vamos transformar sua comunicação em <em>resultados reais?</em>
+      </h2>
+      <p class="narrative-intro" data-narrative-reveal>
+        Conte um pouco sobre o momento da sua marca para começarmos uma conversa.
+      </p>
+      <form class="narrative-contact__form" data-contact-form>
+        <div class="narrative-contact__fields">
+          <label>
+            Nome completo <span>*</span>
+            <input
+              name="name"
+              autocomplete="name"
+              placeholder="Ex.: Maria Silva"
+              required
+              maxlength="100"
+            />
+          </label>
+          <label>
+            Nome da empresa
+            <input
+              name="company"
+              autocomplete="organization"
+              placeholder="Ex.: Minha Empresa SA"
+              maxlength="150"
+            />
+          </label>
+          <label>
+            E-mail corporativo <span>*</span>
+            <input
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="Ex.: maria@empresa.com.br"
+              required
+              maxlength="254"
+            />
+          </label>
+          <label>
+            Celular
+            <input
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              placeholder="Ex.: (21) 99999-9999"
+              maxlength="30"
+            />
+          </label>
+        </div>
+        <input type="hidden" name="service" value="Contato pelo site" />
+        <label>
+          Mensagem <span>*</span>
+          <textarea
+            name="message"
+            placeholder="Conte um pouco sobre sua marca e o que você quer destravar na comunicação."
+            rows="3"
+            required
+            minlength="10"
+            maxlength="5000"
+          ></textarea>
+        </label>
+        <p class="narrative-contact__note">
+          Ao clicar, sua mensagem será preparada no aplicativo de e-mail para você confirmar o
+          envio.
+        </p>
+        <button class="narrative-contact__submit" type="submit" data-contact-submit disabled>
+          Enviar mensagem <span aria-hidden="true">↗</span>
+        </button>
+        <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        <noscript>
+          <p>Para entrar em contato, escreva para carol@limeagencia.com.br.</p>
+        </noscript>
+      </form>
+    </div>
+  </section>
+</div>
+
+<dialog class="narrative-replay" data-manifesto-dialog aria-label="Manifesto Lime Ag">
+  <button
+    type="button"
+    class="narrative-replay__close"
+    data-manifesto-close
+    aria-label="Fechar manifesto"
+  >
+    Fechar ×
+  </button>
+  <video
+    playsinline
+    controls
+    preload="none"
+    poster={MANIFESTO_SOURCES.poster}
+    data-manifesto-replay-video
+  >
+    <source src={MANIFESTO_SOURCES.webm} type="video/webm" />
+    <source src={MANIFESTO_SOURCES.mp4} type="video/mp4" />
+  </video>
+  <p class="narrative-replay__error" data-manifesto-replay-error hidden>
+    O vídeo do manifesto ainda não está disponível.
+  </p>
+</dialog>

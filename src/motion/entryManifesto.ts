@@ -86,7 +86,12 @@ export function initEntryManifesto(): Cleanup {
   if (skip) skip.hidden = !seen;
   play.focus({ preventScroll: true });
 
-  const on = (target: EventTarget, type: string, handler: EventListener, options?: AddEventListenerOptions) => {
+  const on = (
+    target: EventTarget,
+    type: string,
+    handler: EventListener,
+    options?: AddEventListenerOptions,
+  ) => {
     target.addEventListener(type, handler, options);
     listeners.push(() => target.removeEventListener(type, handler, options));
   };
@@ -225,7 +230,8 @@ export function initEntryManifesto(): Cleanup {
   };
 
   on(play, 'click', () => {
-    void startPlayback();
+    if (root.dataset.videoAvailable === 'false') leaveToSite(false, reduce ? 0.4 : 0.55);
+    else void startPlayback();
   });
   on(fallback, 'click', () => leaveToSite(false, reduce ? 0.4 : 0.55));
   if (skip) on(skip, 'click', skipExperience);
@@ -237,7 +243,8 @@ export function initEntryManifesto(): Cleanup {
   on(video, 'abort', showError);
   on(video, 'stalled', () => {
     window.setTimeout(() => {
-      if (video.readyState < 2 && document.documentElement.dataset.manifesto === 'playing') showError();
+      if (video.readyState < 2 && document.documentElement.dataset.manifesto === 'playing')
+        showError();
     }, 8000);
   });
   on(document, 'keydown', ((event: Event) => {

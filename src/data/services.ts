@@ -11,24 +11,11 @@ export const services: Service[] = [
     introduction:
       'Antes de dizer, entender. Encontramos o que torna sua marca relevante e traçamos o caminho para comunicar isso.',
     items: [
-      'Diagnóstico da marca',
+      'Diagnóstico da marca & Inteligência de mercado',
       'Posicionamento e Branding',
       'Planejamento de comunicação',
-      'Campanha publicitária',
       'Calendário estratégico',
-    ],
-  },
-  {
-    id: 'performance',
-    title: 'Performance',
-    introduction:
-      'Criatividade com direção. Conectamos sua marca às pessoas certas, com decisões orientadas por dados.',
-    items: [
-      'Gestão de tráfego pago',
-      'Geração de leads',
-      'Landing pages de conversão',
-      'Sites institucionais',
-      'Parcerias com influenciadores',
+      'Campanhas publicitárias',
     ],
   },
   {
@@ -46,6 +33,19 @@ export const services: Service[] = [
     ],
   },
   {
+    id: 'performance',
+    title: 'Performance',
+    introduction:
+      'Criatividade com direção. Conectamos sua marca às pessoas certas, com decisões orientadas por dados.',
+    items: [
+      'Gestão de tráfego pago',
+      'Geração de leads',
+      'Landing pages de conversão',
+      'Sites institucionais',
+      'Parcerias e campanhas com influenciadores',
+    ],
+  },
+  {
     id: 'inteligencia',
     title: 'Inteligência & Crescimento',
     introduction:
@@ -54,7 +54,7 @@ export const services: Service[] = [
       'Relatórios estratégicos',
       'Análise de métricas',
       'Estudos de concorrência',
-      'Recomendações de melhoria',
+      'Recomendações de melhoria contínua',
     ],
   },
 ];

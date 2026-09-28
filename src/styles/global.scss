@@ -10,6 +10,7 @@
 @use 'entry-manifesto';
 @use 'mobile';
 @use 'scope';
+@use 'narrative';
 body {
   background: var(--lime-light);
   color: var(--lime-purple);

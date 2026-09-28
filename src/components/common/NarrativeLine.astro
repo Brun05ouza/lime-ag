@@ -1,0 +1,66 @@
+---
+interface Props {
+  chapter:
+    | 'home'
+    | 'manifesto'
+    | 'statement'
+    | 'founders'
+    | 'results'
+    | 'expertise'
+    | 'process'
+    | 'contact';
+}
+const { chapter } = Astro.props;
+// Every seam shares both position and a vertical tangent. The desktop route
+// crosses open space and passes behind the first founder photo; mobile keeps
+// the same narrative with shorter curves beside the copy.
+const paths = {
+  home: [
+    'M850 100 C850 150 560 160 560 260 C560 450 560 560 700 700 C820 820 850 900 850 1000',
+    'M380 80 C380 230 345 300 345 420 C345 540 380 700 380 1000',
+  ],
+  manifesto: [
+    'M850 0 C850 170 740 230 740 400 C740 560 890 650 890 760 C890 850 850 930 850 1000',
+    'M380 0 C380 220 320 300 320 480 C320 620 380 750 380 1000',
+  ],
+  statement: [
+    'M850 0 C850 420 850 520 780 620 C661 790 400 800 400 1000',
+    'M380 0 C380 500 380 650 345 740 C310 830 305 870 320 920 C335 970 380 975 380 1000',
+  ],
+  founders: [
+    'M400 0 C400 180 840 170 840 350 C840 495 15 515 15 660 C15 825 500 835 500 1000',
+    'M380 0 C380 220 330 310 330 450 C330 580 375 690 375 790 C375 880 380 940 380 1000',
+  ],
+  results: [
+    'M500 0 C500 95 940 95 940 200 C940 280 780 290 780 355 C780 420 970 430 970 480 C970 620 930 650 930 790 C930 900 970 900 970 1000',
+    'M380 0 C380 220 340 330 340 480 C340 630 380 760 380 1000',
+  ],
+  expertise: [
+    'M970 0 C970 140 825 180 825 340 C825 480 955 515 955 660 C955 770 825 810 825 860 C825 930 350 940 350 1000',
+    'M380 0 C380 220 325 330 325 480 C325 640 370 760 370 870 C370 930 380 960 380 1000',
+  ],
+  process: [
+    'M350 0 C350 50 780 70 780 160 C780 235 500 255 500 330 C500 500 500 650 500 820 C500 900 850 940 850 1000',
+    'M380 0 C380 190 330 270 330 360 C330 460 380 540 380 640 C380 735 330 815 330 900 C330 950 380 965 380 1000',
+  ],
+  contact: [
+    'M850 0 C850 230 920 400 920 650 C920 780 690 810 500 850',
+    'M380 0 C380 300 380 690 380 830 C380 880 320 900 275 960',
+  ],
+} as const;
+const [desktop, mobile] = paths[chapter];
+---
+
+<div class:list={['narrative-line', `narrative-line--${chapter}`]} aria-hidden="true">
+  <svg
+    class="narrative-line__desktop"
+    viewBox="0 0 1000 1000"
+    preserveAspectRatio="none"
+    fill="none"
+  >
+    <path data-narrative-path d={desktop} />
+  </svg>
+  <svg class="narrative-line__mobile" viewBox="0 0 400 1000" preserveAspectRatio="none" fill="none">
+    <path data-narrative-path d={mobile} />
+  </svg>
+</div>

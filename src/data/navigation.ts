@@ -1,6 +1,9 @@
 export const navigation = [
-  { label: 'Trabalhos', href: '/trabalhos/' },
-  { label: 'O que fazemos', href: '/#escopo' },
-  { label: 'Sobre', href: '/#equipe' },
-  { label: 'Contato', href: '/contato/' },
+  { label: 'Home', href: '/#home' },
+  { label: 'Manifesto', href: '/#manifesto' },
+  { label: 'As sócias', href: '/#equipe' },
+  { label: 'Resultados', href: '/#resultados' },
+  { label: 'Expertises', href: '/#escopo' },
+  { label: 'Processo', href: '/#processo' },
+  { label: 'Contato', href: '/#contato' },
 ] as const;

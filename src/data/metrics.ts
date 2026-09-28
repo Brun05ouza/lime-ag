@@ -13,5 +13,5 @@ export const metrics: Metric[] = [
   { value: 100, suffix: 'M+', display: '100M+', label: 'Impressões geradas' },
   { value: 5, suffix: 'M+', display: '5M+', label: 'Cliques em campanhas de mídia' },
   { value: 1.5, suffix: 'M+', display: '1.5M+', label: 'Interações em redes sociais' },
-  { value: 400, suffix: 'K+', display: '400K+', label: 'Novos seguidores' },
+  { value: 400, suffix: 'K+', display: '400K+', label: 'Novos seguidores conquistados' },
 ];

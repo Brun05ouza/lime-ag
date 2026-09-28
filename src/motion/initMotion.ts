@@ -5,6 +5,7 @@ import { initSmoothScroll } from './smoothScroll';
 import { initTextReveals } from './revealText';
 import { initRevealMedia } from './revealMedia';
 import { initLimeLine } from './limeLine';
+import { initNarrative } from './narrative';
 import { initCounters } from './counters';
 import { initResults } from './results';
 import { initMagnetic } from './magnetic';
@@ -36,17 +37,22 @@ export function initMotion(): Cleanup {
       desktop: '(min-width: 1024px)',
       tablet: MQ.tablet,
       mobile: MQ.mobile,
+      compactNav: '(max-width: 1279px)',
       reduce: MQ.reduce,
     },
     (context) => {
       if (context.conditions?.reduce) return;
-      const compactNav = !Boolean(context.conditions?.desktop);
+      const compactNav = Boolean(context.conditions?.compactNav);
       const mobile = Boolean(context.conditions?.mobile);
       const finePointer = window.matchMedia(MQ.fine).matches;
       const cleanups: Cleanup[] = [];
       const scroll = initSmoothScroll(finePointer && Boolean(context.conditions?.desktop));
       document.documentElement.classList.add('motion-ready');
       const scope = gsap.context(() => {
+        if (document.querySelector('[data-narrative-home]')) {
+          cleanups.push(scroll.destroy, initHeader(scroll, compactNav), initNarrative());
+          return;
+        }
         cleanups.push(
           scroll.destroy,
           initHeader(scroll, compactNav),
@@ -84,19 +90,16 @@ export function initMotion(): Cleanup {
       scope.revert();
     };
   });
-  media.add(
-    `${MQ.method} and ${MQ.fine} and (prefers-reduced-motion: no-preference)`,
-    () => {
-      const cleanups: Cleanup[] = [];
-      const scope = gsap.context(() => {
-        cleanups.push(initMethod());
-      });
-      return () => {
-        cleanups.reverse().forEach((fn) => fn());
-        scope.revert();
-      };
-    },
-  );
+  media.add(`${MQ.method} and ${MQ.fine} and (prefers-reduced-motion: no-preference)`, () => {
+    const cleanups: Cleanup[] = [];
+    const scope = gsap.context(() => {
+      cleanups.push(initMethod());
+    });
+    return () => {
+      cleanups.reverse().forEach((fn) => fn());
+      scope.revert();
+    };
+  });
   const refreshLayout = () => {
     if (disposed) return;
     ScrollTrigger.sort();

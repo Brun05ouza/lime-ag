@@ -55,7 +55,7 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
   const menuLinks = menu ? Array.from(menu.querySelectorAll<HTMLElement>('nav a')) : [];
   const menuLine = menu?.querySelector<SVGPathElement>('[data-menu-line]');
   if (!shell || !logo || !nav || !cta || !toggle) return () => {};
-  const compactHeader = compactNav && window.matchMedia('(max-width: 1023px)').matches;
+  const compactHeader = compactNav;
   const context = gsap.context(() => {}, header);
   const heroEnter = 56;
   const heroExit = 120;
@@ -132,10 +132,7 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
         .to(
           header,
           {
-            y:
-              next === 'collapsed' && compactHeader
-                ? -(Number(target.height) - 10)
-                : 0,
+            y: next === 'collapsed' && compactHeader ? -(Number(target.height) - 10) : 0,
           },
           shellStart,
         )

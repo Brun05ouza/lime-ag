@@ -19,9 +19,13 @@ import { navigation } from '../../data/navigation';
         </a>
       ))}
     </nav>
-    <a class="header-cta" href="/contato/" data-magnetic data-header-cta>
-      <span class="header-cta-label" data-button-label>Vamos conversar</span>
-      <span class="button-arrow" aria-hidden="true"><span data-arrow-glyph>↗</span></span>
+    <a class="header-cta" href="/#contato" data-magnetic data-header-cta>
+      <span class="header-cta-label" data-button-label>
+        Vamos conversar
+      </span>
+      <span class="button-arrow" aria-hidden="true">
+        <span data-arrow-glyph>↗</span>
+      </span>
     </a>
     <button
       class="menu-toggle"
@@ -31,14 +35,18 @@ import { navigation } from '../../data/navigation';
       data-menu-toggle
       hidden
     >
-      <span class="menu-label">Menu</span><span class="menu-plus" aria-hidden="true">+</span>
+      <span class="menu-label">Menu</span>
+      <span class="menu-plus" aria-hidden="true">
+        +
+      </span>
     </button>
   </div>
   <dialog id="mobile-menu" class="mobile-menu" aria-label="Navegação">
     <div class="mobile-menu-top">
       <LimeLogo />
       <button class="menu-close" data-menu-close aria-label="Fechar menu">
-        <span>Fechar</span><span aria-hidden="true">+</span>
+        <span>Fechar</span>
+        <span aria-hidden="true">+</span>
       </button>
     </div>
     <nav aria-label="Navegação mobile">
@@ -50,7 +58,7 @@ import { navigation } from '../../data/navigation';
         </a>
       ))}
     </nav>
-    <a class="menu-cta" href="/contato/">
+    <a class="menu-cta" href="/#contato">
       Vamos conversar <span aria-hidden="true">↗</span>
     </a>
     <svg class="mobile-menu-line" viewBox="0 0 390 180" aria-hidden="true">

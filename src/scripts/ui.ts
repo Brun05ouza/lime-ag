@@ -136,12 +136,12 @@ export function initUI() {
         window.location.href = buildContactEmail(parsed.data);
         if (status)
           status.textContent =
-            'Mensagem preparada. Conclua o envio no seu aplicativo de e-mail. Se ele não abrir, use um dos endereços ao lado.';
+            'Mensagem preparada. Conclua o envio no seu aplicativo de e-mail. Se ele não abrir, escreva para carol@limeagencia.com.br.';
         track('contact_click', { method: 'email_draft' });
       } catch {
         if (status)
           status.textContent =
-            'Não foi possível preparar a mensagem. Entre em contato pelos e-mails ao lado.';
+            'Ops, algo deu errado. Confira os campos e tente de novo ou escreva para carol@limeagencia.com.br.';
       }
     });
   }
