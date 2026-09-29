@@ -1,13 +1,23 @@
 ---
 import { Picture } from 'astro:assets';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { cwd } from 'node:process';
 import MetricCounter from '../ui/MetricCounter.astro';
 import { team } from '../../data/team';
 import { metrics } from '../../data/metrics';
 import { services } from '../../data/services';
-import { process } from '../../data/process';
+import { process as processSteps } from '../../data/process';
 import teamTogether from '../../assets/team/equipe-lime-preto-e-branco.png';
 import teamCrossedArms from '../../assets/team/equipe-lime.png';
+import brandHands from '../../assets/editorial/brand-hands.png';
 import { MANIFESTO_SOURCES } from '../../lib/manifesto';
+const manifestoHasWebm = existsSync(join(cwd(), 'public', 'videos', 'manifesto-lime.webm'));
+const manifestoHasMp4 = existsSync(join(cwd(), 'public', 'videos', 'manifesto-lime.mp4'));
+const manifestoHasCaptions = existsSync(
+  join(cwd(), 'public', 'videos', 'manifesto-lime.pt-BR.vtt'),
+);
+const manifestoVideoAvailable = manifestoHasWebm || manifestoHasMp4;
 const marquee = [
   'Estratégia',
   'Branding',
@@ -44,7 +54,9 @@ const marqueeReverse = [...marquee].reverse();
           </p>
           <a class="narrative-link" href="#contato" data-narrative-reveal data-magnetic>
             <span data-button-label>Fale com a gente</span>
-            <span class="button-arrow" aria-hidden="true"><span data-arrow-glyph>↗</span></span>
+            <span class="button-arrow" aria-hidden="true">
+              <span data-arrow-glyph>↗</span>
+            </span>
           </a>
         </div>
         <div class="narrative-hero__portrait" data-narrative-reveal>
@@ -88,49 +100,103 @@ const marqueeReverse = [...marquee].reverse();
     </div>
   </div>
 
-  <section
-    id="manifesto"
-    class="narrative-chapter narrative-manifesto"
-    aria-labelledby="manifesto-title"
-  >
-    <div class="narrative-wrap narrative-content">
-      <p class="narrative-kicker" data-narrative-reveal>
-        01 / Manifesto
-      </p>
-      <h2 id="manifesto-title" data-narrative-reveal>
-        Comunicação não é volume.
-        <br />
-        <em>É intenção.</em>
-      </h2>
-      <div class="narrative-manifesto__grid">
-        <p data-narrative-reveal>
-          É saber quem você é antes de decidir o que dizer. É transformar estratégia em percepção de
-          valor e presença em conexão.
-        </p>
-        <button
-          class="narrative-video"
-          type="button"
-          data-manifesto-replay
-          data-magnetic
-          aria-label="Assistir manifesto novamente em tela cheia"
-        >
-          <img src={MANIFESTO_SOURCES.poster} alt="" loading="lazy" />
-          <span>
-            Assistir manifesto novamente <b aria-hidden="true">↗</b>
-          </span>
-        </button>
-      </div>
-    </div>
-  </section>
+  <div class="narrative-manifesto-sequence" data-manifesto-sequence>
+    <section
+      id="manifesto"
+      class="narrative-chapter narrative-manifesto"
+      aria-labelledby="manifesto-title"
+      data-manifesto-section
+      data-video-available={String(manifestoVideoAvailable)}
+    >
+      <div class="narrative-manifesto__stage" data-manifesto-stage>
+        <div class="narrative-wrap narrative-manifesto__intro" data-manifesto-intro>
+          <p class="narrative-kicker" data-manifesto-kicker>
+            Manifesto
+          </p>
+          <h2 id="manifesto-title" data-manifesto-title>
+            Comunicação não é volume.
+            <br />
+            <em>É intenção.</em>
+          </h2>
+          <p class="narrative-manifesto__copy" data-manifesto-copy>
+            É saber quem você é antes de decidir o que dizer. É transformar estratégia em percepção
+            de valor e presença em conexão.
+          </p>
+        </div>
 
-  <section class="narrative-chapter narrative-statement" aria-labelledby="statement-title">
-    <div class="narrative-wrap narrative-content">
-      <p class="narrative-kicker">02 / O que nos move</p>
-      <h2 id="statement-title" data-highlight-statement>
-        A história da sua marca merece ser contada do jeito certo<span>.</span>
-      </h2>
-    </div>
-  </section>
+        <div class="narrative-manifesto__media-anchor">
+          <figure
+            class:list={[
+              'narrative-manifesto__media',
+              { 'narrative-manifesto__media--video': manifestoVideoAvailable },
+            ]}
+            data-manifesto-media
+          >
+            <Picture
+              src={brandHands}
+              formats={['avif', 'webp']}
+              fallbackFormat="webp"
+              width={1920}
+              widths={[720, 1200, 1600, 1920]}
+              sizes="(max-width: 767px) 96vw, 92vw"
+              alt="Mãos entrelaçadas em uma composição gráfica da Lime Ag"
+              loading="lazy"
+            />
+            {manifestoVideoAvailable && (
+              <video
+                muted
+                playsinline
+                controls
+                preload="metadata"
+                poster={brandHands.src}
+                disablepictureinpicture
+                controlslist="nodownload nofullscreen noremoteplayback"
+                data-manifesto-video
+              >
+                {manifestoHasWebm && <source src={MANIFESTO_SOURCES.webm} type="video/webm" />}
+                {manifestoHasMp4 && <source src={MANIFESTO_SOURCES.mp4} type="video/mp4" />}
+                {manifestoHasCaptions && (
+                  <track
+                    kind="captions"
+                    src="/videos/manifesto-lime.pt-BR.vtt"
+                    srclang="pt-BR"
+                    label="Português"
+                    default
+                  />
+                )}
+              </video>
+            )}
+            <span class="narrative-manifesto__media-shade" aria-hidden="true"></span>
+            <figcaption class="narrative-manifesto__media-ui" data-manifesto-media-ui>
+              <span class="narrative-manifesto__media-label">Manifesto</span>
+              <span data-manifesto-time>
+                {manifestoVideoAvailable ? '00:00' : 'Identidade em movimento'}
+              </span>
+              {manifestoVideoAvailable && (
+                <span class="narrative-manifesto__controls">
+                  <button type="button" data-manifesto-play>
+                    Pausar
+                  </button>
+                  <button type="button" data-manifesto-sound aria-pressed="false">
+                    Ouvir manifesto
+                  </button>
+                </span>
+              )}
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="narrative-chapter narrative-statement" aria-labelledby="statement-title">
+      <div class="narrative-wrap narrative-content" data-manifesto-statement>
+        <p class="narrative-kicker">O que nos move</p>
+        <h2 id="statement-title" data-highlight-statement>
+          A história da sua marca merece ser contada do jeito certo<span>.</span>
+        </h2>
+      </div>
+    </section>
+  </div>
 
   <section
     id="equipe"
@@ -259,7 +325,7 @@ const marqueeReverse = [...marquee].reverse();
         Conexão não acontece por acaso. <em>Acontece assim:</em>
       </h2>
       <ol class="narrative-process__steps">
-        {process.map((step, index) => (
+        {processSteps.map((step, index) => (
           <li data-narrative-reveal data-process-step={index + 1}>
             <span>0{index + 1} / 04</span>
             <h3>{step.title}</h3>
@@ -348,7 +414,9 @@ const marqueeReverse = [...marquee].reverse();
           disabled
         >
           <span data-button-label>Enviar mensagem</span>
-          <span class="button-arrow" aria-hidden="true"><span data-arrow-glyph>↗</span></span>
+          <span class="button-arrow" aria-hidden="true">
+            <span data-arrow-glyph>↗</span>
+          </span>
         </button>
         <p class="form-status" data-form-status role="status" aria-live="polite"></p>
         <noscript>
@@ -358,27 +426,3 @@ const marqueeReverse = [...marquee].reverse();
     </div>
   </section>
 </div>
-
-<dialog class="narrative-replay" data-manifesto-dialog aria-label="Manifesto Lime Ag">
-  <button
-    type="button"
-    class="narrative-replay__close"
-    data-manifesto-close
-    aria-label="Fechar manifesto"
-  >
-    Fechar ×
-  </button>
-  <video
-    playsinline
-    controls
-    preload="none"
-    poster={MANIFESTO_SOURCES.poster}
-    data-manifesto-replay-video
-  >
-    <source src={MANIFESTO_SOURCES.webm} type="video/webm" />
-    <source src={MANIFESTO_SOURCES.mp4} type="video/mp4" />
-  </video>
-  <p class="narrative-replay__error" data-manifesto-replay-error hidden>
-    O vídeo do manifesto ainda não está disponível.
-  </p>
-</dialog>

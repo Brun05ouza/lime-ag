@@ -1,13 +1,11 @@
 # Vídeo-manifesto — Lime Ag
 
-A experiência de entrada espera estes arquivos neste diretório:
+A seção inline do Manifesto reconhece estes arquivos neste diretório:
 
 ```
 public/videos/manifesto-lime.webm
 public/videos/manifesto-lime.mp4
-public/videos/manifesto-poster.webp   (opcional; hoje o fallback é manifesto-poster.svg)
+public/videos/manifesto-lime.pt-BR.vtt   (legendas, recomendado se houver fala)
 ```
 
-Substitua pelos arquivos definitivos **sem mudar os nomes**. O site já aponta para esses caminhos.
-
-Se o manifesto for refilmado e todos os visitantes precisarem vê-lo de novo, altere `MANIFESTO_VERSION` em `src/lib/manifesto.ts` (hoje `v1`). Isso muda a chave do localStorage para `lime_manifesto_seen_v2`.
+Adicione pelo menos uma versão do vídeo definitivo **sem mudar os nomes**. O site detecta o arquivo durante o build e troca automaticamente a imagem editorial pelo filme. A reprodução acontece dentro da página, sem modal e sem bloquear a rolagem.

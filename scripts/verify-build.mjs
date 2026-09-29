@@ -59,8 +59,8 @@ for (const anchor of ['home', 'manifesto', 'equipe', 'resultados', 'escopo', 'pr
 assert.ok(home.includes('data-narrative-home'), 'Narrative home missing');
 assert.equal(
   (home.match(/data-narrative-path/g) || []).length,
-  16,
-  'Desktop and mobile line segments',
+  0,
+  'The removed continuous narrative line must not return',
 );
 assert.ok(home.includes('data-contact-form'), 'Contact form missing');
 for (const asset of [

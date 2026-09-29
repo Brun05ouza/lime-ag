@@ -82,7 +82,9 @@ export function initNarrative(): Cleanup {
   };
   const titles: TitleState[] = [];
   root
-    .querySelectorAll<HTMLElement>('.narrative-chapter:not(.narrative-statement) h2')
+    .querySelectorAll<HTMLElement>(
+      '.narrative-chapter:not(.narrative-statement):not(.narrative-manifesto) h2',
+    )
     .forEach((element) => {
       let state: TitleState | undefined;
       const split = SplitText.create(element, {
@@ -203,13 +205,10 @@ export function initNarrative(): Cleanup {
     }
     heroTitle.tween = timeline;
   };
-  const statement = root.querySelector<HTMLElement>('[data-highlight-statement]');
   const contactCta = root.querySelector<HTMLElement>('.narrative-contact__submit');
   let contactCtaAxis = Number.POSITIVE_INFINITY;
   let contactCtaPlayed = Boolean(contactCta && enteredTitles.has(contactCta));
   if (contactCta && !contactCtaPlayed) gsap.set(contactCta, { y: 24 });
-  let statementPlayed = Boolean(statement && enteredTitles.has(statement));
-  if (statementPlayed && statement) gsap.set(statement, { '--highlight': '100%' });
   const introProgress = { value: 0 };
   let segments: LineSegment[] = [];
   let measured = false;
@@ -246,15 +245,6 @@ export function initNarrative(): Cleanup {
         playTitle(title, title.element.getBoundingClientRect().bottom < 0);
       }
     });
-    if (statement && !statementPlayed) {
-      const rect = statement.getBoundingClientRect();
-      if (tip >= rect.top + window.scrollY + Math.min(rect.height * 0.28, 90)) {
-        statementPlayed = true;
-        enteredTitles.add(statement);
-        if (rect.bottom < 0) gsap.set(statement, { '--highlight': '100%' });
-        else gsap.to(statement, { '--highlight': '100%', duration: 0.85, ease: 'power3.out' });
-      }
-    }
     if (contactCta && !contactCtaPlayed && tip >= contactCtaAxis) {
       contactCtaPlayed = true;
       enteredTitles.add(contactCta);
@@ -377,34 +367,6 @@ export function initNarrative(): Cleanup {
     });
   });
 
-  const dialog = document.querySelector<HTMLDialogElement>('[data-manifesto-dialog]');
-  const video = dialog?.querySelector<HTMLVideoElement>('[data-manifesto-replay-video]');
-  const error = dialog?.querySelector<HTMLElement>('[data-manifesto-replay-error]');
-  const trigger = root.querySelector<HTMLButtonElement>('[data-manifesto-replay]');
-  const close = dialog?.querySelector<HTMLButtonElement>('[data-manifesto-close]');
-  const openDialog = () => {
-    if (!dialog || !video) return;
-    dialog.showModal();
-    if (error) error.hidden = true;
-    void video.play().catch(() => {
-      if (error) error.hidden = false;
-    });
-  };
-  const closeDialog = () => {
-    video?.pause();
-    dialog?.close();
-    trigger?.focus({ preventScroll: true });
-  };
-  const onVideoError = () => {
-    if (error) error.hidden = false;
-  };
-  trigger?.addEventListener('click', openDialog);
-  close?.addEventListener('click', closeDialog);
-  video?.addEventListener('error', onVideoError);
-  dialog?.addEventListener('close', () => video?.pause());
-  dialog?.addEventListener('click', (event) => {
-    if (event.target === dialog) closeDialog();
-  });
   return () => {
     intro?.kill();
     paths.forEach((path) => {
@@ -419,8 +381,5 @@ export function initNarrative(): Cleanup {
     });
     heroTitle?.tween?.kill();
     heroTitle?.split.revert();
-    trigger?.removeEventListener('click', openDialog);
-    close?.removeEventListener('click', closeDialog);
-    video?.removeEventListener('error', onVideoError);
   };
 }
