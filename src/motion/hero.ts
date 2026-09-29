@@ -1,6 +1,5 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MANIFESTO_REVEAL_EVENT, isManifestoGating } from '../lib/manifesto';
 import { MOTION, entered } from './tokens';
 import { addHeaderIntro } from './header';
 import { getProfile, visibleLimePath } from './viewport';
@@ -144,14 +143,7 @@ export function initHero(mobile: boolean) {
       hero.dataset.ambientReady = 'true';
     });
   };
-  if (isManifestoGating() && !entered.has(hero) && words.length === 4) {
-    gsap.set(words, { autoAlpha: 0 });
-    gsap.set(links, { autoAlpha: 0 });
-    if (path) gsap.set(path, { autoAlpha: 0 });
-    document.addEventListener(MANIFESTO_REVEAL_EVENT, startIntro, { once: true });
-  } else {
-    startIntro();
-  }
+  startIntro();
   if (title && !mobile)
     gsap.to(title, {
       scale: profile.titleScale,
@@ -173,9 +165,8 @@ export function initHero(mobile: boolean) {
         scrub: narrow ? 0.5 : 0.8,
       },
     });
-  if (!intro && !isManifestoGating()) hero.dataset.ambientReady = 'true';
+  if (!intro) hero.dataset.ambientReady = 'true';
   return () => {
-    document.removeEventListener(MANIFESTO_REVEAL_EVENT, startIntro);
     intro?.kill();
     delete hero.dataset.ambientReady;
   };

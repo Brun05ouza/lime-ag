@@ -15,7 +15,7 @@
 
 ## Manifesto
 
-Adicione o filme em `public/videos/manifesto-lime.webm` e/ou `.mp4` e refaça o build. O pôster atual é `manifesto-poster.svg`; um `.webp` pode substituí-lo ao alterar `MANIFESTO_SOURCES.poster` em `src/lib/manifesto.ts`. O mesmo arquivo centraliza `MANIFESTO_VERSION`; incrementar a versão exige que os visitantes assistam novamente. Com filme disponível, primeira visita não oferece pular; após assistir, a flag fica no armazenamento local. Visitantes recorrentes podem rever ou pular. O botão dentro da home abre o mesmo filme em um diálogo e devolve o foco ao ponto de origem ao fechar.
+Não há mais overlay de entrada obrigatório. O manifesto interno da home e o diálogo de replay permanecem. Adicione o filme em `public/videos/manifesto-lime.webm` e/ou `.mp4`. Fontes do vídeo ficam em `MANIFESTO_SOURCES` (`src/lib/manifesto.ts`).
 
 ## Pendências externas
 

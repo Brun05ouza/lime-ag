@@ -73,7 +73,7 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
     const inset = token('--floating-inset', compactHeader ? 12 : 20);
     const availableWidth = window.innerWidth - inset * 2;
     const expandedWidth = Math.min(availableWidth, compactHeader ? 240 : 1320);
-    const collapsedWidth = Math.min(availableWidth, compactHeader ? 216 : 248);
+    const collapsedWidth = Math.min(availableWidth, compactHeader ? 240 : 280);
     if (next === 'hero')
       return {
         width: '100%',
@@ -98,19 +98,19 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
         borderColor: 'rgba(255,255,255,.08)',
         boxShadow: '0 10px 35px rgba(22,5,24,.14)',
         backdropFilter: 'blur(16px) saturate(130%)',
-        logoScale: compactHeader ? 1 : 0.92,
+        logoScale: 1,
       };
     return {
       width: collapsedWidth,
       maxWidth: collapsedWidth,
       height: collapsedHeight,
       paddingInline: compactHeader ? 15 : 18,
-      borderRadius: 17,
+      borderRadius: 18,
       backgroundColor: 'rgba(51,19,53,.82)',
       borderColor: 'rgba(255,255,255,.09)',
       boxShadow: '0 10px 35px rgba(22,5,24,.16)',
       backdropFilter: 'blur(16px) saturate(130%)',
-      logoScale: 0.76,
+      logoScale: 1,
     };
   };
   const applyState = (next: HeaderState, immediate = false) => {

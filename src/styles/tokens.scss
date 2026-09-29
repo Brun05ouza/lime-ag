@@ -48,9 +48,9 @@
   --space-section: var(--section-y);
   --space-small: var(--gap-md);
 
-  --header-hero-h: 68px;
-  --header-float-h: 60px;
-  --header-collapsed-h: 52px;
+  --header-hero-h: 72px;
+  --header-float-h: 64px;
+  --header-collapsed-h: 58px;
   --header-pad-top: max(16px, var(--safe-top));
   --touch: 48px;
 
@@ -65,8 +65,8 @@
   --font-body: 'Inter Variable', sans-serif;
   --radius: 2px;
   --z-header: 50;
-  --z-manifesto: 60;
-  --z-manifesto-ui: 61;
+  --z-line: 1;
+  --z-content: 3;
   --z-cursor: 70;
   --duration: 280ms;
 }
@@ -75,9 +75,9 @@
   :root {
     --page-padding: clamp(20px, 5.4vw, 28px);
     --floating-inset: 12px;
-    --header-hero-h: 56px;
-    --header-float-h: 52px;
-    --header-collapsed-h: 48px;
+    --header-hero-h: 58px;
+    --header-float-h: 56px;
+    --header-collapsed-h: 54px;
     --header-pad-top: max(12px, var(--safe-top));
     --line-display: 0.95;
     --section-y: clamp(64px, 16vw, 96px);
@@ -91,9 +91,9 @@
   :root {
     --page-padding: clamp(24px, 3.6vw, 40px);
     --floating-inset: 16px;
-    --header-hero-h: 64px;
-    --header-float-h: 58px;
-    --header-collapsed-h: 50px;
+    --header-hero-h: 66px;
+    --header-float-h: 60px;
+    --header-collapsed-h: 56px;
     --header-pad-top: max(14px, var(--safe-top));
     --grid-cols: 8;
     --fs-hero: clamp(3.1rem, 8.4vw, 5.8rem);
@@ -103,9 +103,9 @@
 
 @media (min-width: 900px) and (max-width: 1199px) {
   :root {
-    --header-hero-h: 66px;
-    --header-float-h: 58px;
-    --header-collapsed-h: 50px;
+    --header-hero-h: 70px;
+    --header-float-h: 62px;
+    --header-collapsed-h: 56px;
     --grid-cols: 12;
     --fs-hero: clamp(3.2rem, 6.6vw, 6.4rem);
   }
@@ -114,17 +114,17 @@
 @media (min-width: 1200px) {
   :root {
     --grid-cols: 12;
-    --header-hero-h: 68px;
-    --header-float-h: 60px;
-    --header-collapsed-h: 52px;
+    --header-hero-h: 72px;
+    --header-float-h: 64px;
+    --header-collapsed-h: 58px;
   }
 }
 
 @media (min-width: 1600px) {
   :root {
-    --header-hero-h: 72px;
-    --header-float-h: 62px;
-    --header-collapsed-h: 54px;
+    --header-hero-h: 76px;
+    --header-float-h: 66px;
+    --header-collapsed-h: 60px;
     --fs-hero: clamp(4.2rem, 6.4vw, 10rem);
   }
 }
@@ -135,8 +135,9 @@
     --section-y-compact: clamp(40px, 6vh, 80px);
     --fs-hero: clamp(2.8rem, 5.4vw + 0.2rem, 6.2rem);
     --fs-display: clamp(2.2rem, 4.4vw, 5.4rem);
-    --header-hero-h: 60px;
-    --header-float-h: 54px;
+    --header-hero-h: 64px;
+    --header-float-h: 58px;
+    --header-collapsed-h: 54px;
   }
 }
 

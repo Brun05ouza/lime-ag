@@ -1,12 +1,19 @@
 ---
 interface Props {
   large?: boolean;
+  tone?: 'color' | 'white';
 }
-const { large = false } = Astro.props;
+const { large = false, tone = 'color' } = Astro.props;
+const src = tone === 'white' ? '/logos/lime-white.webp' : '/logos/lime-color.webp';
 ---
 
-<span class:list={['lime-logo', { 'lime-logo--large': large }]} aria-label="Lime Ag">
-  <span class="logo-lime">lime</span>
-  <span class="logo-dot">·</span>
-  <span class="logo-ag">ag</span>
+<span class:list={['lime-logo', { 'lime-logo--large': large }]}>
+  <img
+    class="lime-logo-img"
+    src={src}
+    alt="Lime Ag"
+    width={large ? 168 : 148}
+    height={large ? 36 : 34}
+    decoding="async"
+  />
 </span>

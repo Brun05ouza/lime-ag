@@ -1,7 +1,6 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
-import { MANIFESTO_REVEAL_EVENT, isManifestoGating } from '../lib/manifesto';
 import { addHeaderIntro } from './header';
 import type { Cleanup } from './tokens';
 
@@ -11,7 +10,7 @@ const completedIntros = new WeakSet<HTMLElement>();
 
 type LineSample = { y: number; length: number };
 type LineSegment = {
-  element: SVGPathElement | HTMLElement;
+  element: SVGPathElement;
   start: number;
   end: number;
   length: number;
@@ -74,19 +73,16 @@ export function initNarrative(): Cleanup {
       ),
     )
     .filter((path): path is SVGPathElement => Boolean(path));
-  const connector = root.querySelector<HTMLElement>('[data-narrative-connector]');
   type TitleState = {
     element: HTMLElement;
     split: SplitText;
     axis: number;
     played: boolean;
-    tween?: gsap.core.Tween;
+    tween?: gsap.core.Tween | gsap.core.Timeline;
   };
   const titles: TitleState[] = [];
   root
-    .querySelectorAll<HTMLElement>(
-      '.narrative-hero h1, .narrative-chapter:not(.narrative-statement) h2',
-    )
+    .querySelectorAll<HTMLElement>('.narrative-chapter:not(.narrative-statement) h2')
     .forEach((element) => {
       let state: TitleState | undefined;
       const split = SplitText.create(element, {
@@ -107,24 +103,106 @@ export function initNarrative(): Cleanup {
       state = { element, split, axis: 0, played };
       titles.push(state);
     });
+
+  const heroTitleElement = root.querySelector<HTMLElement>('.narrative-hero h1');
+  let heroTitle: TitleState | undefined;
+  if (heroTitleElement) {
+    let state: TitleState | undefined;
+    const split = SplitText.create(heroTitleElement, {
+      type: 'lines,words',
+      mask: 'lines',
+      linesClass: 'narrative-hero-line',
+      wordsClass: 'narrative-hero-word',
+      autoSplit: true,
+      onSplit(self) {
+        if (state?.played || enteredTitles.has(heroTitleElement)) {
+          state?.tween?.kill();
+          return gsap.set(self.words, { clearProps: 'all' });
+        }
+        return gsap.set(self.words, {
+          yPercent: 140,
+          autoAlpha: 0,
+          rotateX: 55,
+          filter: 'blur(12px)',
+        });
+      },
+    });
+    const played = enteredTitles.has(heroTitleElement);
+    if (!played) {
+      gsap.set(split.words, {
+        yPercent: 140,
+        autoAlpha: 0,
+        rotateX: 55,
+        filter: 'blur(12px)',
+      });
+    }
+    state = { element: heroTitleElement, split, axis: 0, played };
+    heroTitle = state;
+  }
+
   const playTitle = (state: TitleState | undefined, immediate = false) => {
     if (!state || state.played) return;
     state.played = true;
     enteredTitles.add(state.element);
     if (immediate) {
       gsap.set(state.split.lines, { clearProps: 'all' });
+      if (state.split.words?.length) gsap.set(state.split.words, { clearProps: 'all' });
       return;
     }
     state.tween = gsap.to(state.split.lines, {
       yPercent: 0,
       autoAlpha: 1,
-      duration: 0.88,
-      stagger: 0.09,
+      duration: 1.05,
+      stagger: 0.11,
       ease: 'power4.out',
       overwrite: true,
     });
   };
-  const heroTitle = titles.find((title) => title.element.matches('h1'));
+
+  const playHeroTitle = (immediate = false) => {
+    if (!heroTitle || heroTitle.played) return;
+    heroTitle.played = true;
+    enteredTitles.add(heroTitle.element);
+    const words = heroTitle.split.words;
+    const firstWords = Array.from(
+      heroTitle.element.querySelectorAll<HTMLElement>(
+        '.narrative-hero__setup .narrative-hero-word',
+      ),
+    );
+    const secondWords = Array.from(
+      heroTitle.element.querySelectorAll<HTMLElement>('em .narrative-hero-word'),
+    );
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (immediate || reduceMotion || !words?.length) {
+      gsap.set(words?.length ? words : heroTitle.split.lines, { clearProps: 'all' });
+      return;
+    }
+    const reveal = {
+      yPercent: 0,
+      autoAlpha: 1,
+      rotateX: 0,
+      filter: 'blur(0px)',
+      ease: 'expo.out',
+    };
+    const timeline = gsap.timeline({ overwrite: true });
+    timeline.to(firstWords.length ? firstWords : words, {
+      ...reveal,
+      duration: 0.72,
+      stagger: 0.045,
+    });
+    if (secondWords.length) {
+      timeline.to(
+        secondWords,
+        {
+          ...reveal,
+          duration: 0.76,
+          stagger: 0.045,
+        },
+        '+=0.08',
+      );
+    }
+    heroTitle.tween = timeline;
+  };
   const statement = root.querySelector<HTMLElement>('[data-highlight-statement]');
   const contactCta = root.querySelector<HTMLElement>('.narrative-contact__submit');
   let contactCtaAxis = Number.POSITIVE_INFINITY;
@@ -135,21 +213,13 @@ export function initNarrative(): Cleanup {
   const introProgress = { value: 0 };
   let segments: LineSegment[] = [];
   let measured = false;
+  const processSteps = Array.from(root.querySelectorAll<HTMLElement>('[data-process-step]'));
   const measureLine = () => {
-    segments = [...paths, ...(connector ? [connector] : [])]
+    segments = paths
       .map((element) => {
-        if (element instanceof SVGPathElement) {
-          const segment = measurePath(element);
-          element.style.strokeDasharray = `${segment.length}px`;
-          return segment;
-        }
-        const rect = element.getBoundingClientRect();
-        return {
-          element,
-          start: rect.top + window.scrollY,
-          end: rect.bottom + window.scrollY,
-          length: 0,
-        };
+        const segment = measurePath(element);
+        element.style.strokeDasharray = `${segment.length}px`;
+        return segment;
       })
       .sort((a, b) => a.start - b.start);
     titles.forEach((title) => {
@@ -168,15 +238,11 @@ export function initNarrative(): Cleanup {
     const tip = firstStart + (targetTip - firstStart) * introProgress.value;
     segments.forEach(({ element, start, end, length, samples }) => {
       const progress = gsap.utils.clamp(0, 1, (tip - start) / Math.max(1, end - start));
-      if (element instanceof SVGPathElement) {
-        const drawn = samples ? drawnLengthAt(samples, tip) : length * progress;
-        element.style.strokeDashoffset = `${length - drawn}px`;
-      } else {
-        element.style.transform = `scaleY(${progress})`;
-      }
+      const drawn = samples ? drawnLengthAt(samples, tip) : length * progress;
+      element.style.strokeDashoffset = `${length - drawn}px`;
     });
     titles.forEach((title) => {
-      if (title !== heroTitle && tip >= title.axis) {
+      if (tip >= title.axis) {
         playTitle(title, title.element.getBoundingClientRect().bottom < 0);
       }
     });
@@ -194,6 +260,17 @@ export function initNarrative(): Cleanup {
       enteredTitles.add(contactCta);
       if (contactCta.getBoundingClientRect().bottom < 0) gsap.set(contactCta, { clearProps: 'y' });
       else gsap.to(contactCta, { y: 0, duration: 0.7, ease: 'power3.out' });
+    }
+    if (processSteps.length) {
+      const first = processSteps[0].getBoundingClientRect();
+      const last = processSteps[processSteps.length - 1].getBoundingClientRect();
+      const start = first.top + window.scrollY + first.height * 0.15;
+      const end = last.top + window.scrollY + last.height * 0.55;
+      const progress = gsap.utils.clamp(0, 1, (tip - start) / Math.max(1, end - start));
+      processSteps.forEach((step, index) => {
+        const threshold = index / Math.max(1, processSteps.length - 1);
+        step.classList.toggle('is-active', progress >= threshold - 0.08);
+      });
     }
   };
   ScrollTrigger.create({
@@ -220,11 +297,11 @@ export function initNarrative(): Cleanup {
 
   const hero = root.querySelector<HTMLElement>('.narrative-hero');
   const heroItems = hero?.querySelectorAll<HTMLElement>('[data-narrative-reveal]');
-  const heroKicker = hero?.querySelector<HTMLElement>('.narrative-kicker');
   const heroPortrait = hero?.querySelector<HTMLElement>('.narrative-hero__portrait');
   const heroLead = hero?.querySelector<HTMLElement>('.narrative-lead');
   const heroCta = hero?.querySelector<HTMLElement>('.narrative-link');
   let intro: gsap.core.Timeline | undefined;
+
   const playIntro = () => {
     const headerElements = document.querySelectorAll<HTMLElement>(
       '[data-header-logo], [data-header-nav], [data-header-cta], [data-menu-toggle]',
@@ -237,29 +314,43 @@ export function initNarrative(): Cleanup {
       if (heroItems) gsap.set(heroItems, { clearProps: 'all' });
       introProgress.value = 1;
       drawLine(window.scrollY);
-      playTitle(heroTitle, true);
+      playHeroTitle(true);
       gsap.set(headerElements, { clearProps: 'opacity,visibility' });
       completedIntros.add(root);
       return;
     }
     completedIntros.add(root);
-    intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    intro = gsap.timeline({ defaults: { ease: 'power4.out' } });
     addHeaderIntro(intro, window.matchMedia('(max-width: 1279px)').matches);
     intro.to(
       introProgress,
-      { value: 1, duration: 1.1, ease: 'none', onUpdate: () => drawLine(window.scrollY) },
-      0.05,
+      { value: 1, duration: 1.25, ease: 'none', onUpdate: () => drawLine(window.scrollY) },
+      0.04,
     );
-    if (heroKicker) intro.fromTo(heroKicker, { y: 22, autoAlpha: 0 }, { y: 0, autoAlpha: 1 }, 0.16);
     if (heroPortrait)
-      intro.fromTo(heroPortrait, { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1 }, 0.2);
-    intro.call(() => playTitle(heroTitle), undefined, 0.38);
-    if (heroLead) intro.fromTo(heroLead, { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1 }, 0.62);
-    if (heroCta) intro.fromTo(heroCta, { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1 }, 0.84);
+      intro.fromTo(
+        heroPortrait,
+        { y: 36, autoAlpha: 0, scale: 1.04 },
+        { y: 0, autoAlpha: 1, scale: 1, duration: 1.05, ease: 'power3.out' },
+        0.12,
+      );
+    intro.call(() => playHeroTitle(), undefined, 0.2);
+    if (heroLead)
+      intro.fromTo(
+        heroLead,
+        { y: 28, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.6, ease: 'power3.out' },
+        2.12,
+      );
+    if (heroCta)
+      intro.fromTo(
+        heroCta,
+        { y: 22, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.55, ease: 'power3.out' },
+        2.6,
+      );
   };
-  if (isManifestoGating()) {
-    document.addEventListener(MANIFESTO_REVEAL_EVENT, playIntro, { once: true });
-  } else playIntro();
+  playIntro();
 
   // The existing MetricCounter markup is retained, but the value settles once
   // when it enters view instead of reversing as the visitor scrolls upward.
@@ -315,18 +406,19 @@ export function initNarrative(): Cleanup {
     if (event.target === dialog) closeDialog();
   });
   return () => {
-    document.removeEventListener(MANIFESTO_REVEAL_EVENT, playIntro);
     intro?.kill();
     paths.forEach((path) => {
       path.style.removeProperty('stroke-dasharray');
       path.style.removeProperty('stroke-dashoffset');
     });
-    connector?.style.removeProperty('transform');
     contactCta?.style.removeProperty('transform');
+    processSteps.forEach((step) => step.classList.remove('is-active'));
     titles.forEach((title) => {
       title.tween?.kill();
       title.split.revert();
     });
+    heroTitle?.tween?.kill();
+    heroTitle?.split.revert();
     trigger?.removeEventListener('click', openDialog);
     close?.removeEventListener('click', closeDialog);
     video?.removeEventListener('error', onVideoError);

@@ -29,28 +29,18 @@
 }
 .lime-logo {
   position: relative;
-  font-family: 'Space Grotesk Variable', sans-serif;
-  font-size: clamp(26px, 1.8vw, 33px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.085em;
   display: inline-flex;
-  align-items: baseline;
-  padding-block: 0.08em 0.14em;
+  align-items: center;
+  line-height: 0;
 }
-.logo-lime {
-  color: transparent;
-  background: linear-gradient(100deg, var(--lime-pink), var(--lime-orange));
-  background-clip: text;
-  -webkit-background-clip: text;
+.lime-logo-img {
+  display: block;
+  width: auto;
+  height: clamp(28px, 2.15vw, 34px);
+  object-fit: contain;
 }
-.logo-ag {
-  font-weight: 300;
-  color: var(--lime-light);
-}
-.logo-dot {
-  padding-inline: 3px;
-  color: var(--lime-light);
+.lime-logo--large .lime-logo-img {
+  height: clamp(28px, 2.2vw, 36px);
 }
 .brand {
   width: fit-content;
@@ -65,7 +55,7 @@
   align-items: center;
   justify-self: center;
   gap: clamp(20px, 2.25vw, 38px);
-  font-size: 12px;
+  font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -103,7 +93,7 @@
   display: none;
   align-items: center;
   gap: 9px;
-  font-size: 12px;
+  font-size: 14px;
   min-height: 44px;
   padding-block: 10px;
   overflow: hidden;
@@ -130,7 +120,7 @@
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  font-size: 12px;
+  font-size: 14px;
   min-height: 44px;
   min-width: 44px;
   padding: 10px 0 10px 12px;
@@ -166,20 +156,20 @@
   border-radius: 18px;
 }
 .site-header[data-header-state='expanded'] .brand {
-  transform: scale(0.92);
+  transform: scale(1);
 }
 .site-header[data-header-state='collapsed'] .header-shell {
-  width: min(248px, calc(100vw - (var(--floating-inset) * 2)));
+  width: min(280px, calc(100vw - (var(--floating-inset) * 2)));
   min-width: 0;
-  max-width: 248px;
+  max-width: 280px;
   height: var(--header-collapsed-h);
   padding-inline: 18px;
-  border-radius: 17px;
+  border-radius: 18px;
 }
 .site-header[data-header-state='collapsed'] .brand {
   position: relative;
   z-index: 2;
-  transform: scale(0.76);
+  transform: scale(1);
 }
 .site-header[data-header-state='collapsed'] .desktop-nav,
 .site-header[data-header-state='collapsed'] .header-cta {
@@ -419,8 +409,8 @@
     border-radius: 17px;
   }
   .site-header[data-header-state='collapsed'] .header-shell {
-    width: min(216px, calc(100vw - (var(--floating-inset) * 2)));
-    max-width: 216px;
+    width: min(240px, calc(100vw - (var(--floating-inset) * 2)));
+    max-width: 240px;
     padding-inline: 15px;
   }
   .header-cta,

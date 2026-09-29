@@ -21,14 +21,14 @@
   }
 
   .site-header[data-header-state='expanded'] .header-shell {
-    width: min(240px, calc(100vw - 24px));
-    max-width: 240px;
+    width: min(256px, calc(100vw - 24px));
+    max-width: 256px;
     padding-inline: 15px;
   }
 
   .site-header[data-header-state='collapsed'] .header-shell {
-    width: min(216px, calc(100vw - 24px));
-    max-width: 216px;
+    width: min(240px, calc(100vw - 24px));
+    max-width: 240px;
   }
 }
 
@@ -41,9 +41,9 @@
     --page-padding: clamp(20px, 5.4vw, 24px);
     --floating-inset: 12px;
     --mobile-nav-safe-area: calc(var(--header-float-h) + var(--header-pad-top) + 6px);
-    --header-hero-h: 52px;
-    --header-float-h: 52px;
-    --header-collapsed-h: 48px;
+    --header-hero-h: 56px;
+    --header-float-h: 56px;
+    --header-collapsed-h: 54px;
     --header-pad-top: max(10px, var(--safe-top));
     --section-y: clamp(72px, 20vw, 96px);
     --section-y-compact: clamp(48px, 13vw, 64px);

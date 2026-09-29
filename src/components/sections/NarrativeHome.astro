@@ -1,6 +1,5 @@
 ---
 import { Picture } from 'astro:assets';
-import NarrativeLine from '../common/NarrativeLine.astro';
 import MetricCounter from '../ui/MetricCounter.astro';
 import { team } from '../../data/team';
 import { metrics } from '../../data/metrics';
@@ -19,58 +18,73 @@ const marquee = [
   'Inteligência',
   'Crescimento',
 ];
+const marqueeReverse = [...marquee].reverse();
 ---
 
 <div class="narrative" data-narrative-home>
-  <section id="home" class="narrative-chapter narrative-hero" aria-labelledby="hero-title">
-    <NarrativeLine chapter="home" />
-    <div class="narrative-wrap narrative-hero__grid">
-      <div class="narrative-hero__copy">
-        <p class="narrative-kicker" data-narrative-reveal>
-          Comunicação com estratégia. Conexões com propósito.
-        </p>
-        <h1 id="hero-title" data-narrative-reveal>
-          Sua marca nunca falou tanto.
-          <br />
-          <em>Mas ela está sendo ouvida?</em>
-        </h1>
-        <p class="narrative-lead" data-narrative-reveal>
-          Marcas inesquecíveis não são as que falam mais. São as que falam com propósito. A Lime
-          cria comunicação para fortalecer marcas, gerar conexão e construir valor.
-        </p>
-        <a class="narrative-link" href="#contato" data-narrative-reveal>
-          Fale com a gente <span aria-hidden="true">↗</span>
-        </a>
+  <div class="narrative-hero-stack">
+    <section id="home" class="narrative-chapter narrative-hero" aria-labelledby="hero-title">
+      <div class="narrative-wrap narrative-hero__grid">
+        <div class="narrative-hero__copy">
+          <h1 id="hero-title" data-narrative-reveal>
+            <span class="narrative-hero__setup">
+              Sua marca nunca
+              <br />
+              falou tanto.
+            </span>
+            <em>
+              Mas ela está
+              <br />
+              sendo ouvida?
+            </em>
+          </h1>
+          <p class="narrative-lead" data-narrative-reveal>
+            Marcas inesquecíveis não são as que falam mais. São as que falam com propósito. A Lime
+            cria comunicação para fortalecer marcas, gerar conexão e construir valor.
+          </p>
+          <a class="narrative-link" href="#contato" data-narrative-reveal data-magnetic>
+            <span data-button-label>Fale com a gente</span>
+            <span class="button-arrow" aria-hidden="true"><span data-arrow-glyph>↗</span></span>
+          </a>
+        </div>
+        <div class="narrative-hero__portrait" data-narrative-reveal>
+          <Picture
+            src={teamTogether}
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            width={950}
+            widths={[480, 760, 950]}
+            sizes="(max-width: 767px) 90vw, 42vw"
+            alt="Carol Melo e Julia Lima, sócias da Lime Ag"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <span>LIME AG / ESTRATÉGIA TEM ROSTO</span>
+        </div>
       </div>
-      <div class="narrative-hero__portrait" data-narrative-reveal>
-        <Picture
-          src={teamTogether}
-          formats={['avif', 'webp']}
-          fallbackFormat="webp"
-          width={950}
-          widths={[480, 760, 950]}
-          sizes="(max-width: 767px) 90vw, 42vw"
-          alt="Carol Melo e Julia Lima, sócias da Lime Ag"
-          loading="eager"
-          fetchpriority="high"
-        />
-        <span>LIME AG / ESTRATÉGIA TEM ROSTO</span>
-      </div>
-    </div>
-    <a class="narrative-scroll" href="#manifesto">
-      Desça para conhecer a Lime <span aria-hidden="true">↓</span>
-    </a>
-  </section>
+    </section>
 
-  <div class="narrative-marquee" aria-label={marquee.join(' · ')}>
-    <span class="narrative-marquee__connector" data-narrative-connector aria-hidden="true"></span>
-    <div class="narrative-marquee__track" aria-hidden="true">
-      {[...marquee, ...marquee].map((item) => (
-        <span>
-          {item}
-          <b>·</b>
-        </span>
-      ))}
+    <div class="narrative-marquee" aria-label={marquee.join(' · ')}>
+      <div class="narrative-marquee__lane narrative-marquee__lane--a" aria-hidden="true">
+        <div class="narrative-marquee__track">
+          {[...marquee, ...marquee].map((item) => (
+            <span>
+              {item}
+              <b>·</b>
+            </span>
+          ))}
+        </div>
+      </div>
+      <div class="narrative-marquee__lane narrative-marquee__lane--b" aria-hidden="true">
+        <div class="narrative-marquee__track narrative-marquee__track--reverse">
+          {[...marqueeReverse, ...marqueeReverse].map((item) => (
+            <span>
+              {item}
+              <b>·</b>
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 
@@ -79,7 +93,6 @@ const marquee = [
     class="narrative-chapter narrative-manifesto"
     aria-labelledby="manifesto-title"
   >
-    <NarrativeLine chapter="manifesto" />
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
         01 / Manifesto
@@ -98,6 +111,7 @@ const marquee = [
           class="narrative-video"
           type="button"
           data-manifesto-replay
+          data-magnetic
           aria-label="Assistir manifesto novamente em tela cheia"
         >
           <img src={MANIFESTO_SOURCES.poster} alt="" loading="lazy" />
@@ -110,7 +124,6 @@ const marquee = [
   </section>
 
   <section class="narrative-chapter narrative-statement" aria-labelledby="statement-title">
-    <NarrativeLine chapter="statement" />
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker">02 / O que nos move</p>
       <h2 id="statement-title" data-highlight-statement>
@@ -124,7 +137,6 @@ const marquee = [
     class="narrative-chapter narrative-founders"
     aria-labelledby="founders-title"
   >
-    <NarrativeLine chapter="founders" />
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
         03 / As sócias
@@ -168,7 +180,6 @@ const marquee = [
     class="narrative-chapter narrative-results"
     aria-labelledby="results-title"
   >
-    <NarrativeLine chapter="results" />
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
         04 / Experiência e resultados
@@ -206,7 +217,6 @@ const marquee = [
     class="narrative-chapter narrative-expertise"
     aria-labelledby="expertise-title"
   >
-    <NarrativeLine chapter="expertise" />
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
         05 / O que fazemos
@@ -241,7 +251,6 @@ const marquee = [
     class="narrative-chapter narrative-process"
     aria-labelledby="process-title"
   >
-    <NarrativeLine chapter="process" />
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
         06 / Como trabalhamos
@@ -251,7 +260,7 @@ const marquee = [
       </h2>
       <ol class="narrative-process__steps">
         {process.map((step, index) => (
-          <li data-narrative-reveal>
+          <li data-narrative-reveal data-process-step={index + 1}>
             <span>0{index + 1} / 04</span>
             <h3>{step.title}</h3>
             <p>{step.text}</p>
@@ -262,7 +271,6 @@ const marquee = [
   </section>
 
   <section id="contato" class="narrative-chapter narrative-contact" aria-labelledby="contact-title">
-    <NarrativeLine chapter="contact" />
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
         07 / Vamos conversar
@@ -332,8 +340,15 @@ const marquee = [
           Ao clicar, sua mensagem será preparada no aplicativo de e-mail para você confirmar o
           envio.
         </p>
-        <button class="narrative-contact__submit" type="submit" data-contact-submit disabled>
-          Enviar mensagem <span aria-hidden="true">↗</span>
+        <button
+          class="narrative-contact__submit"
+          type="submit"
+          data-contact-submit
+          data-magnetic
+          disabled
+        >
+          <span data-button-label>Enviar mensagem</span>
+          <span class="button-arrow" aria-hidden="true"><span data-arrow-glyph>↗</span></span>
         </button>
         <p class="form-status" data-form-status role="status" aria-live="polite"></p>
         <noscript>

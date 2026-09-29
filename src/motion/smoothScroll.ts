@@ -1,7 +1,6 @@
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { isManifestoActive } from '../lib/manifesto';
 import { registerLenis } from './scrollRuntime';
 export interface ScrollRuntime {
   lenis: Lenis;
@@ -18,7 +17,6 @@ export function initSmoothScroll(smoothWheel: boolean): ScrollRuntime {
   const tick = (time: number) => lenis.raf(time * 1000);
   gsap.ticker.add(tick);
   registerLenis(lenis);
-  if (isManifestoActive()) lenis.stop();
   const destroy = () => {
     registerLenis(undefined);
     gsap.ticker.remove(tick);
