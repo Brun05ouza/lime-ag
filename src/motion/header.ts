@@ -72,8 +72,8 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
     const collapsedHeight = token('--header-collapsed-h', 52);
     const inset = token('--floating-inset', compactHeader ? 12 : 20);
     const availableWidth = window.innerWidth - inset * 2;
-    const expandedWidth = Math.min(availableWidth, compactHeader ? 240 : 1320);
-    const collapsedWidth = Math.min(availableWidth, compactHeader ? 240 : 280);
+    const expandedWidth = Math.min(availableWidth, compactHeader ? 320 : 1320);
+    const collapsedWidth = Math.min(availableWidth, compactHeader ? 320 : 280);
     if (next === 'hero')
       return {
         width: '100%',
@@ -103,12 +103,12 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
     return {
       width: collapsedWidth,
       maxWidth: collapsedWidth,
-      height: collapsedHeight,
-      paddingInline: compactHeader ? 15 : 18,
+      height: compactHeader ? floatHeight : collapsedHeight,
+      paddingInline: compactHeader ? 17 : 18,
       borderRadius: 18,
-      backgroundColor: 'rgba(51,19,53,.82)',
-      borderColor: 'rgba(255,255,255,.09)',
-      boxShadow: '0 10px 35px rgba(22,5,24,.16)',
+      backgroundColor: compactHeader ? 'rgba(51,19,53,.78)' : 'rgba(51,19,53,.82)',
+      borderColor: compactHeader ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.09)',
+      boxShadow: compactHeader ? '0 10px 35px rgba(22,5,24,.14)' : '0 10px 35px rgba(22,5,24,.16)',
       backdropFilter: 'blur(16px) saturate(130%)',
       logoScale: 1,
     };
@@ -216,6 +216,11 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
     }
     if (state === 'hero' && current < heroExit) return;
     if (state === 'hero') {
+      directionAnchor = current;
+      applyState('expanded');
+      return;
+    }
+    if (compactHeader) {
       directionAnchor = current;
       applyState('expanded');
       return;

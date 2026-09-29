@@ -93,9 +93,9 @@
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: var(--gradient);
+  background: var(--gradient-aurora);
   transform: translateY(101%);
-  transition: transform 0.4s;
+  transition: transform 180ms ease;
 }
 .button:focus-visible::before {
   transform: none;
@@ -105,13 +105,19 @@
 }
 .button-arrow {
   display: inline-block;
-  transition: transform 0.25s;
+  transition: transform 180ms var(--ease-out);
 }
 .button:focus-visible .button-arrow {
   transform: translate(3px, -3px);
 }
 .button:active {
   scale: 0.97;
+}
+@media (prefers-reduced-motion: reduce) {
+  .button::before,
+  .button-arrow {
+    transition-duration: 0.01ms;
+  }
 }
 @media (hover: hover) and (pointer: fine) {
   .text-link:hover::after {

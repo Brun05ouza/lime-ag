@@ -6,6 +6,13 @@
   --lime-gray: #b0b0b7;
   --lime-black: #1e1d21;
   --gradient: linear-gradient(90deg, var(--lime-pink), var(--lime-orange));
+  --gradient-aurora: linear-gradient(
+    108deg,
+    var(--lime-pink) 8%,
+    color-mix(in srgb, var(--lime-pink) 55%, var(--lime-orange)) 48%,
+    var(--lime-orange) 100%
+  );
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -61,8 +68,9 @@
   --ratio-team: 3 / 4;
   --ratio-square: 1 / 1;
 
-  --font-display: 'Asgard', 'Space Grotesk Variable', sans-serif;
+  --font-display: 'Inter Variable', sans-serif;
   --font-body: 'Inter Variable', sans-serif;
+  --font-editorial: 'Asgard Trial', 'Inter Variable', sans-serif;
   --radius: 2px;
   --z-header: 50;
   --z-line: 1;

@@ -4,13 +4,14 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { cwd } from 'node:process';
 import MetricCounter from '../ui/MetricCounter.astro';
+import ProcessIcon from '../ui/ProcessIcon.astro';
 import { team } from '../../data/team';
 import { metrics } from '../../data/metrics';
 import { services } from '../../data/services';
 import { process as processSteps } from '../../data/process';
-import teamTogether from '../../assets/team/equipe-lime-preto-e-branco.png';
 import teamCrossedArms from '../../assets/team/equipe-lime.png';
 import brandHands from '../../assets/editorial/brand-hands.png';
+import heroMegaphone from '../../assets/editorial/hero-megaphone-cutout.png';
 import { MANIFESTO_SOURCES } from '../../lib/manifesto';
 const manifestoHasWebm = existsSync(join(cwd(), 'public', 'videos', 'manifesto-lime.webm'));
 const manifestoHasMp4 = existsSync(join(cwd(), 'public', 'videos', 'manifesto-lime.mp4'));
@@ -28,7 +29,7 @@ const marquee = [
   'Inteligência',
   'Crescimento',
 ];
-const marqueeReverse = [...marquee].reverse();
+const processIcons = ['search', 'plan', 'launch', 'growth'] as const;
 ---
 
 <div class="narrative" data-narrative-home>
@@ -60,36 +61,59 @@ const marqueeReverse = [...marquee].reverse();
           </a>
         </div>
         <div class="narrative-hero__portrait" data-narrative-reveal>
-          <Picture
-            src={teamTogether}
-            formats={['avif', 'webp']}
-            fallbackFormat="webp"
-            width={950}
-            widths={[480, 760, 950]}
-            sizes="(max-width: 767px) 90vw, 42vw"
-            alt="Carol Melo e Julia Lima, sócias da Lime Ag"
-            loading="eager"
-            fetchpriority="high"
-          />
-          <span>LIME AG / ESTRATÉGIA TEM ROSTO</span>
+          <div class="narrative-hero__figure">
+            <div class="narrative-hero__figure-layer narrative-hero__figure-layer--base">
+              <Picture
+                src={heroMegaphone}
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                width={1100}
+                widths={[520, 760, 1100]}
+                sizes="(max-width: 767px) 92vw, 47vw"
+                alt="Mulher em ilustração de meio-tom segurando um megafone"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </div>
+            <div
+              class="narrative-hero__figure-layer narrative-hero__figure-layer--slice-a"
+              aria-hidden="true"
+            >
+              <Picture
+                src={heroMegaphone}
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                width={1100}
+                widths={[520, 760, 1100]}
+                sizes="(max-width: 767px) 92vw, 47vw"
+                alt=""
+                loading="eager"
+              />
+            </div>
+            <div
+              class="narrative-hero__figure-layer narrative-hero__figure-layer--slice-b"
+              aria-hidden="true"
+            >
+              <Picture
+                src={heroMegaphone}
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                width={1100}
+                widths={[520, 760, 1100]}
+                sizes="(max-width: 767px) 92vw, 47vw"
+                alt=""
+                loading="eager"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <div class="narrative-marquee" aria-label={marquee.join(' · ')}>
-      <div class="narrative-marquee__lane narrative-marquee__lane--a" aria-hidden="true">
+      <div class="narrative-marquee__lane" aria-hidden="true">
         <div class="narrative-marquee__track">
           {[...marquee, ...marquee].map((item) => (
-            <span>
-              {item}
-              <b>·</b>
-            </span>
-          ))}
-        </div>
-      </div>
-      <div class="narrative-marquee__lane narrative-marquee__lane--b" aria-hidden="true">
-        <div class="narrative-marquee__track narrative-marquee__track--reverse">
-          {[...marqueeReverse, ...marqueeReverse].map((item) => (
             <span>
               {item}
               <b>·</b>
@@ -100,37 +124,25 @@ const marqueeReverse = [...marquee].reverse();
     </div>
   </div>
 
-  <div class="narrative-manifesto-sequence" data-manifesto-sequence>
+  <div class="narrative-manifesto-sequence">
     <section
       id="manifesto"
       class="narrative-chapter narrative-manifesto"
       aria-labelledby="manifesto-title"
-      data-manifesto-section
       data-video-available={String(manifestoVideoAvailable)}
     >
-      <div class="narrative-manifesto__stage" data-manifesto-stage>
-        <div class="narrative-wrap narrative-manifesto__intro" data-manifesto-intro>
-          <p class="narrative-kicker" data-manifesto-kicker>
-            Manifesto
-          </p>
-          <h2 id="manifesto-title" data-manifesto-title>
-            Comunicação não é volume.
-            <br />
-            <em>É intenção.</em>
+      <div class="narrative-manifesto__stage">
+        <div class="narrative-wrap narrative-manifesto__heading">
+          <h2 id="manifesto-title">
+            Manifesto<span>.</span>
           </h2>
-          <p class="narrative-manifesto__copy" data-manifesto-copy>
-            É saber quem você é antes de decidir o que dizer. É transformar estratégia em percepção
-            de valor e presença em conexão.
-          </p>
         </div>
-
         <div class="narrative-manifesto__media-anchor">
           <figure
             class:list={[
               'narrative-manifesto__media',
               { 'narrative-manifesto__media--video': manifestoVideoAvailable },
             ]}
-            data-manifesto-media
           >
             <Picture
               src={brandHands}
@@ -151,7 +163,6 @@ const marqueeReverse = [...marquee].reverse();
                 poster={brandHands.src}
                 disablepictureinpicture
                 controlslist="nodownload nofullscreen noremoteplayback"
-                data-manifesto-video
               >
                 {manifestoHasWebm && <source src={MANIFESTO_SOURCES.webm} type="video/webm" />}
                 {manifestoHasMp4 && <source src={MANIFESTO_SOURCES.mp4} type="video/mp4" />}
@@ -166,32 +177,20 @@ const marqueeReverse = [...marquee].reverse();
                 )}
               </video>
             )}
-            <span class="narrative-manifesto__media-shade" aria-hidden="true"></span>
-            <figcaption class="narrative-manifesto__media-ui" data-manifesto-media-ui>
-              <span class="narrative-manifesto__media-label">Manifesto</span>
-              <span data-manifesto-time>
-                {manifestoVideoAvailable ? '00:00' : 'Identidade em movimento'}
-              </span>
-              {manifestoVideoAvailable && (
-                <span class="narrative-manifesto__controls">
-                  <button type="button" data-manifesto-play>
-                    Pausar
-                  </button>
-                  <button type="button" data-manifesto-sound aria-pressed="false">
-                    Ouvir manifesto
-                  </button>
-                </span>
-              )}
-            </figcaption>
+            <span class="narrative-manifesto__play" aria-hidden="true">
+              <svg viewBox="0 0 32 32" focusable="false">
+                <path d="M12 9.5 23 16l-11 6.5z" />
+              </svg>
+            </span>
           </figure>
         </div>
       </div>
     </section>
 
     <section class="narrative-chapter narrative-statement" aria-labelledby="statement-title">
-      <div class="narrative-wrap narrative-content" data-manifesto-statement>
+      <div class="narrative-wrap narrative-content">
         <p class="narrative-kicker">O que nos move</p>
-        <h2 id="statement-title" data-highlight-statement>
+        <h2 id="statement-title">
           A história da sua marca merece ser contada do jeito certo<span>.</span>
         </h2>
       </div>
@@ -324,15 +323,52 @@ const marqueeReverse = [...marquee].reverse();
       <h2 id="process-title" data-narrative-reveal>
         Conexão não acontece por acaso. <em>Acontece assim:</em>
       </h2>
-      <ol class="narrative-process__steps">
-        {processSteps.map((step, index) => (
-          <li data-narrative-reveal data-process-step={index + 1}>
-            <span>0{index + 1} / 04</span>
-            <h3>{step.title}</h3>
-            <p>{step.text}</p>
-          </li>
-        ))}
-      </ol>
+      <div class="narrative-process__journey" data-process-journey>
+        <svg
+          class="narrative-process__route"
+          viewBox="0 0 1400 720"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="process-route-gradient" x1="80" y1="610" x2="1320" y2="300">
+              <stop offset="0" stop-color="var(--lime-orange)"></stop>
+              <stop offset="0.5" stop-color="#ff5759"></stop>
+              <stop offset="1" stop-color="var(--lime-pink)"></stop>
+            </linearGradient>
+          </defs>
+          <path
+            class="narrative-process__road-shadow"
+            d="M-90 650 C95 628 55 493 185 505 C330 518 320 350 470 390 C620 430 635 570 790 512 C930 460 900 338 1082 360 C1190 374 1260 320 1490 286"
+          ></path>
+          <path
+            class="narrative-process__road-base"
+            d="M-90 650 C95 628 55 493 185 505 C330 518 320 350 470 390 C620 430 635 570 790 512 C930 460 900 338 1082 360 C1190 374 1260 320 1490 286"
+          ></path>
+          <path
+            class="narrative-process__road-progress"
+            data-process-route
+            pathLength="1"
+            d="M-90 650 C95 628 55 493 185 505 C330 518 320 350 470 390 C620 430 635 570 790 512 C930 460 900 338 1082 360 C1190 374 1260 320 1490 286"
+          ></path>
+        </svg>
+
+        <ol class="narrative-process__steps">
+          {processSteps.map((step, index) => (
+            <li data-narrative-reveal data-process-step={index + 1}>
+              <article class="narrative-process__card">
+                <span>0{index + 1} / 04</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </article>
+              <span class="narrative-process__connector" aria-hidden="true"></span>
+              <span class="narrative-process__marker" aria-hidden="true">
+                <ProcessIcon name={processIcons[index]} />
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   </section>
 

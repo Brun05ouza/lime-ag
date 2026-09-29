@@ -6,7 +6,6 @@ import { initTextReveals } from './revealText';
 import { initRevealMedia } from './revealMedia';
 import { initLimeLine } from './limeLine';
 import { initNarrative } from './narrative';
-import { initNarrativeManifesto } from './narrativeManifesto';
 import { initCounters } from './counters';
 import { initResults } from './results';
 import { initMagnetic } from './magnetic';
@@ -51,12 +50,7 @@ export function initMotion(): Cleanup {
       document.documentElement.classList.add('motion-ready');
       const scope = gsap.context(() => {
         if (document.querySelector('[data-narrative-home]')) {
-          cleanups.push(
-            scroll.destroy,
-            initHeader(scroll, compactNav),
-            initNarrative(),
-            initNarrativeManifesto(),
-          );
+          cleanups.push(scroll.destroy, initHeader(scroll, compactNav), initNarrative());
           return;
         }
         cleanups.push(

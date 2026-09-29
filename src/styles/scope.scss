@@ -6,7 +6,7 @@
 .scope .service.is-active .service-number { color: var(--lime-pink); }
 .scope .service.is-active .service-title { transform: translateX(4px) scale(1.025); }
 .scope .service-panel { isolation: isolate; }
-.scope-chapter { position: absolute; z-index: -1; right: 0; top: 0; font: 500 clamp(130px,18vw,250px)/.85 var(--font-display); letter-spacing: -.08em; color: #ffffff08; pointer-events: none; }
+.scope-chapter { position: absolute; z-index: -1; right: 0; top: 0; font: 500 clamp(130px,18vw,250px)/.85 var(--font-body); letter-spacing: -.08em; color: #ffffff08; pointer-events: none; }
 .scope .service-panel > p { position: relative; font-size: clamp(18px,1.6vw,24px); line-height: 1.45; letter-spacing: -.025em; max-width: 32ch; margin-bottom: 30px; }
 .scope .service-panel li { padding-block: 11px; color: #c9c2ca; border-color: #ffffff13; }
 .scope .service-panel .text-link { display: inline-flex; align-items: center; gap: 20px; position: relative; font-size: 13px; margin-top: 30px; padding-block: 10px; }

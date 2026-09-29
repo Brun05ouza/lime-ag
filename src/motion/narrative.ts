@@ -66,6 +66,7 @@ export function initNarrative(): Cleanup {
   const root = document.querySelector<HTMLElement>('[data-narrative-home]');
   if (!root) return () => {};
   const mobile = window.matchMedia('(max-width: 767px)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const paths = Array.from(root.querySelectorAll<HTMLElement>('.narrative-line'))
     .map((line) =>
       line.querySelector<SVGPathElement>(
@@ -83,9 +84,10 @@ export function initNarrative(): Cleanup {
   const titles: TitleState[] = [];
   root
     .querySelectorAll<HTMLElement>(
-      '.narrative-chapter:not(.narrative-statement):not(.narrative-manifesto) h2',
+      '.narrative-chapter:not(.narrative-hero) h2, .narrative-chapter:not(.narrative-hero) h3',
     )
     .forEach((element) => {
+      element.classList.add('narrative-title-highlight');
       let state: TitleState | undefined;
       const split = SplitText.create(element, {
         type: 'lines',
@@ -101,7 +103,11 @@ export function initNarrative(): Cleanup {
         },
       });
       const played = enteredTitles.has(element);
-      if (!played) gsap.set(split.lines, { yPercent: 105, autoAlpha: 0 });
+      if (played) gsap.set(element, { '--highlight': '100%' });
+      else {
+        gsap.set(split.lines, { yPercent: 105, autoAlpha: 0 });
+        gsap.set(element, { '--highlight': '0%' });
+      }
       state = { element, split, axis: 0, played };
       titles.push(state);
     });
@@ -146,19 +152,22 @@ export function initNarrative(): Cleanup {
     if (!state || state.played) return;
     state.played = true;
     enteredTitles.add(state.element);
-    if (immediate) {
+    if (immediate || reduceMotion) {
       gsap.set(state.split.lines, { clearProps: 'all' });
       if (state.split.words?.length) gsap.set(state.split.words, { clearProps: 'all' });
+      gsap.set(state.element, { '--highlight': '100%' });
       return;
     }
-    state.tween = gsap.to(state.split.lines, {
-      yPercent: 0,
-      autoAlpha: 1,
-      duration: 1.05,
-      stagger: 0.11,
-      ease: 'power4.out',
-      overwrite: true,
-    });
+    state.tween = gsap
+      .timeline({ overwrite: true })
+      .to(state.split.lines, {
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: 1.05,
+        stagger: 0.11,
+        ease: 'power4.out',
+      })
+      .to(state.element, { '--highlight': '100%', duration: 1.05, ease: 'power2.out' }, 0.08);
   };
 
   const playHeroTitle = (immediate = false) => {
@@ -174,7 +183,6 @@ export function initNarrative(): Cleanup {
     const secondWords = Array.from(
       heroTitle.element.querySelectorAll<HTMLElement>('em .narrative-hero-word'),
     );
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (immediate || reduceMotion || !words?.length) {
       gsap.set(words?.length ? words : heroTitle.split.lines, { clearProps: 'all' });
       return;
@@ -251,17 +259,6 @@ export function initNarrative(): Cleanup {
       if (contactCta.getBoundingClientRect().bottom < 0) gsap.set(contactCta, { clearProps: 'y' });
       else gsap.to(contactCta, { y: 0, duration: 0.7, ease: 'power3.out' });
     }
-    if (processSteps.length) {
-      const first = processSteps[0].getBoundingClientRect();
-      const last = processSteps[processSteps.length - 1].getBoundingClientRect();
-      const start = first.top + window.scrollY + first.height * 0.15;
-      const end = last.top + window.scrollY + last.height * 0.55;
-      const progress = gsap.utils.clamp(0, 1, (tip - start) / Math.max(1, end - start));
-      processSteps.forEach((step, index) => {
-        const threshold = index / Math.max(1, processSteps.length - 1);
-        step.classList.toggle('is-active', progress >= threshold - 0.08);
-      });
-    }
   };
   ScrollTrigger.create({
     trigger: root,
@@ -273,6 +270,25 @@ export function initNarrative(): Cleanup {
     },
     onUpdate: (self) => drawLine(self.scroll()),
   });
+
+  const processJourney = root.querySelector<HTMLElement>('[data-process-journey]');
+  const processRoute = root.querySelector<SVGPathElement>('[data-process-route]');
+  if (processJourney && processSteps.length) {
+    if (processRoute) gsap.set(processRoute, { strokeDasharray: 1, strokeDashoffset: 1 });
+    ScrollTrigger.create({
+      trigger: processJourney,
+      start: 'top 78%',
+      end: 'bottom 42%',
+      scrub: 0.45,
+      onUpdate: (self) => {
+        if (processRoute) gsap.set(processRoute, { strokeDashoffset: 1 - self.progress });
+        processSteps.forEach((step, index) => {
+          const threshold = index / Math.max(1, processSteps.length - 1);
+          step.classList.toggle('is-active', self.progress >= threshold - 0.06);
+        });
+      },
+    });
+  }
 
   root.querySelectorAll<HTMLElement>('[data-narrative-reveal]').forEach((element) => {
     if (element.closest('.narrative-hero') || element.matches('h1, h2')) return;
@@ -378,6 +394,8 @@ export function initNarrative(): Cleanup {
     titles.forEach((title) => {
       title.tween?.kill();
       title.split.revert();
+      title.element.classList.remove('narrative-title-highlight');
+      title.element.style.removeProperty('--highlight');
     });
     heroTitle?.tween?.kill();
     heroTitle?.split.revert();

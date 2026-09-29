@@ -21,14 +21,14 @@
   }
 
   .site-header[data-header-state='expanded'] .header-shell {
-    width: min(256px, calc(100vw - 24px));
-    max-width: 256px;
+    width: min(320px, calc(100vw - 24px));
+    max-width: 320px;
     padding-inline: 15px;
   }
 
   .site-header[data-header-state='collapsed'] .header-shell {
-    width: min(240px, calc(100vw - 24px));
-    max-width: 240px;
+    width: min(320px, calc(100vw - 24px));
+    max-width: 320px;
   }
 }
 
@@ -87,11 +87,11 @@
     gap: 10px;
     min-height: 42px;
     padding-left: 10px;
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .menu-plus {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .hero {
@@ -627,7 +627,7 @@
     z-index: -1;
     top: -30px;
     right: 0;
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-size: clamp(88px, 28vw, 128px);
     line-height: 1;
     letter-spacing: -0.08em;

@@ -232,7 +232,7 @@
 }
 .metric strong {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: clamp(2.2rem, 5vw, 4.8rem);
   line-height: var(--line-display-roomy);
   font-weight: 500;
@@ -373,7 +373,7 @@
   display: flex;
   justify-content: space-between;
   gap: var(--gap-md);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: clamp(1.1rem, 2.3vw, 2rem);
   letter-spacing: -0.06em;
 }
@@ -419,7 +419,7 @@
   top: calc(var(--header-float-h) + var(--header-pad-top) + 24px);
 }
 .method-index > span:first-child {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: clamp(5.5rem, 18vw, 20rem);
   line-height: var(--line-display-tight);
   letter-spacing: -0.09em;
@@ -592,7 +592,7 @@
   position: absolute;
   top: 15px;
   left: 25px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: clamp(4rem, 10vw, 9.4rem);
   line-height: 1;
   letter-spacing: -0.08em;
@@ -832,7 +832,7 @@
   color: var(--lime-gray);
 }
 .final-pairs strong {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--fs-h3);
   font-weight: 400;
   color: var(--lime-light);
@@ -854,7 +854,7 @@
   align-items: center;
   width: 100%;
   min-height: var(--touch);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: clamp(1.7rem, 5.4vw, 5.6rem);
   letter-spacing: -0.07em;
   border: 0;

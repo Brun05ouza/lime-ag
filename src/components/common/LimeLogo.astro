@@ -2,18 +2,30 @@
 interface Props {
   large?: boolean;
   tone?: 'color' | 'white';
+  adaptive?: boolean;
 }
-const { large = false, tone = 'color' } = Astro.props;
+const { large = false, tone = 'color', adaptive = false } = Astro.props;
 const src = tone === 'white' ? '/logos/lime-white.webp' : '/logos/lime-color.webp';
 ---
 
-<span class:list={['lime-logo', { 'lime-logo--large': large }]}>
+<span class:list={['lime-logo', { 'lime-logo--large': large, 'lime-logo--adaptive': adaptive }]}>
   <img
-    class="lime-logo-img"
+    class="lime-logo-img lime-logo-img--default"
     src={src}
     alt="Lime Ag"
     width={large ? 168 : 148}
     height={large ? 36 : 34}
     decoding="async"
   />
+  {adaptive && (
+    <img
+      class="lime-logo-img lime-logo-img--dark"
+      src="/logos/lime-color-dark.webp"
+      alt=""
+      width={large ? 168 : 148}
+      height={large ? 36 : 34}
+      decoding="async"
+      aria-hidden="true"
+    />
+  )}
 </span>

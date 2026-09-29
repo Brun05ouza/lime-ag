@@ -3,7 +3,7 @@ import SiteHeader from '../components/navigation/SiteHeader.astro';
 import SiteFooter from '../components/navigation/SiteFooter.astro';
 import '../styles/global.scss';
 import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
-import displayFont from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url';
+import editorialFont from '../assets/fonts/asgard/Asgard/AsgardTrial-FitRegular.ttf?url';
 interface Props {
   title: string;
   description: string;
@@ -35,7 +35,7 @@ const schema = {
         }
       }, 4000);
     </script>
-    <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={editorialFont} as="font" type="font/ttf" crossorigin="anonymous" />
     <link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin="anonymous" />
     <title>{title}</title>
     <meta name="description" content={description} />
