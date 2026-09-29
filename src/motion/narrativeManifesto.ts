@@ -159,8 +159,15 @@ export function initNarrativeManifesto(): Cleanup {
   const titleLines = titleSplit.lines;
   const initialScale = mobile ? (hasVideo ? 0.92 : 0.88) : 0.52;
   const initialX = mobile ? 0 : 20;
-  const initialY = mobile ? 11 : 9;
+  const initialY = mobile ? 64 : 9;
   const initialRadius = mobile ? 18 : 24;
+  const mediaRevealAt = mobile ? 27 : 22;
+  const mediaUiAt = mobile ? 32 : 27;
+  const introExitAt = mobile ? 30 : 40;
+  const introExitDuration = mobile ? 15 : 20;
+  const mediaLayerAt = mobile ? 37 : 42;
+  const mediaGrowAt = mobile ? 39 : 32;
+  const mediaGrowDuration = mobile ? 29 : 36;
 
   gsap.set(titleLines, { yPercent: 110, autoAlpha: 0 });
   gsap.set([kicker, copy], { y: 28, autoAlpha: 0 });
@@ -201,8 +208,10 @@ export function initNarrativeManifesto(): Cleanup {
       7,
     )
     .to(copy, { y: 0, autoAlpha: 1, duration: 10, ease: 'power3.out' }, 18)
-    .to(media, { autoAlpha: 1, duration: 10, ease: 'power3.out' }, 22)
-    .to(mediaUi, { autoAlpha: 1, duration: 8, ease: 'power3.out' }, 27)
+    .to(media, { autoAlpha: 1, duration: 10, ease: 'power3.out' }, mediaRevealAt)
+    .to(mediaUi, { autoAlpha: 1, duration: 8, ease: 'power3.out' }, mediaUiAt)
+    .to(intro, { y: -48, autoAlpha: 0, duration: introExitDuration, ease: 'none' }, introExitAt)
+    .set(mediaAnchor, { zIndex: 5 }, mediaLayerAt)
     .to(
       media,
       {
@@ -210,13 +219,11 @@ export function initNarrativeManifesto(): Cleanup {
         yPercent: 0,
         scale: 1,
         borderRadius: 10,
-        duration: 36,
+        duration: mediaGrowDuration,
         ease: 'none',
       },
-      32,
+      mediaGrowAt,
     )
-    .to(intro, { y: -48, autoAlpha: 0, duration: 20, ease: 'none' }, 40)
-    .set(mediaAnchor, { zIndex: 5 }, 42)
     .to(mediaUi, { autoAlpha: 0, duration: 8, ease: 'none' }, 76)
     .to(media, { yPercent: -12, scale: 0.94, autoAlpha: 0.42, duration: 18, ease: 'none' }, 80)
     .to(statement, { y: 0, autoAlpha: 1, duration: 14, ease: 'power3.out' }, 83)
