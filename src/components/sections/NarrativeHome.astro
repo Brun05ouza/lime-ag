@@ -4,11 +4,10 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { cwd } from 'node:process';
 import MetricCounter from '../ui/MetricCounter.astro';
-import ProcessIcon from '../ui/ProcessIcon.astro';
+import StrategyJourney from './StrategyJourney';
 import { team } from '../../data/team';
 import { metrics } from '../../data/metrics';
 import { services } from '../../data/services';
-import { process as processSteps } from '../../data/process';
 import teamCrossedArms from '../../assets/team/equipe-lime.png';
 import brandHands from '../../assets/editorial/brand-hands.png';
 import heroMegaphone from '../../assets/editorial/hero-megaphone-cutout.png';
@@ -29,7 +28,6 @@ const marquee = [
   'Inteligência',
   'Crescimento',
 ];
-const processIcons = ['search', 'plan', 'launch', 'growth'] as const;
 ---
 
 <div class="narrative" data-narrative-home>
@@ -311,66 +309,7 @@ const processIcons = ['search', 'plan', 'launch', 'growth'] as const;
     </div>
   </section>
 
-  <section
-    id="processo"
-    class="narrative-chapter narrative-process"
-    aria-labelledby="process-title"
-  >
-    <div class="narrative-wrap narrative-content">
-      <p class="narrative-kicker" data-narrative-reveal>
-        06 / Como trabalhamos
-      </p>
-      <h2 id="process-title" data-narrative-reveal>
-        Conexão não acontece por acaso. <em>Acontece assim:</em>
-      </h2>
-      <div class="narrative-process__journey" data-process-journey>
-        <svg
-          class="narrative-process__route"
-          viewBox="0 0 1400 720"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="process-route-gradient" x1="80" y1="610" x2="1320" y2="300">
-              <stop offset="0" stop-color="var(--lime-orange)"></stop>
-              <stop offset="0.5" stop-color="#ff5759"></stop>
-              <stop offset="1" stop-color="var(--lime-pink)"></stop>
-            </linearGradient>
-          </defs>
-          <path
-            class="narrative-process__road-shadow"
-            d="M-90 650 C95 628 55 493 185 505 C330 518 320 350 470 390 C620 430 635 570 790 512 C930 460 900 338 1082 360 C1190 374 1260 320 1490 286"
-          ></path>
-          <path
-            class="narrative-process__road-base"
-            d="M-90 650 C95 628 55 493 185 505 C330 518 320 350 470 390 C620 430 635 570 790 512 C930 460 900 338 1082 360 C1190 374 1260 320 1490 286"
-          ></path>
-          <path
-            class="narrative-process__road-progress"
-            data-process-route
-            pathLength="1"
-            d="M-90 650 C95 628 55 493 185 505 C330 518 320 350 470 390 C620 430 635 570 790 512 C930 460 900 338 1082 360 C1190 374 1260 320 1490 286"
-          ></path>
-        </svg>
-
-        <ol class="narrative-process__steps">
-          {processSteps.map((step, index) => (
-            <li data-narrative-reveal data-process-step={index + 1}>
-              <article class="narrative-process__card">
-                <span>0{index + 1} / 04</span>
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-              </article>
-              <span class="narrative-process__connector" aria-hidden="true"></span>
-              <span class="narrative-process__marker" aria-hidden="true">
-                <ProcessIcon name={processIcons[index]} />
-              </span>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  </section>
+  <StrategyJourney client:load />
 
   <section id="contato" class="narrative-chapter narrative-contact" aria-labelledby="contact-title">
     <div class="narrative-wrap narrative-content">

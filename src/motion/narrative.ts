@@ -77,7 +77,6 @@ export function initNarrative(): Cleanup {
   type TitleState = {
     element: HTMLElement;
     split: SplitText;
-    axis: number;
     played: boolean;
     tween?: gsap.core.Tween | gsap.core.Timeline;
   };
@@ -108,7 +107,7 @@ export function initNarrative(): Cleanup {
         gsap.set(split.lines, { yPercent: 105, autoAlpha: 0 });
         gsap.set(element, { '--highlight': '0%' });
       }
-      state = { element, split, axis: 0, played };
+      state = { element, split, played };
       titles.push(state);
     });
 
@@ -144,7 +143,7 @@ export function initNarrative(): Cleanup {
         filter: 'blur(12px)',
       });
     }
-    state = { element: heroTitleElement, split, axis: 0, played };
+    state = { element: heroTitleElement, split, played };
     heroTitle = state;
   }
 
@@ -220,7 +219,6 @@ export function initNarrative(): Cleanup {
   const introProgress = { value: 0 };
   let segments: LineSegment[] = [];
   let measured = false;
-  const processSteps = Array.from(root.querySelectorAll<HTMLElement>('[data-process-step]'));
   const measureLine = () => {
     segments = paths
       .map((element) => {
@@ -229,10 +227,6 @@ export function initNarrative(): Cleanup {
         return segment;
       })
       .sort((a, b) => a.start - b.start);
-    titles.forEach((title) => {
-      const rect = title.element.getBoundingClientRect();
-      title.axis = rect.top + window.scrollY + Math.min(rect.height * 0.28, 90);
-    });
     if (contactCta) {
       contactCtaAxis = contactCta.getBoundingClientRect().top + window.scrollY - 45;
     }
@@ -247,11 +241,6 @@ export function initNarrative(): Cleanup {
       const progress = gsap.utils.clamp(0, 1, (tip - start) / Math.max(1, end - start));
       const drawn = samples ? drawnLengthAt(samples, tip) : length * progress;
       element.style.strokeDashoffset = `${length - drawn}px`;
-    });
-    titles.forEach((title) => {
-      if (tip >= title.axis) {
-        playTitle(title, title.element.getBoundingClientRect().bottom < 0);
-      }
     });
     if (contactCta && !contactCtaPlayed && tip >= contactCtaAxis) {
       contactCtaPlayed = true;
@@ -271,24 +260,16 @@ export function initNarrative(): Cleanup {
     onUpdate: (self) => drawLine(self.scroll()),
   });
 
-  const processJourney = root.querySelector<HTMLElement>('[data-process-journey]');
-  const processRoute = root.querySelector<SVGPathElement>('[data-process-route]');
-  if (processJourney && processSteps.length) {
-    if (processRoute) gsap.set(processRoute, { strokeDasharray: 1, strokeDashoffset: 1 });
+  // Headings follow their own viewport entry, not the decorative line's
+  // document-wide progress, which can finish before a hydrated pin releases.
+  titles.forEach((title) => {
     ScrollTrigger.create({
-      trigger: processJourney,
-      start: 'top 78%',
-      end: 'bottom 42%',
-      scrub: 0.45,
-      onUpdate: (self) => {
-        if (processRoute) gsap.set(processRoute, { strokeDashoffset: 1 - self.progress });
-        processSteps.forEach((step, index) => {
-          const threshold = index / Math.max(1, processSteps.length - 1);
-          step.classList.toggle('is-active', self.progress >= threshold - 0.06);
-        });
-      },
+      trigger: title.element,
+      start: 'top 75%',
+      once: true,
+      onEnter: () => playTitle(title, title.element.getBoundingClientRect().bottom < 0),
     });
-  }
+  });
 
   root.querySelectorAll<HTMLElement>('[data-narrative-reveal]').forEach((element) => {
     if (element.closest('.narrative-hero') || element.matches('h1, h2')) return;
@@ -390,7 +371,6 @@ export function initNarrative(): Cleanup {
       path.style.removeProperty('stroke-dashoffset');
     });
     contactCta?.style.removeProperty('transform');
-    processSteps.forEach((step) => step.classList.remove('is-active'));
     titles.forEach((title) => {
       title.tween?.kill();
       title.split.revert();
