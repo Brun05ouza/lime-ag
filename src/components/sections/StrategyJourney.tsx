@@ -1,6 +1,7 @@
 import { useId, useLayoutEffect, useRef, type CSSProperties } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ChartNoAxesCombined, Rocket } from 'lucide-react';
 import { process as steps } from '../../data/process';
 import '../../styles/strategy-journey.scss';
 
@@ -35,15 +36,10 @@ function StageIcon({ index }: { index: number }) {
         </>
       )}
       {index === 2 && (
-        <>
-          <path d="M13 20 6 22l4-7M12 20l-2 6 6-2M14 18c-2-4 0-9 4-12 3-2 6-2 8-2 0 2 0 5-2 8-3 4-8 6-12 4Z" />
-          <circle cx="21" cy="9" r="2" />
-        </>
+        <Rocket aria-hidden="true" />
       )}
       {index === 3 && (
-        <>
-          <path d="M6 26h21M8 23v-6h4v6M15 23V12h4v11M22 23V8h4v15M8 12l6-5 5 2 7-6M22 3h4v4" />
-        </>
+        <ChartNoAxesCombined aria-hidden="true" />
       )}
     </svg>
   );
