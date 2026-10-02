@@ -2,7 +2,7 @@
   --lime-purple: #331335;
   --lime-pink: #fd3068;
   --lime-orange: #f27e3b;
-  --lime-light: #e8e9e8;
+  --lime-light: #f3f4f2;
   --lime-gray: #b0b0b7;
   --lime-black: #1e1d21;
   --gradient: linear-gradient(90deg, var(--lime-pink), var(--lime-orange));
@@ -70,7 +70,7 @@
 
   --font-display: 'Inter Variable', sans-serif;
   --font-body: 'Inter Variable', sans-serif;
-  --font-editorial: 'Asgard Trial', 'Inter Variable', sans-serif;
+  --font-editorial: var(--font-display);
   --radius: 2px;
   --z-header: 50;
   --z-line: 1;

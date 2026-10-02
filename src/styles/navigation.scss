@@ -318,8 +318,8 @@
 .site-footer {
   padding-top: var(--gap-lg);
   padding-bottom: max(24px, var(--safe-bottom));
-  background: var(--lime-purple);
-  color: var(--lime-light);
+  background: var(--lime-light);
+  color: var(--lime-purple);
 }
 .footer-inner.wrap {
   max-width: none;
@@ -349,13 +349,13 @@
   font-size: 24px;
 }
 .footer-bottom {
-  border-top: 1px solid #ffffff28;
+  border-top: 1px solid #33133528;
   padding-top: 25px;
   display: flex;
   justify-content: space-between;
   gap: var(--gap-md);
   font-size: 10px;
-  color: var(--lime-gray);
+  color: #756478;
 }
 .footer-bottom nav {
   display: flex;

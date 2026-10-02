@@ -49,7 +49,7 @@ const marquee = [
           </h1>
           <p class="narrative-lead" data-narrative-reveal>
             Marcas inesquecíveis não são as que falam mais. São as que falam com propósito. A Lime
-            cria comunicação para fortalecer marcas, gerar conexão e construir valor.
+            cria comunicação para fortalecer marcas e gerar conexão.
           </p>
           <a class="narrative-link" href="#contato" data-narrative-reveal data-magnetic>
             <span data-button-label>Fale com a gente</span>
@@ -132,8 +132,9 @@ const marquee = [
       <div class="narrative-manifesto__stage">
         <div class="narrative-wrap narrative-manifesto__heading">
           <h2 id="manifesto-title">
-            Manifesto<span>.</span>
+            Comunicação não é volume. <em>É intenção.</em>
           </h2>
+          <p class="narrative-manifesto__subtitle">Assista ao nosso manifesto:</p>
         </div>
         <div class="narrative-manifesto__media-anchor">
           <figure
@@ -184,15 +185,6 @@ const marquee = [
         </div>
       </div>
     </section>
-
-    <section class="narrative-chapter narrative-statement" aria-labelledby="statement-title">
-      <div class="narrative-wrap narrative-content">
-        <p class="narrative-kicker">O que nos move</p>
-        <h2 id="statement-title">
-          A história da sua marca merece ser contada do jeito certo<span>.</span>
-        </h2>
-      </div>
-    </section>
   </div>
 
   <section
@@ -202,7 +194,7 @@ const marquee = [
   >
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
-        03 / As sócias
+        As sócias
       </p>
       <h2 id="founders-title" data-narrative-reveal>
         Experiência de quem já fez grandes marcas <em>serem ouvidas.</em>
@@ -212,7 +204,7 @@ const marquee = [
         nacionais e internacionais.
       </p>
       <div class="narrative-founders__grid">
-        {team.map((person, index) => (
+        {team.map((person) => (
           <article class="narrative-founder" data-narrative-reveal>
             <div class="narrative-founder__photo">
               <Picture
@@ -225,7 +217,6 @@ const marquee = [
                 alt={person.name}
                 loading="lazy"
               />
-              <span>0{index + 1} / 02</span>
             </div>
             <div class="narrative-founder__body">
               <h3>{person.name}</h3>
@@ -245,7 +236,7 @@ const marquee = [
   >
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
-        04 / Experiência e resultados
+        Experiência e resultados
       </p>
       <h2 id="results-title" data-narrative-reveal>
         O impacto da comunicação feita <em>com intenção.</em>
@@ -282,7 +273,7 @@ const marquee = [
   >
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
-        05 / O que fazemos
+        O que fazemos
       </p>
       <h2 id="expertise-title" data-narrative-reveal>
         Onde a estratégia vira <em>presença e resultado.</em>
@@ -314,7 +305,7 @@ const marquee = [
   <section id="contato" class="narrative-chapter narrative-contact" aria-labelledby="contact-title">
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
-        07 / Vamos conversar
+        Vamos conversar
       </p>
       <h2 id="contact-title" data-narrative-reveal>
         Vamos transformar sua comunicação em <em>resultados reais?</em>

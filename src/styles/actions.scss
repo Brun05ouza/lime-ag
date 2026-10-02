@@ -1,0 +1,77 @@
+// Shared action treatment, including the magnetic controls.
+.button,
+.narrative-link,
+.narrative-contact__submit,
+.work-story-cta,
+.site-header .header-cta {
+  background: linear-gradient(100deg, var(--lime-pink), var(--lime-orange));
+  color: var(--lime-purple);
+  border: 0;
+  border-radius: 0;
+  padding: 24px 15px;
+  min-height: 83px;
+  max-width: 100%;
+  gap: 24px;
+  justify-content: space-between;
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 550;
+  letter-spacing: 0;
+  line-height: 1.4;
+  text-transform: none;
+  transition: opacity 180ms ease;
+
+  &::before,
+  &::after {
+    content: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--lime-purple);
+    padding-inline: 15px;
+  }
+
+  .button-arrow,
+  &:hover .button-arrow,
+  &:focus-visible .button-arrow {
+    color: var(--lime-purple);
+  }
+}
+.narrative-link,
+.button,
+.work-story-cta {
+  width: 330px;
+  min-width: 0;
+}
+.work-story-cta i {
+  display: none;
+}
+.narrative-contact__submit:hover:not(:disabled) {
+  padding-inline: 15px;
+  color: var(--lime-purple);
+}
+.narrative-contact__submit:hover:not(:disabled) .button-arrow {
+  color: var(--lime-purple);
+}
+.site-header .header-cta {
+  min-height: 48px;
+  padding-block: 10px;
+  font-size: 16px;
+  gap: 16px;
+}
+form .button,
+.narrative-contact__submit {
+  font-size: 24px;
+  text-transform: none;
+}
+@media (max-width: 639px) {
+  .button,
+  .narrative-link,
+  .narrative-contact__submit,
+  .work-story-cta {
+    min-height: 72px;
+    font-size: 21px;
+    padding-block: 20px;
+  }
+}

@@ -1,5 +1,5 @@
 import type { ImageMetadata } from 'astro';
-import carol from '../assets/team/carol-melo.png';
+import carol from '../assets/team/carol-melo-cutout.png';
 import julia from '../assets/team/julia-lima.png';
 export interface TeamMember {
   name: string;
