@@ -277,15 +277,27 @@ const marquee = [
         {services.map((service, index) => (
           <article class="narrative-expertise__item" id={`servico-${service.id}`}>
             <div class="narrative-expertise__visual">
-              <Picture
-                src={serviceVisuals[index]}
-                alt=""
-                formats={['avif', 'webp']}
-                fallbackFormat="webp"
-                widths={[480, 800, 1200]}
-                sizes="(max-width: 767px) 92vw, 42vw"
-                loading="lazy"
-              />
+              <div class="narrative-expertise__figure">
+                {['base', 'slice-a', 'slice-b'].map((layer) => (
+                  <div
+                    class:list={[
+                      'narrative-expertise__layer',
+                      { [`narrative-expertise__layer--${layer}`]: layer !== 'base' },
+                    ]}
+                    aria-hidden="true"
+                  >
+                    <Picture
+                      src={serviceVisuals[index]}
+                      alt=""
+                      formats={['avif', 'webp']}
+                      fallbackFormat="webp"
+                      widths={[480, 800, 1200]}
+                      sizes="(max-width: 767px) 92vw, 42vw"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
             <div class="narrative-expertise__copy">
               <h3>{service.title}</h3>

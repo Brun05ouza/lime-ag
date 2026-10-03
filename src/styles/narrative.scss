@@ -280,10 +280,8 @@
   clip-path: inset(54% 0 20% 0);
   animation: narrative-hero-slice-b 3.2s steps(1, end) infinite;
 }
-.narrative-hero-stack.is-ambient-visible :is(
-  .narrative-hero__figure-layer--slice-a,
-  .narrative-hero__figure-layer--slice-b
-) {
+.narrative-hero-stack.is-ambient-visible
+  :is(.narrative-hero__figure-layer--slice-a, .narrative-hero__figure-layer--slice-b) {
   will-change: transform;
 }
 @keyframes narrative-hero-drift {
@@ -626,6 +624,31 @@
   position: relative;
   background: transparent;
 }
+.narrative-expertise__figure {
+  position: relative;
+  isolation: isolate;
+  animation: narrative-hero-drift 8s ease-in-out infinite alternate;
+}
+.narrative-expertise__layer--slice-a,
+.narrative-expertise__layer--slice-b {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.narrative-expertise__layer--slice-a {
+  z-index: 1;
+  clip-path: inset(17% 0 56% 0);
+  animation: narrative-hero-slice-a 3.2s steps(1, end) infinite;
+}
+.narrative-expertise__layer--slice-b {
+  z-index: 2;
+  clip-path: inset(54% 0 20% 0);
+  animation: narrative-hero-slice-b 3.2s steps(1, end) infinite;
+}
+.narrative-expertise__visual.is-ambient-visible
+  :is(.narrative-expertise__layer--slice-a, .narrative-expertise__layer--slice-b) {
+  will-change: transform;
+}
 .narrative-expertise__visual picture {
   display: block;
   aspect-ratio: 1.15;
@@ -725,21 +748,38 @@
 .narrative-hero__figure,
 .narrative-hero__figure-layer--slice-a,
 .narrative-hero__figure-layer--slice-b,
+.narrative-expertise__figure,
+.narrative-expertise__layer--slice-a,
+.narrative-expertise__layer--slice-b,
 .narrative-marquee__track,
 .narrative-contact__threads path {
   animation-play-state: paused;
 }
-.is-ambient-visible :is(.narrative-hero__figure, .narrative-hero__figure-layer--slice-a,
-  .narrative-hero__figure-layer--slice-b, .narrative-marquee__track,
-  .narrative-contact__threads path) {
+.is-ambient-visible
+  :is(
+    .narrative-hero__figure,
+    .narrative-hero__figure-layer--slice-a,
+    .narrative-hero__figure-layer--slice-b,
+    .narrative-expertise__figure,
+    .narrative-expertise__layer--slice-a,
+    .narrative-expertise__layer--slice-b,
+    .narrative-marquee__track,
+    .narrative-contact__threads path
+  ) {
   animation-play-state: running;
 }
 @keyframes contact-thread-drift {
-  from { transform: translateY(-18px); }
-  to { transform: translateY(18px); }
+  from {
+    transform: translateY(-18px);
+  }
+  to {
+    transform: translateY(18px);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .narrative-contact__threads path { animation: none; }
+  .narrative-contact__threads path {
+    animation: none;
+  }
 }
 .narrative-contact .narrative-line,
 .narrative-contact .narrative-line svg {
@@ -1054,7 +1094,10 @@
   }
   .narrative-hero__figure,
   .narrative-hero__figure-layer--slice-a,
-  .narrative-hero__figure-layer--slice-b {
+  .narrative-hero__figure-layer--slice-b,
+  .narrative-expertise__figure,
+  .narrative-expertise__layer--slice-a,
+  .narrative-expertise__layer--slice-b {
     animation: none;
   }
 }

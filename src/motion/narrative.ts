@@ -68,14 +68,19 @@ export function initNarrative(): Cleanup {
   const mobile = window.matchMedia('(max-width: 767px)').matches;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Stop decorative CSS motion outside the viewport and in background tabs.
-  const ambientSections = Array.from(root.querySelectorAll<HTMLElement>(
-    '.narrative-hero-stack, .narrative-contact',
-  ));
+  const ambientSections = Array.from(
+    root.querySelectorAll<HTMLElement>(
+      '.narrative-hero-stack, .narrative-contact, .narrative-expertise__visual',
+    ),
+  );
   const visibleSections = new Set<Element>();
   const syncAmbient = () => {
-    ambientSections.forEach((section) => section.classList.toggle(
-      'is-ambient-visible', visibleSections.has(section) && !document.hidden && !reduceMotion,
-    ));
+    ambientSections.forEach((section) =>
+      section.classList.toggle(
+        'is-ambient-visible',
+        visibleSections.has(section) && !document.hidden && !reduceMotion,
+      ),
+    );
   };
   const ambientObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -381,30 +386,48 @@ export function initNarrative(): Cleanup {
 
   // The existing MetricCounter markup is retained, but the value settles once
   // when it enters view instead of reversing as the visitor scrolls upward.
-  root.querySelectorAll<HTMLElement>('[data-counter]').forEach((element) => {
-    const value = Number(element.dataset.value);
-    const final = element.dataset.final || '';
-    const suffix = element.dataset.suffix || '';
-    const proxy = { value: 0 };
-    gsap.to(proxy, {
-      value,
-      duration: 1.5,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: element, start: 'top 94%', once: true },
-      onUpdate: () => {
-        let numeric = Number.isInteger(value)
-          ? String(Math.round(proxy.value))
-          : proxy.value.toFixed(1);
-        if (final.startsWith('0')) numeric = numeric.padStart(2, '0');
-        element.textContent = `${numeric}${suffix}`;
-      },
-      onComplete: () => {
-        element.textContent = final;
-      },
-    });
-  });
+  const counterTweens: gsap.core.Tween[] = [];
+  const counterElements = root.querySelectorAll<HTMLElement>('[data-counter]');
+  const counterObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const element = entry.target as HTMLElement;
+        counterObserver.unobserve(element);
+        const value = Number(element.dataset.value);
+        const final = element.dataset.final || '';
+        const suffix = element.dataset.suffix || '';
+        if (!Number.isFinite(value)) return;
+        const proxy = { value: 0 };
+        counterTweens.push(
+          gsap.to(proxy, {
+            value,
+            duration: 1.5,
+            ease: 'power2.out',
+            onUpdate: () => {
+              let numeric = Number.isInteger(value)
+                ? String(Math.round(proxy.value))
+                : proxy.value.toFixed(1);
+              if (final.startsWith('0')) numeric = numeric.padStart(2, '0');
+              element.textContent = `${numeric}${suffix}`;
+            },
+            onComplete: () => {
+              element.textContent = final;
+            },
+          }),
+        );
+      });
+    },
+    { rootMargin: '0px 0px -6% 0px' },
+  );
+  counterElements.forEach((element) => counterObserver.observe(element));
 
   return () => {
+    counterObserver.disconnect();
+    counterTweens.forEach((tween) => tween.kill());
+    counterElements.forEach((element) => {
+      element.textContent = element.dataset.final || '';
+    });
     ambientObserver.disconnect();
     document.removeEventListener('visibilitychange', syncAmbient);
     ambientSections.forEach((section) => section.classList.remove('is-ambient-visible'));
