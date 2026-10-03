@@ -67,6 +67,25 @@ export function initNarrative(): Cleanup {
   if (!root) return () => {};
   const mobile = window.matchMedia('(max-width: 767px)').matches;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Stop decorative CSS motion outside the viewport and in background tabs.
+  const ambientSections = Array.from(root.querySelectorAll<HTMLElement>(
+    '.narrative-hero-stack, .narrative-contact',
+  ));
+  const visibleSections = new Set<Element>();
+  const syncAmbient = () => {
+    ambientSections.forEach((section) => section.classList.toggle(
+      'is-ambient-visible', visibleSections.has(section) && !document.hidden && !reduceMotion,
+    ));
+  };
+  const ambientObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) visibleSections.add(entry.target);
+      else visibleSections.delete(entry.target);
+    });
+    syncAmbient();
+  });
+  ambientSections.forEach((section) => ambientObserver.observe(section));
+  document.addEventListener('visibilitychange', syncAmbient);
   const paths = Array.from(root.querySelectorAll<HTMLElement>('.narrative-line'))
     .map((line) =>
       line.querySelector<SVGPathElement>(
@@ -86,6 +105,7 @@ export function initNarrative(): Cleanup {
       '.narrative-chapter:not(.narrative-hero) h2, .narrative-chapter:not(.narrative-hero) h3',
     )
     .forEach((element) => {
+      if (element.closest('.narrative-expertise__item')) return;
       element.classList.add('narrative-title-highlight');
       let state: TitleState | undefined;
       const split = SplitText.create(element, {
@@ -102,10 +122,8 @@ export function initNarrative(): Cleanup {
         },
       });
       const played = enteredTitles.has(element);
-      if (played) gsap.set(element, { '--highlight': '100%' });
-      else {
+      if (!played) {
         gsap.set(split.lines, { yPercent: 105, autoAlpha: 0 });
-        gsap.set(element, { '--highlight': '0%' });
       }
       state = { element, split, played };
       titles.push(state);
@@ -130,7 +148,6 @@ export function initNarrative(): Cleanup {
           yPercent: 140,
           autoAlpha: 0,
           rotateX: 55,
-          filter: 'blur(12px)',
         });
       },
     });
@@ -140,7 +157,6 @@ export function initNarrative(): Cleanup {
         yPercent: 140,
         autoAlpha: 0,
         rotateX: 55,
-        filter: 'blur(12px)',
       });
     }
     state = { element: heroTitleElement, split, played };
@@ -154,19 +170,15 @@ export function initNarrative(): Cleanup {
     if (immediate || reduceMotion) {
       gsap.set(state.split.lines, { clearProps: 'all' });
       if (state.split.words?.length) gsap.set(state.split.words, { clearProps: 'all' });
-      gsap.set(state.element, { '--highlight': '100%' });
       return;
     }
-    state.tween = gsap
-      .timeline({ overwrite: true })
-      .to(state.split.lines, {
-        yPercent: 0,
-        autoAlpha: 1,
-        duration: 1.05,
-        stagger: 0.11,
-        ease: 'power4.out',
-      })
-      .to(state.element, { '--highlight': '100%', duration: 1.05, ease: 'power2.out' }, 0.08);
+    state.tween = gsap.timeline({ overwrite: true }).to(state.split.lines, {
+      yPercent: 0,
+      autoAlpha: 1,
+      duration: 1.05,
+      stagger: 0.11,
+      ease: 'power4.out',
+    });
   };
 
   const playHeroTitle = (immediate = false) => {
@@ -190,7 +202,6 @@ export function initNarrative(): Cleanup {
       yPercent: 0,
       autoAlpha: 1,
       rotateX: 0,
-      filter: 'blur(0px)',
       ease: 'expo.out',
     };
     const timeline = gsap.timeline({ overwrite: true });
@@ -282,6 +293,35 @@ export function initNarrative(): Cleanup {
     });
   });
 
+  const expertiseMotion = gsap.context(() => {
+    root.querySelectorAll<HTMLElement>('.narrative-expertise__item').forEach((row, index) => {
+      if (reduceMotion || enteredTitles.has(row)) return;
+      const visual = row.querySelector<HTMLElement>('.narrative-expertise__visual');
+      const heading = row.querySelector<HTMLElement>('h3');
+      const items = row.querySelectorAll('li');
+      if (!visual || !heading) return;
+      const direction = index % 2 === 0 ? -1 : 1;
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: row, start: 'top 78%', once: true },
+          onStart: () => enteredTitles.add(row),
+          defaults: { ease: 'power3.out' },
+        })
+        .from(visual, {
+          x: mobile ? 0 : direction * 44,
+          y: mobile ? 24 : 0,
+          autoAlpha: 0,
+          duration: 0.9,
+        })
+        .from(
+          heading,
+          { x: mobile ? 0 : direction * -30, y: 24, autoAlpha: 0, duration: 0.95 },
+          0.12,
+        )
+        .from(items, { y: 16, autoAlpha: 0, duration: 0.55, stagger: 0.065 }, 0.35);
+    });
+  }, root);
+
   const hero = root.querySelector<HTMLElement>('.narrative-hero');
   const heroItems = hero?.querySelectorAll<HTMLElement>('[data-narrative-reveal]');
   const heroPortrait = hero?.querySelector<HTMLElement>('.narrative-hero__portrait');
@@ -365,6 +405,10 @@ export function initNarrative(): Cleanup {
   });
 
   return () => {
+    ambientObserver.disconnect();
+    document.removeEventListener('visibilitychange', syncAmbient);
+    ambientSections.forEach((section) => section.classList.remove('is-ambient-visible'));
+    expertiseMotion.revert();
     intro?.kill();
     paths.forEach((path) => {
       path.style.removeProperty('stroke-dasharray');
@@ -375,7 +419,6 @@ export function initNarrative(): Cleanup {
       title.tween?.kill();
       title.split.revert();
       title.element.classList.remove('narrative-title-highlight');
-      title.element.style.removeProperty('--highlight');
     });
     heroTitle?.tween?.kill();
     heroTitle?.split.revert();

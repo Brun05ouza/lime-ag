@@ -1,7 +1,7 @@
 import { useId, useLayoutEffect, useRef, type CSSProperties } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChartNoAxesCombined, Rocket } from 'lucide-react';
+import { ChartNoAxesCombined, ClipboardList, Rocket, SearchCheck } from 'lucide-react';
 import { process as steps } from '../../data/process';
 import '../../styles/strategy-journey.scss';
 
@@ -21,28 +21,8 @@ const names = ['Imersão e Raio-X', 'Plano de Ação', 'Execução', 'Evolução
 const top = [12, 1, 15, 0];
 
 function StageIcon({ index }: { index: number }) {
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-      {index === 0 && (
-        <>
-          <circle cx="13" cy="13" r="7" />
-          <path d="m18 18 8 8M10 13h6M13 10v6" />
-        </>
-      )}
-      {index === 1 && (
-        <>
-          <rect x="7" y="6" width="18" height="21" rx="2" />
-          <path d="M12 6V4h8v2M11 12h10M11 17h10M11 22h6" />
-        </>
-      )}
-      {index === 2 && (
-        <Rocket aria-hidden="true" />
-      )}
-      {index === 3 && (
-        <ChartNoAxesCombined aria-hidden="true" />
-      )}
-    </svg>
-  );
+  const Icon = [SearchCheck, ClipboardList, Rocket, ChartNoAxesCombined][index];
+  return <Icon aria-hidden="true" focusable="false" />;
 }
 
 export default function StrategyJourney() {
@@ -79,7 +59,7 @@ export default function StrategyJourney() {
                 id: `strategy-mobile-${index}`,
                 trigger: card,
                 start: 'top 88%',
-                toggleActions: 'play none none reverse',
+                once: true,
               },
             });
             reveal
@@ -111,18 +91,13 @@ export default function StrategyJourney() {
         gsap.set(markers, { scale: 0, opacity: 0 });
         gsap.set(halos, { opacity: 0, scale: 0.9 });
 
-        // One reversible timeline owns the road and every stage. No other
-        // page reveal targets this island's headings or cards.
+        // Entry starts a timed sequence; it keeps playing without further scroll.
         const tl = gsap.timeline({
           scrollTrigger: {
             id: 'strategy-journey',
             trigger: section,
-            start: 'top top',
-            end: '+=300%',
-            pin: panel,
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
+            start: 'top 45%',
+            once: true,
           },
         });
         tl.to(headingRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0);
@@ -163,16 +138,12 @@ export default function StrategyJourney() {
             );
           previous = arrival;
         });
-        tl.to([path, shadow], { strokeDashoffset: 0, duration: 1, ease: 'none' }, previous).to(
-          {},
-          { duration: 1.6 },
-          9,
-        );
+        tl.to([path, shadow], { strokeDashoffset: 0, duration: 1, ease: 'none' }, previous);
+        tl.timeScale(3.4);
       },
       section,
     );
-    // Hydration can follow the site's Lenis setup; refresh existing geometry
-    // after the pin spacer is installed without creating another scroll runtime.
+    // Recalculate entry positions after hydration and font loading.
     let disposed = false;
     const refresh = requestAnimationFrame(() => {
       ScrollTrigger.sort();

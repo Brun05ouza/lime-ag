@@ -84,7 +84,6 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
         backgroundColor: 'rgba(51,19,53,0)',
         borderColor: 'rgba(255,255,255,0)',
         boxShadow: '0 10px 35px rgba(22,5,24,0)',
-        backdropFilter: 'blur(0px) saturate(100%)',
         logoScale: 1,
       };
     if (next === 'expanded')
@@ -94,10 +93,9 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
         height: floatHeight,
         paddingInline: compactHeader ? 17 : 24,
         borderRadius: 18,
-        backgroundColor: 'rgba(51,19,53,.78)',
+        backgroundColor: 'rgba(51,19,53,.96)',
         borderColor: 'rgba(255,255,255,.08)',
         boxShadow: '0 10px 35px rgba(22,5,24,.14)',
-        backdropFilter: 'blur(16px) saturate(130%)',
         logoScale: 1,
       };
     return {
@@ -106,10 +104,9 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
       height: compactHeader ? floatHeight : collapsedHeight,
       paddingInline: compactHeader ? 17 : 18,
       borderRadius: 18,
-      backgroundColor: compactHeader ? 'rgba(51,19,53,.78)' : 'rgba(51,19,53,.82)',
+      backgroundColor: 'rgba(51,19,53,.96)',
       borderColor: compactHeader ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.09)',
       boxShadow: compactHeader ? '0 10px 35px rgba(22,5,24,.14)' : '0 10px 35px rgba(22,5,24,.16)',
-      backdropFilter: 'blur(16px) saturate(130%)',
       logoScale: 1,
     };
   };
@@ -147,7 +144,6 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
             backgroundColor: target.backgroundColor,
             borderColor: target.borderColor,
             boxShadow: target.boxShadow,
-            backdropFilter: target.backdropFilter,
           },
           shellStart,
         )

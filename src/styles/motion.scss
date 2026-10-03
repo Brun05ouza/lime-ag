@@ -1,30 +1,38 @@
+@font-face {
+  font-family: 'Asgard Cursor';
+  src: url('/fonte/AsgardTrial-FitRegular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 .cursor {
   display: none;
   position: fixed;
   left: 0;
   top: 0;
-  width: 6px;
-  height: 6px;
-  border: 1px solid var(--lime-orange);
-  border-radius: 50%;
+  width: 44px;
+  height: 48px;
+  overflow: hidden;
+  color: var(--lime-pink);
+  font-family: 'Asgard Cursor', var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1;
   z-index: var(--z-cursor);
   pointer-events: none;
 }
 .cursor.is-visible {
-  display: block;
-}
-.cursor.is-link {
-  width: 20px;
-  height: 20px;
-}
-.cursor.is-view {
-  width: 60px;
-  height: 60px;
-  background: var(--lime-purple);
-  color: white;
   display: grid;
   place-items: center;
-  font-size: 10px;
+}
+.cursor span {
+  display: block;
+  line-height: 1.1;
+  transform-origin: center;
+  transition: color 220ms ease;
+}
+.cursor.is-interactive span {
+  color: var(--lime-orange);
 }
 @media (hover: none), (pointer: coarse) {
   .cursor {
@@ -164,10 +172,6 @@
 }
 
 /* Motion-only treatments preserve the existing geometry and final visual state. */
-.cursor.is-cta {
-  width: 4px;
-  height: 4px;
-}
 [data-button-label],
 [data-arrow-glyph] {
   display: inline-block;

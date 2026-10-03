@@ -12,12 +12,37 @@ interface Props {
 const { title, description, image = '/og/default.jpg', noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
+const organizationId = new URL('/#organization', Astro.site).href;
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Lime Ag',
-  url: Astro.site?.href,
-  email: 'carol@limeagencia.com.br',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': organizationId,
+      name: 'Lime Ag',
+      url: Astro.site?.href,
+      logo: new URL('/logos/lime-color-dark.webp', Astro.site).href,
+      email: 'carol@limeagencia.com.br',
+      telephone: '+55 21 97246-1018',
+    },
+    {
+      '@type': 'WebSite',
+      '@id': new URL('/#website', Astro.site).href,
+      name: 'Lime Ag',
+      url: Astro.site?.href,
+      inLanguage: 'pt-BR',
+      publisher: { '@id': organizationId },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': canonical.href,
+      url: canonical.href,
+      name: title,
+      description,
+      inLanguage: 'pt-BR',
+      isPartOf: { '@id': new URL('/#website', Astro.site).href },
+    },
+  ],
 };
 ---
 
@@ -48,6 +73,7 @@ const schema = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Lime Ag — Comunicação com estratégia e propósito" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -67,7 +93,7 @@ const schema = {
       <slot />
     </main>
     <SiteFooter />
-    <div class="cursor" aria-hidden="true" data-cursor></div>
+    <div class="cursor" aria-hidden="true" data-cursor><span>g</span></div>
     <script>
       import { initUI } from '../scripts/ui';
       import { bootMotion } from '../motion/reducedMotion';

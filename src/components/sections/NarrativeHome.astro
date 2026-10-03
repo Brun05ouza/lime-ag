@@ -11,6 +11,11 @@ import { services } from '../../data/services';
 import teamCrossedArms from '../../assets/team/equipe-lime.png';
 import brandHands from '../../assets/editorial/brand-hands.png';
 import heroMegaphone from '../../assets/editorial/hero-megaphone-cutout.png';
+import servicesConnection from '../../assets/editorial/services-connection-cutout.png';
+import servicesContent from '../../assets/editorial/services-content-cutout.png';
+import servicesGrowth from '../../assets/editorial/services-growth-cutout.png';
+import servicesDialogue from '../../assets/editorial/social-dialogue.png';
+const serviceVisuals = [servicesConnection, servicesContent, servicesDialogue, servicesGrowth];
 import { MANIFESTO_SOURCES } from '../../lib/manifesto';
 const manifestoHasWebm = existsSync(join(cwd(), 'public', 'videos', 'manifesto-lime.webm'));
 const manifestoHasMp4 = existsSync(join(cwd(), 'public', 'videos', 'manifesto-lime.mp4'));
@@ -73,36 +78,23 @@ const marquee = [
                 fetchpriority="high"
               />
             </div>
-            <div
-              class="narrative-hero__figure-layer narrative-hero__figure-layer--slice-a"
-              aria-hidden="true"
-            >
-              <Picture
-                src={heroMegaphone}
-                formats={['avif', 'webp']}
-                fallbackFormat="webp"
-                width={1100}
-                widths={[520, 760, 1100]}
-                sizes="(max-width: 767px) 92vw, 47vw"
-                alt=""
-                loading="eager"
-              />
-            </div>
-            <div
-              class="narrative-hero__figure-layer narrative-hero__figure-layer--slice-b"
-              aria-hidden="true"
-            >
-              <Picture
-                src={heroMegaphone}
-                formats={['avif', 'webp']}
-                fallbackFormat="webp"
-                width={1100}
-                widths={[520, 760, 1100]}
-                sizes="(max-width: 767px) 92vw, 47vw"
-                alt=""
-                loading="eager"
-              />
-            </div>
+            {['a', 'b'].map((slice) => (
+              <div
+                class={`narrative-hero__figure-layer narrative-hero__figure-layer--slice-${slice}`}
+                aria-hidden="true"
+              >
+                <Picture
+                  src={heroMegaphone}
+                  formats={['avif', 'webp']}
+                  fallbackFormat="webp"
+                  width={1100}
+                  widths={[520, 760, 1100]}
+                  sizes="(max-width: 767px) 92vw, 47vw"
+                  alt=""
+                  loading="eager"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -283,11 +275,20 @@ const marquee = [
       </p>
       <div class="narrative-expertise__list">
         {services.map((service, index) => (
-          <article class="narrative-expertise__item" data-narrative-reveal>
-            <span>0{index + 1}</span>
-            <div>
+          <article class="narrative-expertise__item" id={`servico-${service.id}`}>
+            <div class="narrative-expertise__visual">
+              <Picture
+                src={serviceVisuals[index]}
+                alt=""
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                widths={[480, 800, 1200]}
+                sizes="(max-width: 767px) 92vw, 42vw"
+                loading="lazy"
+              />
+            </div>
+            <div class="narrative-expertise__copy">
               <h3>{service.title}</h3>
-              <p>{service.introduction}</p>
               <ul>
                 {service.items.map((item) => (
                   <li>{item}</li>
@@ -300,9 +301,15 @@ const marquee = [
     </div>
   </section>
 
-  <StrategyJourney client:load />
+  <StrategyJourney client:visible={{ rootMargin: '300px' }} />
 
   <section id="contato" class="narrative-chapter narrative-contact" aria-labelledby="contact-title">
+    <div class="narrative-contact__threads" aria-hidden="true">
+      <svg viewBox="0 0 1440 1500" preserveAspectRatio="xMidYMid slice" fill="none">
+        <path d="M1110 -120 C720 120 1540 210 1210 530 C970 760 1510 900 1570 1150" />
+        <path d="M-160 330 C330 440 -180 750 170 1000 C530 1260 -170 1330 200 1600" />
+      </svg>
+    </div>
     <div class="narrative-wrap narrative-content">
       <p class="narrative-kicker" data-narrative-reveal>
         Vamos conversar
