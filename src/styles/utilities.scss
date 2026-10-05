@@ -52,6 +52,14 @@
   max-width: min(290px, var(--measure-narrow));
   padding-bottom: 6px;
 }
+.text-gradient {
+  width: fit-content;
+  background-image: var(--gradient-aurora);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
 .text-link {
   display: inline-flex;
   align-items: center;
