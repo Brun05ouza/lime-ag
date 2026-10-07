@@ -159,3 +159,27 @@
     gap: var(--gap-md);
   }
 }
+.narrative-founder__photo.portrait-torso,
+.team-photo.portrait-torso {
+  aspect-ratio: 6 / 5;
+  background: transparent;
+
+  picture {
+    position: absolute;
+    inset: 0;
+  }
+
+  img {
+    position: absolute;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    left: 0;
+    top: -12%;
+    padding: 0;
+  }
+}
+
+.team-profile:nth-child(2) .team-photo.portrait-torso {
+  background: transparent;
+}

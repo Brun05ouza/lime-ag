@@ -168,7 +168,6 @@ export default function StrategyJourney() {
     >
       <div className="strategy-panel" ref={panelRef}>
         <div className="strategy-heading" ref={headingRef}>
-          <p>Como trabalhamos</p>
           <h2 id="strategy-title">
             Assumindo a <strong>Estratégia</strong>
           </h2>

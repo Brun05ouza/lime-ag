@@ -12,3 +12,4 @@
 - `social-dialogue.png`: asset editorial já existente no projeto.
 
 Os arquivos são servidos localmente e otimizados por Astro Picture para AVIF/WebP. Não dependem de URLs temporárias de download.
+- Variantes `services-connection-lime.png`, `services-content-lime.png`, `social-dialogue-lime.png` e `services-growth-lime.png`: editadas com a ferramenta integrada imagegen em 2026-10-07. Prompt: substituir somente as regiões gráficas coloridas pelo gradiente rosa #ff3269 → laranja #ff7829; preservar composição, objetos, retícula e transparência original. Originais preservados.

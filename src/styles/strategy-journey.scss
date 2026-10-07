@@ -1,7 +1,7 @@
 .strategy-journey {
   position: relative;
   color: var(--lime-purple);
-  background: var(--lime-light);
+  background: var(--n-surface-gray);
   scroll-margin-top: 0;
 }
 .strategy-panel {
@@ -9,20 +9,14 @@
   height: 100svh;
   min-height: 700px;
   overflow: hidden;
-  background: var(--lime-light);
+  background: var(--n-surface-gray);
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23331335' opacity='.025' filter='url(%23n)' d='M0 0h120v120H0z'/%3E%3C/svg%3E");
 }
 .strategy-heading {
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 98px 24px 36px;
-}
-.strategy-heading > p {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 18px;
+  padding: var(--n-section-space) 24px 28px;
 }
 .narrative .strategy-heading h2 {
   max-width: none;
@@ -55,11 +49,11 @@
 }
 .strategy-road-shadow {
   stroke: #fff;
-  stroke-width: 145px;
-  transform: translateY(15px);
+  stroke-width: 166px;
+  transform: translateY(20px);
 }
 .strategy-road-main {
-  stroke-width: 130px;
+  stroke-width: 150px;
 }
 .strategy-road--vertical {
   display: none;
@@ -114,19 +108,19 @@
   margin: 0;
 }
 .strategy-connector {
-  width: 1px;
-  background: #d23463;
+  width: 3px;
+  background: var(--lime-purple);
   flex: 1;
   min-height: 18px;
 }
 .strategy-marker {
   position: absolute;
   top: 100%;
-  margin-top: -32px;
+  margin-top: -42px;
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
+  width: 84px;
+  height: 84px;
   border: 2px solid #fff;
   border-radius: 50%;
   background: var(--lime-purple);
@@ -142,10 +136,10 @@
 .strategy-marker > svg {
   position: relative;
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 42px;
+  height: 42px;
   stroke: currentColor;
-  stroke-width: 1.7;
+  stroke-width: 1.9;
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -167,10 +161,10 @@
   .strategy-panel {
     height: auto;
     min-height: 0;
-    padding-bottom: 80px;
+    padding-bottom: var(--n-section-space);
   }
   .strategy-heading {
-    padding: 90px 24px 55px;
+    padding: var(--n-section-space) 24px 40px;
   }
   .strategy-scene {
     width: min(90%, 760px);
@@ -186,10 +180,10 @@
     width: 76px;
   }
   .strategy-road--vertical .strategy-road-main {
-    stroke-width: 29px;
+    stroke-width: 34px;
   }
   .strategy-road--vertical .strategy-road-shadow {
-    stroke-width: 35px;
+    stroke-width: 42px;
     transform: translate(5px, 8px);
   }
   .strategy-stages {
@@ -226,12 +220,16 @@
   .strategy-stages > li:nth-child(even) .strategy-marker {
     left: -66px;
   }
+  .strategy-marker > svg {
+    width: 30px;
+    height: 30px;
+  }
   .strategy-connector {
     position: absolute;
     top: 50%;
     right: 100%;
     width: 65px;
-    height: 1px;
+    height: 3px;
     min-height: 0;
   }
 }
@@ -255,9 +253,13 @@
   }
   .strategy-marker {
     left: -82px;
-    width: 52px;
-    height: 52px;
-    margin-top: -26px;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+  }
+  .strategy-marker > svg {
+    width: 27px;
+    height: 27px;
   }
   .strategy-stages > li:nth-child(even) .strategy-marker {
     left: -58px;

@@ -1,6 +1,6 @@
 import type { ImageMetadata } from 'astro';
 import carol from '../assets/team/carol-melo-cutout.png';
-import julia from '../assets/team/julia-lima.png';
+import julia from '../assets/team/julia-lima-retrato.png';
 export interface TeamMember {
   name: string;
   image: ImageMetadata;
@@ -9,6 +9,8 @@ export interface TeamMember {
   belief: string;
   objectX: string;
   objectY: string;
+  torsoCrop?: boolean;
+  publicImage?: string;
 }
 // Source: slide 11. The briefing transposes the biographies; keep the source associations.
 export const team: TeamMember[] = [
@@ -25,6 +27,8 @@ export const team: TeamMember[] = [
   },
   {
     name: 'Julia Lima',
+    torsoCrop: true,
+    publicImage: '/julia-sem-fundo.png',
     image: julia,
     email: 'julia@limeagencia.com.br',
     biography:

@@ -4,17 +4,40 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { cwd } from 'node:process';
 import MetricCounter from '../ui/MetricCounter.astro';
+import {
+  BadgeCheck,
+  Users,
+  Megaphone,
+  Flag,
+  RefreshCw,
+  Eye,
+  MousePointerClick,
+  MessageCircle,
+  UserPlus,
+} from 'lucide-react';
+const resultIcons = [
+  BadgeCheck,
+  Users,
+  Megaphone,
+  Flag,
+  RefreshCw,
+  Eye,
+  MousePointerClick,
+  MessageCircle,
+  UserPlus,
+];
 import StrategyJourney from './StrategyJourney';
+import ChapterCurves from '../common/ChapterCurves.astro';
 import { team } from '../../data/team';
 import { metrics } from '../../data/metrics';
 import { services } from '../../data/services';
 import teamCrossedArms from '../../assets/team/equipe-lime.png';
 import brandHands from '../../assets/editorial/brand-hands.png';
 import heroMegaphone from '../../assets/editorial/hero-megaphone-cutout.png';
-import servicesConnection from '../../assets/editorial/services-connection-cutout.png';
-import servicesContent from '../../assets/editorial/services-content-cutout.png';
-import servicesGrowth from '../../assets/editorial/services-growth-cutout.png';
-import servicesDialogue from '../../assets/editorial/social-dialogue.png';
+import servicesConnection from '../../assets/editorial/services-connection-lime.png';
+import servicesContent from '../../assets/editorial/services-content-lime.png';
+import servicesGrowth from '../../assets/editorial/services-growth-lime.png';
+import servicesDialogue from '../../assets/editorial/social-dialogue-lime-cutout.png';
 const serviceVisuals = [servicesConnection, servicesContent, servicesDialogue, servicesGrowth];
 import { MANIFESTO_SOURCES } from '../../lib/manifesto';
 const manifestoHasWebm = existsSync(join(cwd(), 'public', 'videos', 'manifesto-lime.webm'));
@@ -57,7 +80,7 @@ const marquee = [
             cria comunicação para fortalecer marcas e gerar conexão.
           </p>
           <a class="narrative-link" href="#contato" data-narrative-reveal data-magnetic>
-            <span data-button-label>Fale com a gente</span>
+            <span data-button-label>Vamos Conversar</span>
             <span class="button-arrow" aria-hidden="true">
               <span data-arrow-glyph>↗</span>
             </span>
@@ -114,6 +137,7 @@ const marquee = [
     </div>
   </div>
 
+  <ChapterCurves id="hero-manifesto-connection" variant="left" />
   <div class="narrative-manifesto-sequence">
     <section
       id="manifesto"
@@ -179,15 +203,14 @@ const marquee = [
     </section>
   </div>
 
+  <ChapterCurves id="manifesto-team-connection" variant="right" />
+
   <section
     id="equipe"
     class="narrative-chapter narrative-founders"
     aria-labelledby="founders-title"
   >
     <div class="narrative-wrap narrative-content">
-      <p class="narrative-kicker" data-narrative-reveal>
-        As sócias
-      </p>
       <h2 id="founders-title" data-narrative-reveal>
         Experiência de quem já fez grandes marcas <em>serem ouvidas.</em>
       </h2>
@@ -198,20 +221,33 @@ const marquee = [
       <div class="narrative-founders__grid">
         {team.map((person) => (
           <article class="narrative-founder" data-narrative-reveal>
-            <div class="narrative-founder__photo">
-              <Picture
-                src={person.image}
-                formats={['avif', 'webp']}
-                fallbackFormat="webp"
-                width={900}
-                widths={[440, 700, 900]}
-                sizes="(max-width: 767px) 90vw, 42vw"
-                alt={person.name}
-                loading="lazy"
-              />
+            <div class:list={['narrative-founder__photo', { 'portrait-torso': person.torsoCrop }]}>
+              {person.publicImage ? (
+                <img
+                  src={person.publicImage}
+                  width={1023}
+                  height={1537}
+                  alt={person.name}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <Picture
+                  src={person.image}
+                  formats={['avif', 'webp']}
+                  fallbackFormat="webp"
+                  width={900}
+                  widths={[440, 700, 900]}
+                  sizes="(max-width: 767px) 90vw, 42vw"
+                  alt={person.name}
+                  loading="lazy"
+                />
+              )}
             </div>
             <div class="narrative-founder__body">
-              <h3 class="text-gradient">{person.name}</h3>
+              <h3 class="text-gradient" data-narrative-reveal>
+                {person.name}
+              </h3>
               <p>{person.biography}</p>
               <p>{person.belief}</p>
             </div>
@@ -227,16 +263,16 @@ const marquee = [
     aria-labelledby="results-title"
   >
     <div class="narrative-wrap narrative-content">
-      <p class="narrative-kicker" data-narrative-reveal>
-        Experiência e resultados
-      </p>
-      <h2 id="results-title" data-narrative-reveal>
-        O impacto da comunicação feita <em>com intenção.</em>
-      </h2>
-      <p class="narrative-intro" data-narrative-reveal>
-        Campanhas, conteúdos e parcerias que se tornaram resultados concretos.
-      </p>
       <div class="narrative-results__layout">
+        <div class="narrative-results__copy">
+          <h2 id="results-title" data-narrative-reveal>
+            O impacto da comunicação feita <em>com intenção.</em>
+          </h2>
+          <p class="narrative-intro" data-narrative-reveal>
+            O impacto da <strong>trajetória profissional das sócias</strong> em campanhas, conteúdos
+            e estratégias de comunicação.
+          </p>
+        </div>
         <div class="narrative-results__image" data-narrative-reveal>
           <Picture
             src={teamCrossedArms}
@@ -244,19 +280,32 @@ const marquee = [
             fallbackFormat="webp"
             width={950}
             widths={[480, 760, 950]}
-            sizes="(max-width: 767px) 90vw, 36vw"
+            sizes="(max-width: 767px) 90vw, 42vw"
             alt="Carol Melo e Julia Lima de braços cruzados"
             loading="lazy"
           />
         </div>
-        <div class="narrative-results__metrics">
-          {metrics.map((metric) => (
-            <MetricCounter metric={metric} />
-          ))}
-        </div>
+      </div>
+      <div class="narrative-results__metrics">
+        {metrics.map((metric, index) => {
+          const Icon = resultIcons[index];
+          return (
+            <div class="narrative-results__card">
+              <Icon
+                className="narrative-results__icon"
+                size={32}
+                strokeWidth={1.6}
+                aria-hidden="true"
+              />
+              <MetricCounter metric={metric} />
+            </div>
+          );
+        })}
       </div>
     </div>
   </section>
+
+  <ChapterCurves id="results-services-connection" variant="left" shape="loop" />
 
   <section
     id="escopo"
@@ -264,9 +313,6 @@ const marquee = [
     aria-labelledby="expertise-title"
   >
     <div class="narrative-wrap narrative-content">
-      <p class="narrative-kicker" data-narrative-reveal>
-        O que fazemos
-      </p>
       <h2 id="expertise-title" data-narrative-reveal>
         Onde a estratégia vira <em>presença e resultado.</em>
       </h2>
@@ -303,7 +349,9 @@ const marquee = [
               <h3>{service.title}</h3>
               <ul>
                 {service.items.map((item) => (
-                  <li>{item}</li>
+                  <li>
+                    <span>{item}</span>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -313,19 +361,23 @@ const marquee = [
     </div>
   </section>
 
+  <ChapterCurves id="services-process-connection" variant="right" shape="loop" />
   <StrategyJourney client:visible={{ rootMargin: '300px' }} />
 
   <section id="contato" class="narrative-chapter narrative-contact" aria-labelledby="contact-title">
     <div class="narrative-contact__threads" aria-hidden="true">
       <svg viewBox="0 0 1440 1500" preserveAspectRatio="xMidYMid slice" fill="none">
+        <defs>
+          <linearGradient id="contact-thread-gradient" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#fd3068" />
+            <stop offset="1" stop-color="#ff7829" />
+          </linearGradient>
+        </defs>
         <path d="M1110 -120 C720 120 1540 210 1210 530 C970 760 1510 900 1570 1150" />
         <path d="M-160 330 C330 440 -180 750 170 1000 C530 1260 -170 1330 200 1600" />
       </svg>
     </div>
     <div class="narrative-wrap narrative-content">
-      <p class="narrative-kicker" data-narrative-reveal>
-        Vamos conversar
-      </p>
       <h2 id="contact-title" data-narrative-reveal>
         Vamos transformar sua comunicação em <em>resultados reais?</em>
       </h2>
@@ -387,10 +439,6 @@ const marquee = [
             maxlength="5000"
           ></textarea>
         </label>
-        <p class="narrative-contact__note">
-          Ao clicar, sua mensagem será preparada no aplicativo de e-mail para você confirmar o
-          envio.
-        </p>
         <button
           class="narrative-contact__submit"
           type="submit"

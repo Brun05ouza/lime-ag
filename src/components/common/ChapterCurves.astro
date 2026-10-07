@@ -1,0 +1,36 @@
+---
+interface Props {
+  id: string;
+  variant: 'left' | 'right';
+  shape?: 'arc' | 'loop';
+}
+const { id, variant, shape = 'arc' } = Astro.props;
+// Short accents cross selected boundaries; their ends continue off-screen.
+const arc =
+  variant === 'right'
+    ? 'M280 20 C70 30 25 95 130 155 C190 190 255 185 280 220'
+    : 'M-40 20 C105 35 215 75 120 140 C55 185 -15 175 -40 220';
+const loop =
+  variant === 'right'
+    ? 'M280 210 C170 190 90 130 170 65 C225 15 230 95 175 108 C95 130 90 20 280 20'
+    : 'M-40 215 C70 195 150 115 70 50 C15 0 10 95 75 105 C160 120 200 15 -40 15';
+const route = shape === 'loop' ? loop : arc;
+---
+
+<div class={`chapter-curves chapter-curves--${variant}`} aria-hidden="true">
+  <svg
+    viewBox="0 0 240 240"
+    preserveAspectRatio="none"
+    focusable="false"
+    data-chapter-curve
+    data-curve-shape={shape}
+  >
+    <defs>
+      <linearGradient id={id} x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+        <stop stop-color="var(--lime-pink)" />
+        <stop offset="1" stop-color="var(--lime-orange)" />
+      </linearGradient>
+    </defs>
+    <path d={route} pathLength="1" vector-effect="non-scaling-stroke" stroke={`url(#${id})`} />
+  </svg>
+</div>

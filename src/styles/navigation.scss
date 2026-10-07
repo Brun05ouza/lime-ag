@@ -316,7 +316,7 @@
 .site-footer {
   padding-top: var(--gap-lg);
   padding-bottom: max(24px, var(--safe-bottom));
-  background: linear-gradient(110deg, #f2dce5, #f5e5d9);
+  background: var(--n-surface-gray, #e8e9e6);
   color: var(--lime-purple);
 }
 .footer-inner.wrap {
@@ -333,8 +333,8 @@
   font-size: clamp(3rem, 5.5vw, 4.8rem);
 }
 .footer-top p {
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: clamp(20px, 1.9vw, 28px);
+  line-height: 1.45;
   max-width: var(--measure-narrow);
 }
 .back-top {
@@ -352,11 +352,14 @@
   padding-top: 25px;
   display: grid;
   gap: 24px;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--lime-purple);
   flex-wrap: wrap;
 }
-.footer-bottom small { font-size: 12px; opacity: 0.75; }
+.footer-bottom small {
+  font-size: 14px;
+  opacity: 0.75;
+}
 .footer-logo {
   display: block;
   position: relative;
@@ -373,7 +376,11 @@
   top: 50%;
   transform: translate(-50%, -50%);
 }
-.footer-socials { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-socials {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
 .footer-socials button {
   display: inline-flex;
   align-items: center;
@@ -387,7 +394,10 @@
   font-size: 14px;
   opacity: 1;
 }
-.footer-socials svg { width: 24px; height: 24px; }
+.footer-socials svg {
+  width: 24px;
+  height: 24px;
+}
 .whatsapp-float {
   position: fixed;
   right: max(24px, env(safe-area-inset-right));
@@ -401,7 +411,8 @@
   padding: 0;
   border: 1px solid transparent;
   border-radius: 18px;
-  background: linear-gradient(var(--lime-purple), var(--lime-purple)) padding-box,
+  background:
+    linear-gradient(var(--lime-purple), var(--lime-purple)) padding-box,
     linear-gradient(120deg, var(--lime-pink), var(--lime-orange)) border-box;
   color: var(--lime-light);
   font-family: var(--font-body);
@@ -409,12 +420,25 @@
   opacity: 1;
   box-shadow: 0 8px 24px #33133526;
   appearance: none;
-  transition: transform 220ms ease, box-shadow 220ms ease;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
 }
-.whatsapp-float > svg { display: block; width: 28px; height: 28px; flex-shrink: 0; }
-.whatsapp-float:focus-visible { outline: 2px solid var(--lime-orange); outline-offset: 4px; }
+.whatsapp-float > svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.whatsapp-float:focus-visible {
+  outline: 2px solid var(--lime-orange);
+  outline-offset: 4px;
+}
 @media (hover: hover) and (pointer: fine) {
-  .whatsapp-float:hover { transform: translateY(-3px); box-shadow: 0 12px 28px #33133533; }
+  .whatsapp-float:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px #33133533;
+  }
 }
 @media (max-width: 767px) {
   .whatsapp-float {
@@ -428,12 +452,20 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .whatsapp-float { transition: none; }
-  .whatsapp-float:hover { transform: none; }
+  .whatsapp-float {
+    transition: none;
+  }
+  .whatsapp-float:hover {
+    transform: none;
+  }
 }
-.site-footer { padding-bottom: max(100px, var(--safe-bottom)); }
+.site-footer {
+  padding-bottom: max(100px, var(--safe-bottom));
+}
 @media (max-width: 1100px) {
-  .footer-top { flex-wrap: wrap; }
+  .footer-top {
+    flex-wrap: wrap;
+  }
 }
 .footer-bottom nav {
   display: flex;
@@ -457,8 +489,12 @@
     gap: 20px;
     padding-bottom: 32px;
   }
-  .site-footer .footer-top > a:first-child { margin-bottom: 0; }
-  .site-footer .footer-top p { margin: 0; }
+  .site-footer .footer-top > a:first-child {
+    margin-bottom: 0;
+  }
+  .site-footer .footer-top p {
+    margin: 0;
+  }
   .site-footer .footer-bottom nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

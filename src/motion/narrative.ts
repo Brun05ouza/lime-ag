@@ -7,6 +7,7 @@ import type { Cleanup } from './tokens';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 const enteredTitles = new WeakSet<HTMLElement>();
 const completedIntros = new WeakSet<HTMLElement>();
+const completedConnections = new WeakSet<SVGSVGElement>();
 
 type LineSample = { y: number; length: number };
 type LineSegment = {
@@ -67,6 +68,33 @@ export function initNarrative(): Cleanup {
   if (!root) return () => {};
   const mobile = window.matchMedia('(max-width: 767px)').matches;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Play the entire connection on entry, even if the visitor stops scrolling.
+  // Keep completed drawings intact when a responsive breakpoint reinitializes motion.
+  const connectionMotion = gsap.context(() => {
+    root.querySelectorAll<SVGSVGElement>('[data-chapter-curve]').forEach((curve) => {
+      const path = curve.querySelector('path');
+      if (!path || reduceMotion) return;
+      if (completedConnections.has(curve) || curve.getBoundingClientRect().bottom < 0) return;
+      gsap.fromTo(
+        path,
+        { strokeDasharray: 1, strokeDashoffset: 1 },
+        {
+          strokeDashoffset: 0,
+          autoRound: false,
+          ease: 'power2.out',
+          duration: curve.dataset.curveShape === 'loop' ? 1.5 : 1.1,
+          onComplete: () => {
+            completedConnections.add(curve);
+          },
+          scrollTrigger: {
+            trigger: curve,
+            start: 'top 82%',
+            once: true,
+          },
+        },
+      );
+    });
+  }, root);
   // Stop decorative CSS motion outside the viewport and in background tabs.
   const ambientSections = Array.from(
     root.querySelectorAll<HTMLElement>(
@@ -110,7 +138,8 @@ export function initNarrative(): Cleanup {
       '.narrative-chapter:not(.narrative-hero) h2, .narrative-chapter:not(.narrative-hero) h3',
     )
     .forEach((element) => {
-      if (element.closest('.narrative-expertise__item')) return;
+      if (element.closest('.narrative-expertise__item') || element.matches('.text-gradient'))
+        return;
       element.classList.add('narrative-title-highlight');
       let state: TitleState | undefined;
       const split = SplitText.create(element, {
@@ -423,6 +452,7 @@ export function initNarrative(): Cleanup {
   counterElements.forEach((element) => counterObserver.observe(element));
 
   return () => {
+    connectionMotion.revert();
     counterObserver.disconnect();
     counterTweens.forEach((tween) => tween.kill());
     counterElements.forEach((element) => {

@@ -54,7 +54,7 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
   const menu = header.querySelector<HTMLDialogElement>('#mobile-menu');
   const menuLinks = menu ? Array.from(menu.querySelectorAll<HTMLElement>('nav a')) : [];
   const menuLine = menu?.querySelector<SVGPathElement>('[data-menu-line]');
-  if (!shell || !logo || !nav || !cta || !toggle) return () => {};
+  if (!shell || !logo || !nav || !toggle) return () => {};
   const compactHeader = compactNav;
   const context = gsap.context(() => {}, header);
   const heroEnter = 56;
@@ -121,7 +121,7 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
       next === 'hero' ? 'power4.out' : next === 'collapsed' ? 'expo.inOut' : 'power4.out';
     const shellStart = next === 'collapsed' ? (compactHeader ? 0.06 : 0.22) : 0;
     context.add(() => {
-      gsap.killTweensOf([header, shell, logo, nav, cta, toggle]);
+      gsap.killTweensOf([header, shell, logo, nav, toggle, ...(cta ? [cta] : [])]);
       const timeline = gsap.timeline({
         defaults: { duration, ease, overwrite: 'auto' },
       });
@@ -150,7 +150,7 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
         .to(logo, { scale: target.logoScale }, shellStart);
       if (!compactHeader) {
         const reveal = next !== 'collapsed';
-        if (reveal) gsap.set([nav, cta], { visibility: 'visible' });
+        if (reveal) gsap.set([nav, ...(cta ? [cta] : [])], { visibility: 'visible' });
         timeline
           .to(
             nav,
@@ -165,19 +165,6 @@ export function initHeader(scroll: ScrollRuntime, compactNav: boolean): Cleanup 
               },
             },
             reveal ? 0.2 : 0,
-          )
-          .to(
-            cta,
-            {
-              autoAlpha: reveal ? 1 : 0,
-              clipPath: reveal ? 'inset(0 0% 0 0)' : 'inset(0 100% 0 0)',
-              duration: reveal ? 0.32 : 0.26,
-              ease: reveal ? 'power3.out' : 'power2.inOut',
-              onComplete: () => {
-                if (!reveal) gsap.set(cta, { visibility: 'hidden' });
-              },
-            },
-            reveal ? 0.25 : 0,
           )
           .to(
             toggle,

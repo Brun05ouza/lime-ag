@@ -14,6 +14,26 @@ export function revealText(element: HTMLElement, mobile: boolean, options: Optio
     entered.add(element);
     return () => {};
   }
+  // Keep gradient paint on the animated element instead of splitting it into masks.
+  if (element.classList.contains('text-gradient')) {
+    const tween = gsap.from(element, {
+      y: 22,
+      autoAlpha: 0,
+      duration: options.duration || (mobile ? MOTION.mobile : MOTION.slow),
+      delay: mobile ? Math.min(options.delay || 0, 0.1) : options.delay || 0,
+      ease: MOTION.easeStrong,
+      scrollTrigger: {
+        trigger: element,
+        start: options.start || (mobile ? 'top 88%' : 'top 84%'),
+        once: true,
+        onEnter: () => entered.add(element),
+      },
+    });
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }
   const type = options.type || 'lines';
   const split = SplitText.create(element, {
     type: type === 'words' ? 'lines,words' : 'lines',

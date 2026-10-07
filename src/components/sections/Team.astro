@@ -23,23 +23,34 @@ import SectionLabel from '../ui/SectionLabel.astro';
       {team.map((person, i) => (
         <article class="team-profile">
           <div
-            class="team-photo"
+            class:list={['team-photo', { 'portrait-torso': person.torsoCrop }]}
             data-reveal-media
             style={`--object-x: ${person.objectX}; --object-y: ${person.objectY};`}
           >
             <span class="photo-index" aria-hidden="true">
               0{i + 1}
             </span>
-            <Picture
-              src={person.image}
-              formats={['avif', 'webp']}
-              fallbackFormat="webp"
-              width={960}
-              widths={[360, 640, 960]}
-              sizes="(max-width: 639px) 100vw, (max-width: 1199px) 70vw, 38vw"
-              alt={person.name}
-              loading="lazy"
-            />
+            {person.publicImage ? (
+              <img
+                src={person.publicImage}
+                width={1023}
+                height={1537}
+                alt={person.name}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <Picture
+                src={person.image}
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                width={960}
+                widths={[360, 640, 960]}
+                sizes="(max-width: 639px) 100vw, (max-width: 1199px) 70vw, 38vw"
+                alt={person.name}
+                loading="lazy"
+              />
+            )}
             <span class="photo-caption">LIME AG / {person.name.toUpperCase()}</span>
           </div>
           <div class="profile-heading">
