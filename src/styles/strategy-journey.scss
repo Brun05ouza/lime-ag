@@ -96,14 +96,14 @@
 .narrative .strategy-card h3 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(20px, 1.75vw, 29px);
+  font-size: clamp(22px, 1.8vw, 30px);
   line-height: 1.13;
   color: #cc234d;
   letter-spacing: -0.045em;
   margin: 12px 0;
 }
 .strategy-card p {
-  font-size: clamp(12px, 0.9vw, 14px);
+  font-size: clamp(16px, 1.1vw, 18px);
   line-height: 1.5;
   margin: 0;
 }
@@ -116,11 +116,11 @@
 .strategy-marker {
   position: absolute;
   top: 100%;
-  margin-top: -42px;
+  margin-top: -36px;
   display: grid;
   place-items: center;
-  width: 84px;
-  height: 84px;
+  width: 72px;
+  height: 72px;
   border: 2px solid #fff;
   border-radius: 50%;
   background: var(--lime-purple);
@@ -136,8 +136,8 @@
 .strategy-marker > svg {
   position: relative;
   display: block;
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   stroke: currentColor;
   stroke-width: 1.9;
   fill: none;
@@ -149,11 +149,11 @@
     padding: 14px;
   }
   .narrative .strategy-card h3 {
-    font-size: 18px;
+    font-size: 20px;
     margin-block: 10px;
   }
   .strategy-card p {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.45;
   }
 }
@@ -208,21 +208,21 @@
     font-size: 27px;
   }
   .strategy-card p {
-    font-size: 14px;
+    font-size: 16px;
   }
   .strategy-marker {
     top: 50%;
     left: -97px;
-    margin-top: -28px;
-    width: 56px;
-    height: 56px;
+    margin-top: -26px;
+    width: 52px;
+    height: 52px;
   }
   .strategy-stages > li:nth-child(even) .strategy-marker {
     left: -66px;
   }
   .strategy-marker > svg {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
   }
   .strategy-connector {
     position: absolute;
@@ -249,17 +249,17 @@
     font-size: 23px;
   }
   .strategy-card p {
-    font-size: 13px;
+    font-size: 16px;
   }
   .strategy-marker {
     left: -82px;
-    width: 50px;
-    height: 50px;
-    margin-top: -25px;
+    width: 46px;
+    height: 46px;
+    margin-top: -23px;
   }
   .strategy-marker > svg {
-    width: 27px;
-    height: 27px;
+    width: 25px;
+    height: 25px;
   }
   .strategy-stages > li:nth-child(even) .strategy-marker {
     left: -58px;
