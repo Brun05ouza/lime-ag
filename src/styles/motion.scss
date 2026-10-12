@@ -114,44 +114,6 @@
   will-change: transform;
 }
 
-.preloader {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  background: var(--lime-purple);
-  color: var(--lime-light);
-  display: grid;
-  place-content: center;
-  gap: 25px;
-  pointer-events: none;
-  animation: loader-reveal 0.55s cubic-bezier(0.7, 0, 0.2, 1) forwards;
-}
-.preloader-line {
-  display: block;
-  height: 3px;
-  width: 130px;
-  background: var(--gradient);
-  transform-origin: left;
-  animation: loader-line 0.35s ease-out both;
-}
-@keyframes loader-line {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-@keyframes loader-reveal {
-  0%,
-  35% {
-    clip-path: inset(0);
-  }
-  100% {
-    clip-path: inset(0 0 100%);
-    visibility: hidden;
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

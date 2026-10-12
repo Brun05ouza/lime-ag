@@ -1,20 +1,111 @@
 ---
-import LimeLogo from './LimeLogo.astro';
+// Isolate the original logo's glyphs without replacing its lettering.
+const letters = [
+  [0, 22], [44, 32], [107, 179], [303, 111],
+  [449, 25], [504, 96], [620, 109],
+];
 ---
 
-<div class="preloader" data-preloader hidden aria-hidden="true">
-  <LimeLogo />
-  <span class="preloader-line"></span>
+<div class="brand-preloader" aria-hidden="true" inert>
+  <div class="brand-preloader__identity">
+    <svg class="brand-preloader__logo" viewBox="0 0 729 200" aria-hidden="true">
+      {letters.map(([x, width], index) => (
+        <svg
+          x={x}
+          y="0"
+          width={width}
+          height="200"
+          viewBox={`${x} 0 ${width} 200`}
+          overflow="hidden"
+        >
+          <image
+            class="brand-preloader__letter"
+            href="/logos/lime-color.webp"
+            width="729"
+            height="200"
+            style={`animation-delay: ${index * 60}ms`}
+          />
+        </svg>
+      ))}
+    </svg>
+    <span class="brand-preloader__line"></span>
+  </div>
 </div>
-<script is:inline>
-  (() => {
-    const loader = document.querySelector('[data-preloader]');
-    if (!loader || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    loader.hidden = false;
-    const dismiss = () => {
-      loader.hidden = true;
-    };
-    loader.addEventListener('animationend', dismiss, { once: true });
-    window.setTimeout(dismiss, 650);
-  })();
-</script>
+
+<style>
+  .brand-preloader {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    place-items: center;
+    background: var(--lime-purple);
+    pointer-events: none;
+  }
+
+  :global(.js) .brand-preloader {
+    display: grid;
+    animation: preloader-exit 250ms var(--ease-out) 1000ms both;
+  }
+
+  .brand-preloader__identity {
+    width: clamp(240px, 32vw, 420px);
+    max-width: calc(100vw - 64px);
+  }
+
+  .brand-preloader__logo {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .brand-preloader__letter {
+    transform-origin: center bottom;
+    animation: preloader-letter 500ms var(--ease-out) both;
+  }
+
+  .brand-preloader__line {
+    display: block;
+    width: 100%;
+    height: 4px;
+    margin-top: 32px;
+    border-radius: 999px;
+    background: linear-gradient(100deg, #fd3068, #ff7829);
+    transform-origin: left center;
+    animation: preloader-line 500ms var(--ease-out) 360ms both;
+  }
+
+  @keyframes preloader-letter {
+    from {
+      opacity: 0;
+      clip-path: inset(100% 0 0);
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0);
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes preloader-line {
+    from { opacity: 0; transform: scaleX(0.12); }
+    to { opacity: 1; transform: scaleX(1); }
+  }
+
+  @keyframes preloader-exit {
+    from { opacity: 1; visibility: visible; }
+    to { opacity: 0; visibility: hidden; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .brand-preloader {
+      animation-delay: 0ms;
+      animation-duration: 150ms !important;
+    }
+    .brand-preloader__letter,
+    .brand-preloader__line {
+      animation: none;
+    }
+  }
+</style>
