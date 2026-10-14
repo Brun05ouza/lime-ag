@@ -1,34 +1,32 @@
----
-// Isolate the original logo's glyphs without replacing its lettering.
-const letters = [
-  [0, 22], [44, 32], [107, 179], [303, 111],
-  [449, 25], [504, 96], [620, 109],
-];
----
-
 <div class="brand-preloader" aria-hidden="true" inert>
   <div class="brand-preloader__identity">
     <svg class="brand-preloader__logo" viewBox="0 0 729 200" aria-hidden="true">
-      {letters.map(([x, width], index) => (
-        <svg
-          x={x}
-          y="0"
-          width={width}
-          height="200"
-          viewBox={`${x} 0 ${width} 200`}
-          overflow="hidden"
-        >
-          <image
-            class="brand-preloader__letter"
-            href="/logos/lime-color.webp"
-            width="729"
-            height="200"
-            style={`animation-delay: ${index * 60}ms`}
-          />
-        </svg>
-      ))}
+      <image href="/logos/lime-color.webp" width="729" height="200" />
     </svg>
-    <span class="brand-preloader__line"></span>
+    <p class="brand-preloader__slogan">
+      <span class="brand-preloader__phrase">
+        <span class="brand-preloader__word">
+          <span style="animation-delay: 100ms">Comunicação</span>
+        </span>
+        <span class="brand-preloader__word">
+          <span style="animation-delay: 180ms">com</span>
+        </span>
+        <span class="brand-preloader__word">
+          <strong style="animation-delay: 260ms">estratégia.</strong>
+        </span>
+      </span>
+      <span class="brand-preloader__phrase">
+        <span class="brand-preloader__word">
+          <span style="animation-delay: 380ms">Conexões</span>
+        </span>
+        <span class="brand-preloader__word">
+          <span style="animation-delay: 460ms">com</span>
+        </span>
+        <span class="brand-preloader__word">
+          <strong style="animation-delay: 540ms">propósito.</strong>
+        </span>
+      </span>
+    </p>
   </div>
 </div>
 
@@ -45,7 +43,7 @@ const letters = [
 
   :global(.js) .brand-preloader {
     display: grid;
-    animation: preloader-exit 250ms var(--ease-out) 1000ms both;
+    animation: preloader-exit 450ms var(--ease-out) 1550ms both;
   }
 
   .brand-preloader__identity {
@@ -59,53 +57,75 @@ const letters = [
     height: auto;
   }
 
-  .brand-preloader__letter {
-    transform-origin: center bottom;
-    animation: preloader-letter 500ms var(--ease-out) both;
+  .brand-preloader__slogan {
+    display: grid;
+    gap: 6px;
+    margin: 32px 0 0;
+    color: var(--lime-light);
+    font-family: var(--font-body);
+    font-size: clamp(16px, 1.8vw, 23px);
+    line-height: 1.5;
+    text-align: center;
   }
-
-  .brand-preloader__line {
+  .brand-preloader__phrase {
+    display: flex;
+    justify-content: center;
+    gap: 0.28em;
+  }
+  .brand-preloader__word {
+    display: inline-block;
+    overflow: hidden;
+    padding-block: 0.15em;
+    margin-block: -0.15em;
+  }
+  .brand-preloader__word > * {
     display: block;
-    width: 100%;
-    height: 4px;
-    margin-top: 32px;
-    border-radius: 999px;
-    background: linear-gradient(100deg, #fd3068, #ff7829);
-    transform-origin: left center;
-    animation: preloader-line 500ms var(--ease-out) 360ms both;
+    transform-origin: left bottom;
+    animation: preloader-word 550ms var(--ease-out) both;
   }
-
-  @keyframes preloader-letter {
+  .brand-preloader__slogan strong {
+    font-weight: 650;
+    background: var(--gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  @keyframes preloader-word {
     from {
       opacity: 0;
-      clip-path: inset(100% 0 0);
-      transform: translateY(28px);
+      transform: translate3d(0, 115%, 0) rotate(7deg);
     }
     to {
       opacity: 1;
-      clip-path: inset(0);
-      transform: translateY(0);
+      transform: translate3d(0, 0, 0) rotate(0deg);
     }
   }
 
-  @keyframes preloader-line {
-    from { opacity: 0; transform: scaleX(0.12); }
-    to { opacity: 1; transform: scaleX(1); }
-  }
-
   @keyframes preloader-exit {
-    from { opacity: 1; visibility: visible; }
-    to { opacity: 0; visibility: hidden; }
+    from {
+      opacity: 1;
+      visibility: visible;
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(0, -8%, 0);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     :global(.js) .brand-preloader {
-      animation-delay: 0ms;
-      animation-duration: 150ms !important;
+      animation: preloader-reduced-exit 150ms ease both;
     }
-    .brand-preloader__letter,
-    .brand-preloader__line {
+    .brand-preloader__word > * {
       animation: none;
+    }
+  }
+  @keyframes preloader-reduced-exit {
+    to {
+      opacity: 0;
+      visibility: hidden;
     }
   }
 </style>
