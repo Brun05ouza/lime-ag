@@ -13,3 +13,5 @@
 
 Os arquivos são servidos localmente e otimizados por Astro Picture para AVIF/WebP. Não dependem de URLs temporárias de download.
 - Variantes `services-connection-lime.png`, `services-content-lime.png`, `social-dialogue-lime.png` e `services-growth-lime.png`: editadas com a ferramenta integrada imagegen em 2026-10-07. Prompt: substituir somente as regiões gráficas coloridas pelo gradiente rosa #ff3269 → laranja #ff7829; preservar composição, objetos, retícula e transparência original. Originais preservados.
+- `services-content-monochrome.png`: edição integrada imagegen em 2026-10-14; megafone e mão em preto, branco e cinza neutros, preservando os raios no degradê e a transparência.
+- `social-dialogue-gradient-bubbles.png`: edição integrada imagegen em 2026-10-14; remoção do painel, mão e celular monocromáticos e degradê rosa → laranja apenas nos três balões. PNG com alpha transparente; originais preservados.

@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const road =
   'M-130 600 C10 600 30 440 180 440 C330 440 360 350 540 350 C720 350 720 500 900 460 C1080 420 1110 330 1260 330 C1410 330 1430 220 1580 220';
 const verticalRoad =
-  'M45 -60 C45 40 27 100 27 150 C27 310 65 330 65 450 C65 590 27 620 27 750 C27 900 65 930 65 1050 C65 1150 45 1220 45 1280';
+  'M27 -1200 L27 150 C27 300 65 300 65 450 C65 600 27 600 27 750 C27 900 65 900 65 1050 L65 2400';
 const anchors = [
   { x: 180, y: 440 },
   { x: 540, y: 350 },
@@ -27,18 +27,13 @@ function StageIcon({ index }: { index: number }) {
 
 export default function StrategyJourney() {
   const sectionRef = useRef<HTMLElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
-  const shadowRef = useRef<SVGPathElement>(null);
+  const playedStages = useRef(new Set<number>());
   const gradient = `strategy-${useId().replace(/:/g, '')}`;
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
-    const panel = panelRef.current;
-    const path = pathRef.current;
-    const shadow = shadowRef.current;
-    if (!section || !panel || !path || !shadow) return;
+    if (!section) return;
     const media = gsap.matchMedia();
     media.add(
       {
@@ -51,10 +46,13 @@ export default function StrategyJourney() {
         const cards = gsap.utils.toArray<HTMLElement>('.strategy-card', section);
         const markers = gsap.utils.toArray<HTMLElement>('.strategy-marker', section);
         const connectors = gsap.utils.toArray<HTMLElement>('.strategy-connector', section);
-        const halos = gsap.utils.toArray<HTMLElement>('.strategy-halo', section);
         if (!conditions?.desktop) {
           cards.forEach((card, index) => {
+            if (playedStages.current.has(index)) return;
             const reveal = gsap.timeline({
+              onStart: () => {
+                playedStages.current.add(index);
+              },
               scrollTrigger: {
                 id: `strategy-mobile-${index}`,
                 trigger: card,
@@ -64,93 +62,94 @@ export default function StrategyJourney() {
             });
             reveal
               .from(markers[index], {
-                scale: 0,
+                scale: 0.94,
                 autoAlpha: 0,
-                duration: 0.45,
-                ease: 'back.out(1.7)',
+                duration: 0.3,
+                ease: 'power2.out',
               })
               .from(
                 connectors[index],
                 { scaleX: 0, transformOrigin: 'left center', duration: 0.35 },
                 0.15,
               )
-              .from(
-                card,
-                { y: 25, autoAlpha: 0, scale: 0.98, duration: 0.7, ease: 'power3.out' },
-                0.25,
-              );
+              .from(card, { y: 18, autoAlpha: 0, duration: 0.45, ease: 'power3.out' }, 0.25);
           });
           return;
         }
 
-        const length = path.getTotalLength();
-        gsap.set([path, shadow], { strokeDasharray: length, strokeDashoffset: length });
-        gsap.set(headingRef.current, { opacity: 0, y: 30 });
-        gsap.set(cards, { opacity: 0, y: 35, scale: 0.97 });
-        gsap.set(connectors, { scaleY: 0, transformOrigin: 'bottom center' });
-        gsap.set(markers, { scale: 0, opacity: 0 });
-        gsap.set(halos, { opacity: 0, scale: 0.9 });
+        // Breakpoint changes keep completed content visible instead of replaying it.
+        if (playedStages.current.size) return;
+
+        // Opposite translations reveal a stationary, rasterized SVG through a
+        // rectangular overflow clip. WAAPI can run these on the compositor,
+        // without changing SVG paths or repainting a clip-path every frame.
+        const curtain = section.querySelector<HTMLElement>('.strategy-road-reveal')!;
+        const artwork = section.querySelector<HTMLElement>('.strategy-road-artwork')!;
+        const roadAnimations = [curtain, artwork].map((element, index) => {
+          const animation = element.animate(
+            [
+              { transform: `translate3d(${index === 0 ? '-100%' : '100%'}, 0, 0)` },
+              { transform: 'translate3d(0, 0, 0)' },
+            ],
+            { duration: 1600, easing: 'linear', fill: 'both' },
+          );
+          animation.pause();
+          animation.currentTime = 0;
+          return animation;
+        });
 
         // Entry starts a timed sequence; it keeps playing without further scroll.
         const tl = gsap.timeline({
+          onStart: () => {
+            roadAnimations.forEach((animation) => animation.play());
+            cards.forEach((_, index) => playedStages.current.add(index));
+          },
           scrollTrigger: {
             id: 'strategy-journey',
             trigger: section,
-            start: 'top 45%',
+            start: 'top 75%',
             once: true,
           },
         });
-        tl.to(headingRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0);
-        const arrivals = [1.2, 3.5, 5.7, 7.7];
-        let previous = 0.55;
-        anchors.forEach((anchor, index) => {
-          // Align the reveal with the actual distance along the Bézier, rather
-          // than an assumed linear horizontal percentage.
-          let nearest = 0;
-          let distance = Infinity;
-          for (let sample = 0; sample <= 1200; sample++) {
-            const at = (length * sample) / 1200;
-            const point = path.getPointAtLength(at);
-            const delta = Math.hypot(point.x - anchor.x, point.y - anchor.y);
-            if (delta < distance) {
-              distance = delta;
-              nearest = at;
-            }
-          }
-          const arrival = arrivals[index];
-          tl.to(
-            [path, shadow],
-            { strokeDashoffset: length - nearest, duration: arrival - previous, ease: 'none' },
-            previous,
+        const moving = [headingRef.current, ...cards, ...markers, ...connectors];
+        tl.set(moving, { willChange: 'transform,opacity' }, 0).from(
+          headingRef.current,
+          { opacity: 0, y: 10, duration: 0.35, ease: 'power2.out' },
+          0,
+        );
+        cards.forEach((card, index) => {
+          const arrival = (anchors[index].x / 1440) * 1.6;
+          tl.from(
+            markers[index],
+            { opacity: 0, scale: 0.98, duration: 0.25, ease: 'power2.out' },
+            arrival,
           )
-            .to(
-              markers[index],
-              { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(1.7)' },
-              arrival,
+            .from(
+              connectors[index],
+              {
+                scaleY: 0,
+                transformOrigin: 'bottom center',
+                duration: 0.2,
+                ease: 'power2.out',
+              },
+              arrival + 0.05,
             )
-            .to(halos[index], { opacity: 0.14, scale: 1.3, duration: 0.3 }, arrival)
-            .to(halos[index], { opacity: 0, scale: 1.6, duration: 0.65 }, arrival + 0.3)
-            .to(connectors[index], { scaleY: 1, duration: 0.4, ease: 'power2.out' }, arrival + 0.4)
-            .to(
-              cards[index],
-              { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'power3.out' },
-              arrival + 0.8,
-            );
-          previous = arrival;
+            .from(card, { opacity: 0, y: 12, duration: 0.4, ease: 'power2.out' }, arrival + 0.1);
         });
-        tl.to([path, shadow], { strokeDashoffset: 0, duration: 1, ease: 'none' }, previous);
-        tl.timeScale(3.4);
+        tl.set(moving, { clearProps: 'willChange' });
+        return () => roadAnimations.forEach((animation) => animation.cancel());
       },
       section,
     );
     // Recalculate entry positions after hydration and font loading.
     let disposed = false;
-    const refresh = requestAnimationFrame(() => {
-      ScrollTrigger.sort();
-      ScrollTrigger.refresh();
-    });
+    let refresh = 0;
     document.fonts.ready.then(() => {
-      if (!disposed) ScrollTrigger.refresh();
+      if (!disposed)
+        refresh = requestAnimationFrame(() => {
+          ScrollTrigger.sort();
+          ScrollTrigger.refresh();
+        });
     });
     return () => {
       disposed = true;
@@ -166,40 +165,39 @@ export default function StrategyJourney() {
       ref={sectionRef}
       aria-labelledby="strategy-title"
     >
-      <div className="strategy-panel" ref={panelRef}>
+      <div className="strategy-panel">
         <div className="strategy-heading" ref={headingRef}>
           <h2 id="strategy-title">
             Assumindo a <strong>Estratégia</strong>
           </h2>
         </div>
         <div className="strategy-scene">
-          <svg
-            className="strategy-road strategy-road--desktop"
-            viewBox="0 0 1440 640"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient
-                id={gradient}
-                gradientUnits="userSpaceOnUse"
-                x1="0"
-                y1="0"
-                x2="1440"
-                y2="0"
+          <div className="strategy-road-reveal" aria-hidden="true">
+            <div className="strategy-road-artwork">
+              <svg
+                className="strategy-road strategy-road--desktop"
+                viewBox="0 0 1440 640"
+                preserveAspectRatio="none"
+                aria-hidden="true"
               >
-                <stop stopColor="#ff6945" />
-                <stop offset="1" stopColor="#ff315c" />
-              </linearGradient>
-            </defs>
-            <path ref={shadowRef} className="strategy-road-shadow" d={road} />
-            <path
-              ref={pathRef}
-              className="strategy-road-main"
-              d={road}
-              stroke={`url(#${gradient})`}
-            />
-          </svg>
+                <defs>
+                  <linearGradient
+                    id={gradient}
+                    gradientUnits="userSpaceOnUse"
+                    x1="0"
+                    y1="0"
+                    x2="1440"
+                    y2="0"
+                  >
+                    <stop stopColor="#ff6945" />
+                    <stop offset="1" stopColor="#ff315c" />
+                  </linearGradient>
+                </defs>
+                <path className="strategy-road-shadow" d={road} />
+                <path className="strategy-road-main" d={road} stroke={`url(#${gradient})`} />
+              </svg>
+            </div>
+          </div>
           <svg
             className="strategy-road strategy-road--vertical"
             viewBox="0 0 90 1200"
@@ -207,7 +205,14 @@ export default function StrategyJourney() {
             aria-hidden="true"
           >
             <defs>
-              <linearGradient id={`${gradient}-vertical`} x1="0" y1="0" x2="0" y2="1">
+              <linearGradient
+                id={`${gradient}-vertical`}
+                gradientUnits="userSpaceOnUse"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1200"
+              >
                 <stop stopColor="#ff6945" />
                 <stop offset="1" stopColor="#ff315c" />
               </linearGradient>
@@ -238,7 +243,6 @@ export default function StrategyJourney() {
                 </article>
                 <span className="strategy-connector" aria-hidden="true" />
                 <span className="strategy-marker" aria-hidden="true">
-                  <span className="strategy-halo" />
                   <StageIcon index={index} />
                 </span>
               </li>

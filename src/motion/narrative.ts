@@ -82,8 +82,11 @@ export function initNarrative(): Cleanup {
           strokeDashoffset: 0,
           autoRound: false,
           ease: 'power2.out',
-          duration: curve.dataset.curveShape === 'loop' ? 1.5 : 1.1,
+          duration: curve.dataset.curveShape === 'sweep' ? 1.5 : 1.1,
           onComplete: () => {
+            // Remove the drawing mask once complete. Normalized dashes plus
+            // non-scaling strokes can leave a short undrawn tail after resizing.
+            gsap.set(path, { clearProps: 'strokeDasharray,strokeDashoffset' });
             completedConnections.add(curve);
           },
           scrollTrigger: {

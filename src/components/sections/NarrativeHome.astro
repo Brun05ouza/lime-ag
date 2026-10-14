@@ -35,9 +35,9 @@ import teamCrossedArms from '../../assets/team/equipe-lime.png';
 import brandHands from '../../assets/editorial/brand-hands.png';
 import heroMegaphone from '../../assets/editorial/hero-megaphone-cutout.png';
 import servicesConnection from '../../assets/editorial/services-connection-lime.png';
-import servicesContent from '../../assets/editorial/services-content-lime.png';
+import servicesContent from '../../assets/editorial/services-content-monochrome.png';
 import servicesGrowth from '../../assets/editorial/services-growth-lime.png';
-import servicesDialogue from '../../assets/editorial/social-dialogue-lime-cutout.png';
+import servicesDialogue from '../../assets/editorial/social-dialogue-gradient-bubbles.png';
 const serviceVisuals = [servicesConnection, servicesContent, servicesDialogue, servicesGrowth];
 import { MANIFESTO_SOURCES } from '../../lib/manifesto';
 const manifestoHasWebm = existsSync(join(cwd(), 'public', 'videos', 'manifesto-lime.webm'));
@@ -61,6 +61,9 @@ const marquee = [
 <div class="narrative" data-narrative-home>
   <div class="narrative-hero-stack">
     <section id="home" class="narrative-chapter narrative-hero" aria-labelledby="hero-title">
+      <div class="narrative-hero__brand-accent">
+        <ChapterCurves id="hero-brand-accent" variant="right" shape="sweep" />
+      </div>
       <div class="narrative-wrap narrative-hero__grid">
         <div class="narrative-hero__copy">
           <h1 id="hero-title" data-narrative-reveal>
@@ -80,10 +83,7 @@ const marquee = [
             cria comunicação para fortalecer marcas e gerar conexão.
           </p>
           <a class="narrative-link" href="#contato" data-narrative-reveal data-magnetic>
-            <span data-button-label>Vamos Conversar</span>
-            <span class="button-arrow" aria-hidden="true">
-              <span data-arrow-glyph>↗</span>
-            </span>
+            <span data-button-label>VAMOS CONVERSAR</span>
           </a>
         </div>
         <div class="narrative-hero__portrait" data-narrative-reveal>
@@ -210,6 +210,18 @@ const marquee = [
     class="narrative-chapter narrative-founders"
     aria-labelledby="founders-title"
   >
+    <div class="narrative-founders__threads" aria-hidden="true">
+      <svg viewBox="0 0 1440 1600" preserveAspectRatio="none" fill="none" focusable="false">
+        <defs>
+          <linearGradient id="founders-thread-gradient" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#fd3068" />
+            <stop offset="1" stop-color="#ff7829" />
+          </linearGradient>
+        </defs>
+        <path d="M-60 300 C100 350 115 470 40 570 C-60 690 -10 850 -60 1100" />
+        <path d="M1500 220 C1340 300 1340 430 1460 520 C1570 610 1340 730 1380 870 C1410 970 1510 1070 1500 1280" />
+      </svg>
+    </div>
     <div class="narrative-wrap narrative-content">
       <h2 id="founders-title" data-narrative-reveal>
         Experiência de quem já fez grandes marcas <em>serem ouvidas.</em>
@@ -256,6 +268,8 @@ const marquee = [
       </div>
     </div>
   </section>
+
+  <ChapterCurves id="team-results-connection" variant="left" />
 
   <section
     id="resultados"
@@ -305,7 +319,7 @@ const marquee = [
     </div>
   </section>
 
-  <ChapterCurves id="results-services-connection" variant="left" shape="loop" />
+  <ChapterCurves id="results-services-connection" variant="left" shape="sweep" />
 
   <section
     id="escopo"
@@ -361,8 +375,9 @@ const marquee = [
     </div>
   </section>
 
-  <ChapterCurves id="services-process-connection" variant="right" shape="loop" />
+  <ChapterCurves id="services-process-connection" variant="right" shape="sweep" />
   <StrategyJourney client:visible={{ rootMargin: '300px' }} />
+
 
   <section id="contato" class="narrative-chapter narrative-contact" aria-labelledby="contact-title">
     <div class="narrative-contact__threads" aria-hidden="true">
@@ -446,10 +461,7 @@ const marquee = [
           data-magnetic
           disabled
         >
-          <span data-button-label>Enviar mensagem</span>
-          <span class="button-arrow" aria-hidden="true">
-            <span data-arrow-glyph>↗</span>
-          </span>
+          <span data-button-label>ENVIAR MENSAGEM</span>
         </button>
         <p class="form-status" data-form-status role="status" aria-live="polite"></p>
         <noscript>
