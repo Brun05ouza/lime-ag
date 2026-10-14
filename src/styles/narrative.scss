@@ -514,6 +514,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  opacity: 0.8;
 }
 .narrative-founders__threads svg {
   display: block;
@@ -525,6 +526,10 @@
   stroke-width: 8;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
+  animation: contact-thread-drift 16s ease-in-out infinite alternate;
+}
+.narrative-founders__threads path + path {
+  animation-delay: -8s;
 }
 .narrative-founders .narrative-content {
   padding-top: var(--n-section-space);
@@ -933,6 +938,7 @@
 .narrative-expertise__layer--slice-a,
 .narrative-expertise__layer--slice-b,
 .narrative-marquee__track,
+.narrative-founders__threads path,
 .narrative-contact__threads path {
   animation-play-state: paused;
 }
@@ -945,6 +951,7 @@
     .narrative-expertise__layer--slice-a,
     .narrative-expertise__layer--slice-b,
     .narrative-marquee__track,
+    .narrative-founders__threads path,
     .narrative-contact__threads path
   ) {
   animation-play-state: running;
@@ -958,7 +965,8 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .narrative-contact__threads path {
+  .narrative-contact__threads path,
+  .narrative-founders__threads path {
     animation: none;
   }
 }

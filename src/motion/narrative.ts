@@ -97,11 +97,44 @@ export function initNarrative(): Cleanup {
         },
       );
     });
+    root
+      .querySelectorAll<SVGSVGElement>(
+        '.narrative-founders__threads svg, .narrative-contact__threads svg',
+      )
+      .forEach((svg) => {
+        if (reduceMotion || completedConnections.has(svg) || svg.getBoundingClientRect().bottom < 0)
+          return;
+        const drawing = gsap.timeline({
+          scrollTrigger: {
+            trigger: svg.closest('section'),
+            start: 'top 78%',
+            once: true,
+          },
+          onComplete: () => {
+            completedConnections.add(svg);
+            gsap.set(svg.querySelectorAll('path'), {
+              clearProps: 'strokeDasharray,strokeDashoffset',
+            });
+          },
+        });
+        svg.querySelectorAll<SVGPathElement>('path').forEach((path, index) => {
+          // Non-scaling strokes require dash lengths in rendered pixels.
+          // These SVGs scale uniformly; measure once, never during playback.
+          const matrix = path.getScreenCTM();
+          const length = path.getTotalLength() * (matrix ? Math.hypot(matrix.a, matrix.b) : 1);
+          drawing.fromTo(
+            path,
+            { strokeDasharray: length + 16, strokeDashoffset: length + 16 },
+            { strokeDashoffset: 0, duration: 1.6, ease: 'power2.out', autoRound: false },
+            index * 0.2,
+          );
+        });
+      });
   }, root);
   // Stop decorative CSS motion outside the viewport and in background tabs.
   const ambientSections = Array.from(
     root.querySelectorAll<HTMLElement>(
-      '.narrative-hero-stack, .narrative-contact, .narrative-expertise__visual',
+      '.narrative-hero-stack, .narrative-founders, .narrative-contact, .narrative-expertise__visual',
     ),
   );
   const visibleSections = new Set<Element>();
